@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { HashRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import './App.css';
 // Styles
 // CoreUI Icons Set
@@ -10,29 +10,43 @@ import 'flag-icon-css/css/flag-icon.min.css';
 import 'font-awesome/css/font-awesome.min.css';
 // Import Simple Line Icons Set
 import 'simple-line-icons/css/simple-line-icons.css';
+
+import "react-datepicker/dist/react-datepicker-cssmodules.css";
+import 'react-chat-elements/dist/main.css';
+
 // Import Main styles for this application
 import './scss/style.css'
 
 // Containers
-import { DefaultLayout } from './containers';
+import DefaultLayout from './pages/Layouts';
 // Pages
-import { Login, Page404, Page500, Register } from './views/Pages';
-
-// import { renderRoutes } from 'react-router-config';
+import Login from './pages/LoginPage'
+import Register from './pages/Register'
+import Page404 from './pages/Page404'
+import Page500 from './pages/Page500'
 
 class App extends Component {
   render() {
     return (
-      <HashRouter>
-        <Switch>
-          <Route exact path="/login" name="Login Page" component={Login} />
-          <Route exact path="/register" name="Register Page" component={Register} />
+      <Router>
+        <div>
+          <Route exact path="/" name="Login" component={Login} />
+          <Route exact path="/login" name="Login" component={Login} />
+          <Route exact path="/register" name="Register" component={Register} />
           <Route exact path="/404" name="Page 404" component={Page404} />
           <Route exact path="/500" name="Page 500" component={Page500} />
-          <Route path="/" name="Home" component={DefaultLayout} />
-        </Switch>
-      </HashRouter>
-    );
+          <Route exact path="/dashboard" component={DefaultLayout} />
+          <Route exact path="/plans" component={DefaultLayout} />
+          <Route exact path="/offers" component={DefaultLayout} />
+          <Route exact path="/requests" component={DefaultLayout} />
+          <Route exact path="/request/:id" component={DefaultLayout} />
+          <Route exact path="/operator" component={DefaultLayout} />
+          <Route exact path="/chat" component={DefaultLayout} />
+          <Route exact path="/profile" component={DefaultLayout} />
+          <Route exact path="/logout" component={DefaultLayout} />
+        </div>
+      </Router>
+    )
   }
 }
 

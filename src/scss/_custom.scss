@@ -1,1 +1,32 @@
 // Here you can add other styles
+:root{
+  --color-main: #2699FB;
+  --color-sub: #BCE0FD;
+  --color-bg: #F1F9FF;
+  --color-white: #FFFFFF;
+}
+body{
+  background: var(--color-bg);
+}
+.color-main{
+  color: var(--color-main);
+}
+.sidebar{
+  background: var(--color-main);
+  .nav-link.active{
+    background: black;
+    opacity: 0.5;
+  }
+}
+div,
+table,
+.card,
+.tab-content,
+.nav-tabs .nav-link.active,
+.card-header{
+  border-color: var(--color-sub);
+}
+
+.card-header{
+  background: var(--color-white);
+}
