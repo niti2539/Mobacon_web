@@ -24,7 +24,11 @@ import Login from './pages/LoginPage'
 import Register from './pages/Register'
 import Page404 from './pages/Page404'
 import Page500 from './pages/Page500'
-
+//fontawesome 5.4.1 versions
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faAngleDown } from '@fortawesome/free-solid-svg-icons';
+library.add(faAngleDown);
 class App extends Component {
   render() {
     return (
