@@ -1,0 +1,183 @@
+div.app {
+	>div.container {
+		>div.row {
+			>div.col-md-6 {
+				max-width: 28.75rem;
+				height: 32.1875rem;
+			}
+		}
+	}
+}
+div.app > div.container > div.row > div.col-md-6 > div.card {
+    max-width: 28.75rem;
+    height: 32.1875rem;
+    border-color: white;
+    box-shadow: 0px 0px 10px #e1f1f2;
+    margin-top: -30px;
+}
+@font-face{
+    font-family: 'Karla-Bold';
+    src: local('Karla-Bold'),
+      url('../react-font/Karla-Bold.ttf') format('truetype')
+}
+@font-face{
+    font-family: 'Karla-Regular';
+    src: local('Karla-Regular'),
+        url('../react-font/Karla-Regular.ttf') format('truetype')
+}
+@font-face{
+    font-family: 'Rubik-Bold';
+    src: local('Rubik-Bold'),
+        url('../react-font/Rubik-Bold.ttf') format('truetype')
+}
+@font-face{
+    font-family: 'Rubik-Light';
+    src: local('Rubik-Light'),
+        url('../react-font/Rubik-Light.ttf') format('truetype')
+}
+@font-face{
+    font-family: 'Rubik-Medium';
+    src: local('Rubik-Medium'),
+        url('../react-font/Rubik-Medium.ttf') format('truetype')
+}
+@font-face{
+    font-family: 'Rubik-Regular';
+    src: local('Rubik-Regular'),
+        url('../react-font/Rubik-Regular.ttf') format('truetype')
+}
+h1.color-main{
+    font-family: 'Rubik-Light';
+    font-size: 2.25rem;
+    color: #3B4859;
+    margin-top: 1.25rem;
+}
+p.color-main{
+    font-family: 'Karla-Regular';
+    font-size: 1rem;
+    color: #8392A7;
+    margin-top: 1rem;
+    margin-bottom: 2.5625rem;
+}
+div.app{
+    background-color: #F9FAFC !important;
+}
+div.container div.form-group > label{
+    font-family: 'Rubik-Medium';
+    font-size: 0.875rem;
+    color: #3B4859;
+}
+div.container div.form-group > input{
+    height: 3.25rem;
+    font-family: 'Karla-Regular';
+    font-size: 1rem;
+    color: #3B4859;
+    margin-bottom: 1.25rem;
+}
+div.container div.row > div.text-right > button {
+    font-family: 'Rubik-Medium';
+    font-size: 0.875rem;
+    color: #79BFBC;
+    margin-bottom: 0.875rem;
+}
+div.app > div.container > div.row > div.col-md-6 > div.card > div.card-body > div.justify-content-center > div.col-md-auto > a > button{
+    width: 11rem !important;
+    height: 3.125rem;
+    background-image: linear-gradient(90deg, #76D5CE, #5FB2AE);
+    border-color: transparent;
+    background-color: transparent;
+    font-family: 'Karla-Bold';
+    font-size: 1rem;
+    color: #FFFFFF;
+}
+.ml-4, .mx-4{
+    margin-left: 0px !important;
+    margin-right: 0px !important;
+}
+div.Link-to-signup > div.col-md-auto{
+    font-family: 'Rubik-Regular';
+    font-size: 0.875rem;
+    color: #3B4859;
+}
+div.Link-to-signup > div.col-md-auto > a{
+    font-family: 'Rubik-Bold';
+    font-size: 0.875rem;
+    color: #3B4859;
+    text-decoration: underline;
+    padding-left: 5px;
+}
+div.app > div.container > div.row > div.Register.col-md-6 {
+    height: 42.875rem;
+    margin-top: -30px;
+}
+div.app > div.container > div.row > div.Register.col-md-6 > div.card{
+    height: 42.875rem;
+    margin-top: -15px;
+}
+div.Link-to-signin > div.col-md-auto{
+    font-family: 'Rubik-Regular';
+    font-size: 0.875rem;
+    color: #3B4859;
+}
+div.Link-to-signin > div.col-md-auto > a{
+    font-family: 'Rubik-Bold';
+    font-size: 0.875rem;
+    color: #3B4859;
+    text-decoration: underline;
+    padding-left: 5px;
+}
+.Carrier{
+    background-color: #FFFFFF;
+    height: 3.25rem;
+    width: 23.75rem;
+    border: 1px solid #e4e7ea;
+    border-radius: 5px;
+    font-family: 'Karla-Regular';
+    font-size: 1rem;
+    color: rgba(59, 72, 89, 0.8) !important;
+}
+.Carrier:hover{
+    background-color: #FFFFFF;
+    border: 1px solid #e4e7ea;
+}
+.Carrier::after:hover{
+    background-color: #FFFFFF;
+}
+button.Carrier.dropdown-toggle.btn.btn-secondary.btn-lg{
+    text-align: left;
+    font-family: 'Karla-Regular';
+    font-size: 1rem;
+    color: #3B4859;
+    background-color: #FFFFFF;
+    box-shadow: none;
+}
+.dropdown-toggle::after{
+    display:none !important;
+}
+.angleDown{
+    position: relative;
+    top: 6px;
+    vertical-align: middle;
+    color: #3B4859;
+    float: right;
+    font-family: 'Karla-Regular';
+}
+.carrierChoice{
+    width: 23.75rem !important;
+    font-family: 'Karla-Regular';
+    font-size: 1rem;
+}
+button.Carrier.dropdown-toggle.btn.btn-secondary.btn-lg, .btn-group-lg > button.Carrier.dropdown-toggle.btn.btn-secondary{
+    border: 1px solid #e4e7ea !important;
+}
+// button.Carrier.dropdown-toggle.btn.btn-secondary.btn-lg, .btn-group-lg > button.Carrier.dropdown-toggle.btn.btn-secondary{
+
+// }
+/*media section*/
+@media (min-width: 768px) and (max-width: 991px){
+    div.app > div.container > div.row > div.col-md-6 > div.card {
+        width: 416px;
+    }  
+    div.app > div.container > div.row > div.col-md-6{
+        width: 430px;
+    }
+}
