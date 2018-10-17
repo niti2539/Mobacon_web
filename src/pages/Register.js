@@ -4,17 +4,12 @@ import { Button, Card, CardBody, CardGroup, Col, Container, FormGroup, Label, In
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 class Register extends Component {
-  constructor(props) {
-    super(props);
-    this.toggle = this.toggle.bind(this);
-    this.nameChangeCarrier = this.nameChangeCarrier.bind(this);
-    this.state = {
-      dropdownOpen: false,
-      value: "Please Select"
-    };
-  }
-
-  toggle() {
+  
+  state = {
+    dropdownOpen: false,
+    value: "Please Select"
+  };
+  toggle = () => {
     this.setState({
       dropdownOpen: !this.state.dropdownOpen
     });
