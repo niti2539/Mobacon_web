@@ -46,13 +46,19 @@
     "styled-components": "^4.0.2"
   },
   "devDependencies": {
+    "babel-jest": "^23.0.1",
+    "node-sass-chokidar": "^1.3.0",
+    "npm-run-all": "^4.1.3",
     "react-scripts": "^2.0.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "test:debug": "react-scripts --inspect-brk test --runInBand",
+    "build-css": "node-sass-chokidar --include-path ./node_modules ./src/scss -o ./src/scss",
+    "watch-css": "npm run build-css && node-sass-chokidar --include-path ./node_modules ./src/scss -o ./src/scss --watch --recursive",
+    "start-js": "react-scripts start",
+    "start": "npm-run-all -p watch-css start-js",
+    "build-js": "react-scripts build",
+    "build": "npm-run-all build-css build-js",
+    "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
   "bugs": {
