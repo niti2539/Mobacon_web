@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import {BrowserRouter as Router, Route, Redirect} from "react-router-dom";
 import { Button, Card, CardBody, CardGroup, Col, Container, FormGroup, Label, Input, InputGroup, InputGroupAddon, InputGroupText, Row, ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import mobaconApi from '../Action';
 
 class Register extends Component {
   
   state = {
     dropdownOpen: false,
-    value: "Please Select"
+    carrier: "Please Select"
   };
   toggle = () => {
     this.setState({
@@ -17,10 +19,44 @@ class Register extends Component {
   nameChangeCarrier = (event) => {
     this.setState({
       dropdownOpen : !this.state.dropdownOpen,
-      value : event.target.innerText
+      carrier : event.target.innerText
     });
   }
-  
+ 
+  signup = async () => {
+     console.log(this);
+     let data = {
+         fullName: this.state.name,
+         email: this.state.email,
+         carrier: this.state.carrier,
+         password: this.state.password
+     }
+     let result = await mobaconApi.signUp(data);
+     if ( result.message === "created" ) {
+         this.props.history.push('/');
+     } else {
+       console.log(result);
+     }
+  }
+
+  handleName = (e) => {
+      this.setState({
+          name: e.target.value
+      });
+  }
+
+  handleEmail = (e) => {
+      this.setState({
+          email: e.target.value
+      });
+  }
+
+  handlePassword = (e) => {
+      this.setState({
+          password: e.target.value
+      });
+  }
+ 
   render() {
    
     return (
@@ -34,14 +70,14 @@ class Register extends Component {
                   <p className="text-center color-main">Create your account</p>
                   <FormGroup>
                     <Label htmlFor="full name">Full Name</Label>
-                    <Input type="text" id="full name" placeholder="Mihai Petrea" required />
+                    <Input type="text" id="full name" onChange={ this.handleName} placeholder="Mihai Petrea" required />
                   </FormGroup>
                   <FormGroup>
                     <Label htmlFor="carrier">Carrier</Label>
                     <div>
                       <ButtonDropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
                       <DropdownToggle caret size="lg" className="Carrier">
-                     {this.state.value} <FontAwesomeIcon icon="angle-down" className="angleDown"/>
+                     {this.state.carrier} <FontAwesomeIcon icon="angle-down" className="angleDown"/>
                       </DropdownToggle>
                       <DropdownMenu className="carrierChoice">
                         <DropdownItem onClick={this.nameChangeCarrier}>Softbank</DropdownItem>
@@ -56,18 +92,16 @@ class Register extends Component {
                   </FormGroup>
                   <FormGroup>
                     <Label htmlFor="email">Email</Label>
-                    <Input type="email" id="email" placeholder="user@domain.com" required />
+                    <Input type="email" id="email" onChange={ this.handleEmail } placeholder="user@domain.com" required />
                   </FormGroup>
                   <FormGroup>
                     <Label htmlFor="password">password</Label>
-                    <Input type="password" id="password" placeholder="●●●●●●●" required />
+                    <Input type="password" id="password" onChange={ this.handlePassword } placeholder="●●●●●●●" required />
                   </FormGroup>
                   <br/>
                   <Row className="justify-content-center">
                     <Col md='auto'>
-                      <Link to='/dashboard'>
-                        <Button color="primary" className="px-4">SIGNUP</Button>
-                      </Link>
+                        <Button color="primary" onClick={this.signup} className="px-4">SIGNUP</Button>
                     </Col>
                   </Row>
                 </CardBody>
