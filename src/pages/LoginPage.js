@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Card, CardBody, CardGroup, Col, Container, FormGroup, Label, Input, InputGroup, InputGroupAddon, InputGroupText, Row, ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import {Nav, Navbar, NavDropdown, MenuItem, Tabs, ButtonToolbar, Table, ButtonGroup, Grid, Panel,  FormControl, DropdownButton} from 'react-bootstrap';
-import mobaconApi from '../Action/Login';
+import mobaconApi from '../Action';
 class Login extends Component {
   state = {
     email: '',
@@ -66,10 +66,11 @@ class Login extends Component {
         password: this.state.password
     }
     let result = await mobaconApi.signIn(data);
-    if ( result.message === "created" ) {
+    if ( result.token ) {
+        localStorage.setItem('accessToken', result.token);
         this.props.history.push('/dashboard');
     } else {
-      console.log(result);
+      this.props.history.push('/');
     }
  }
 }
