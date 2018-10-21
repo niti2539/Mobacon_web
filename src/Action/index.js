@@ -1,7 +1,7 @@
 const baseUrl = 'http://mobacon-api.pieros.site/';
 
 async function signUp (data){
-    const response = await fetch(baseUrl+'mobacon/api/web/signup', {
+    let response = await fetch(baseUrl+'mobacon/api/web/signup', {
         method: 'POST',
         headers: {
             Accept: 'application/json',
