@@ -33,7 +33,7 @@ class Register extends Component {
      }
      let result = await mobaconApi.signUp(data);
      if ( result.message === "created" ) {
-         this.props.history.push('/');
+         this.props.history.push('/'); //คล้าย ๆ redirect
      } else {
        console.log(result);
      }
@@ -101,7 +101,7 @@ class Register extends Component {
                   <br/>
                   <Row className="justify-content-center">
                     <Col md='auto'>
-                        <Button color="primary" onClick={this.signup} className="px-4">SIGNUP</Button>
+                        <Button onClick={this.signup} className="px-4 SignupButton">SIGNUP</Button>
                     </Col>
                   </Row>
                 </CardBody>
