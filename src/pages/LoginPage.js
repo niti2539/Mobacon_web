@@ -2,7 +2,18 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Card, CardBody, CardGroup, Col, Container, FormGroup, Label, Input, InputGroup, InputGroupAddon, InputGroupText, Row, ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import {Nav, Navbar, NavDropdown, MenuItem, Tabs, ButtonToolbar, Table, ButtonGroup, Grid, Panel,  FormControl, DropdownButton} from 'react-bootstrap';
+import mobaconApi from '../Action/Login';
 class Login extends Component {
+  state = {
+    email: '',
+    password: '',
+  }
+  handleChangeEmail = (event) => {
+    this.setState({email: event.target.value});
+  }
+  handleChangePassword = (event) => {
+    this.setState({password: event.target.value});
+  }
   render() {
     return (
       <div className="app flex-row align-items-center">
@@ -15,11 +26,11 @@ class Login extends Component {
                   <p className="text-center color-main">Sign In to your account</p>
                   <FormGroup>
                     <Label htmlFor="email">Email</Label>
-                    <Input type="email" id="email" placeholder="petreamihaic@gmail.com" required />
+                    <Input type="email" id="email" placeholder="petreamihaic@gmail.com" required  onChange={this.handleChangeEmail} />
                   </FormGroup>
                   <FormGroup>
                     <Label htmlFor="password">Password</Label>
-                    <Input type="password" id="password" placeholder="●●●●●●●" required />
+                    <Input type="password" id="password" placeholder="●●●●●●●" required onChange={this.handleChangePassword} />
                   </FormGroup>
                   
                   <Row style={{ marginTop: -20 }}>
@@ -30,9 +41,7 @@ class Login extends Component {
                   <br/>
                   <Row className="justify-content-center">
                     <Col md='auto'>
-                      <Link to='/dashboard'>
-                        <Button color="primary" className="px-4 Button-Login">LOGIN</Button>
-                      </Link>
+                        <Button  className="px-4 Button-Login" onClick={this.signin}>LOGIN</Button>
                     </Col>
                   </Row>
                 </CardBody>
@@ -40,7 +49,7 @@ class Login extends Component {
               <Row className="justify-content-center Link-to-signup">
                 <Col md='auto'>
                   Don’t have an account? 
-                  <Link to='/register'>  Signup!</Link>
+                  <Link to='/register' className="SignupLink">  Signup!</Link>
                 </Col>
               </Row>
             </Col>
@@ -50,6 +59,20 @@ class Login extends Component {
       </div>
     );
   }
+  signin = async () => {
+    console.log(this);
+    let data = {
+        email: this.state.email,
+        password: this.state.password
+    }
+    let result = await mobaconApi.signIn(data);
+    if ( result.message === "created" ) {
+        this.props.history.push('/dashboard');
+    } else {
+      console.log(result);
+    }
+ }
 }
+
 
 export default Login;
