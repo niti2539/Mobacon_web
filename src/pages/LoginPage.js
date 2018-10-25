@@ -1,20 +1,25 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Button, Card, CardBody, CardGroup, Col, Container, FormGroup, Label, Input, InputGroup, InputGroupAddon, InputGroupText, Row, ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
-import {Nav, Navbar, NavDropdown, MenuItem, Tabs, ButtonToolbar, Table, ButtonGroup, Grid, Panel,  FormControl, DropdownButton} from 'react-bootstrap';
+import { Button, Card, CardBody , Col, Container, FormGroup, Label, Input, InputGroup, InputGroupAddon, InputGroupText, Row, ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+import {Nav, Navbar, NavDropdown, MenuItem, Tabs, ButtonToolbar, Table, ButtonGroup, Grid, Panel,  FormControl, DropdownButton, OverlayTrigger} from 'react-bootstrap';
 import mobaconApi from '../Action';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import ReactTooltip from 'react-tooltip';
 class Login extends Component {
-  state = {
+
+  state ={
     email: '',
     password: '',
   }
-  handleChangeEmail = (event) => {
-    this.setState({email: event.target.value});
+  handleEmailChange = (event) => {
+    this.setState({email: event.target.value})
   }
-  handleChangePassword = (event) => {
-    this.setState({password: event.target.value});
+  handlePasswordChange = (event) => {
+    this.setState({password: event.target.value})
   }
-  render() {
+ 
+  
+  render(){
     return (
       <div className="app flex-row align-items-center">
         <Container>
@@ -24,13 +29,38 @@ class Login extends Component {
                 <CardBody className="p-4">
                   <h1 className='text-center color-main'>Login</h1>
                   <p className="text-center color-main">Sign In to your account</p>
-                  <FormGroup>
+                  <FormGroup  >
                     <Label htmlFor="email">Email</Label>
-                    <Input type="email" id="email" placeholder="petreamihaic@gmail.com" required  onChange={this.handleChangeEmail} />
+                    <Input 
+                    type="email" 
+                    name="email"
+                    value={this.state.email}
+                    id="email" 
+                    placeholder="petreamihaic@gmail.com" required  
+                    onChange={this.handleEmailChange} 
+
+                     />
+                     
+                     
+                      <a data-tip="Required valid email ex: abc@gmail.com"><FontAwesomeIcon icon="info-circle" className="circle" tool-tip-toggle="tooltip-demo" data-original-title="Required valid email"/></a>
+                    <ReactTooltip />
+                    
+                   
+                  
                   </FormGroup>
                   <FormGroup>
                     <Label htmlFor="password">Password</Label>
-                    <Input type="password" id="password" placeholder="●●●●●●●" required onChange={this.handleChangePassword} />
+                    <Input 
+                    type="password" 
+                    id="password" 
+                    name="password"
+                    value={this.state.password}
+                    placeholder="●●●●●●●" required 
+                    onChange={this.handlePasswordChange} />
+
+                  <a data-tip="Password can't be null"><FontAwesomeIcon icon="info-circle" className="circle" tool-tip-toggle="tooltip-demo" data-original-title="Required valid email"/></a>
+                    <ReactTooltip />
+                     
                   </FormGroup>
                   
                   <Row style={{ marginTop: -20 }}>
@@ -41,7 +71,7 @@ class Login extends Component {
                   <br/>
                   <Row className="justify-content-center">
                     <Col md='auto'>
-                        <Button  className="px-4 Button-Login" onClick={this.signin}>LOGIN</Button>
+                        <Button  className="px-4 Button-Login" onClick={e => this.onSubmit(e)}>LOGIN</Button>
                     </Col>
                   </Row>
                 </CardBody>
@@ -53,11 +83,85 @@ class Login extends Component {
                 </Col>
               </Row>
             </Col>
+            
+            
+           
           </Row>
-     
+         
         </Container>
       </div>
     );
+  }
+  clickValidate = () => {
+    let isError = false
+    const errors = {
+      emailError: "",
+      passwordError: ""
+    }
+    var emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    if(emailRegex.test(this.state.email)){
+      if(this.state.password !== ""){
+        isError = true;
+        this.signin();
+      }
+    }else {
+      isError = false;
+    }
+    this.setState({
+      ...this.state,
+      ...errors
+    });
+    return isError;
+  };
+  onSubmit = (e) => {
+    e.preventDefault();
+    var emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    const err = this.clickValidate();
+    if(err){
+      this.setState({
+        email: this.state.email,
+        emailError: "",
+        password: this.state.password,
+        passwordError: "",
+      });
+    }else{
+      if(this.state.password.length !== 0){
+        this.setState({
+         email: "",
+         emailError: "Requires valid email",
+         password: this.state.password,
+         passwordError: "",
+        })
+        var elem = document.getElementsByTagName("input")
+        var icon = document.getElementsByClassName("circle")
+        elem[0].style.borderColor = "red";
+        icon[0].style.color = "red";
+      }else if(emailRegex.test(this.state.email) && this.state.password.length === 0){
+        this.setState({
+          email: this.state.email,
+          emailError: "",
+          password: "",
+          passwordError: "Password can't be null"
+        });
+         elem = document.getElementsByTagName("input")
+         icon = document.getElementsByClassName("circle")
+        elem[1].style.borderColor = "red";
+        icon[1].style.color = "red";
+      }else{
+        this.setState({
+          email: "",
+          emailError: "Requires valid email",
+          password: "",
+          passwordError: "Password can't be null",
+        });
+        elem = document.getElementsByTagName("input")
+        icon = document.getElementsByClassName("circle")
+        elem[0].style.borderColor = "red";
+        icon[0].style.color = "red";
+        elem[1].style.borderColor = "red";
+        icon[1].style.color = "red";
+      }
+    }
   }
   signin = async () => {
     console.log(this);
