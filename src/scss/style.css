@@ -9965,7 +9965,15 @@ div.container div.form-group > input {
   font-family: 'Karla-Regular';
   font-size: 1rem;
   color: #3B4859;
+  width: 90% !important;
   margin-bottom: 1.25rem; }
+
+.circle {
+  float: right;
+  font-size: 24px;
+  color: #3B4859;
+  bottom: 59px;
+  position: relative; }
 
 div.container div.row > div.text-right > button {
   font-family: 'Rubik-Medium';
@@ -9992,6 +10000,9 @@ div.justify-content-center > div.col-md-auto > button {
   font-family: 'Karla-Bold';
   font-size: 1rem;
   color: #FFFFFF; }
+
+.SignupButton {
+  margin-left: 13%; }
 
 div.app > div.container > div.row > div.Register.col-md-6 {
   height: 42.875rem;
@@ -10048,6 +10059,10 @@ button.Carrier.dropdown-toggle.btn.btn-secondary.btn-lg, .btn-group-lg > button.
 .dropdown-toggle::after {
   display: none !important; }
 
+.btn-group,
+.btn-group-vertical {
+  width: 90% !important; }
+
 .angleDown {
   position: relative;
   top: 6px;
@@ -10063,6 +10078,9 @@ button.Carrier.dropdown-toggle.btn.btn-secondary.btn-lg, .btn-group-lg > button.
 
 button.Carrier.dropdown-toggle.btn.btn-secondary.btn-lg, .btn-group-lg > button.Carrier.dropdown-toggle.btn.btn-secondary, .btn-group-lg > button.Carrier.dropdown-toggle.btn.btn-secondary {
   border: 1px solid #e4e7ea !important; }
+
+.CarrierTooltip {
+  bottom: 40px; }
 
 /*media section*/
 @media (min-width: 768px) and (max-width: 991px) {
