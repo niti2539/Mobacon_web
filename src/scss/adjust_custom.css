@@ -44,7 +44,7 @@ p.color-main {
   font-size: 1rem;
   color: #8392A7;
   margin-top: 1rem;
-  margin-bottom: 2.5625rem; }
+  margin-bottom: 1.5625rem; }
 
 div.app {
   background-color: #F9FAFC !important; }
@@ -173,6 +173,32 @@ button.Carrier.dropdown-toggle.btn.btn-secondary.btn-lg, .btn-group-lg > button.
 
 .CarrierTooltip {
   bottom: 40px; }
+
+.sidebar .nav-link.active {
+  background-color: #34404F !important;
+  color: #FFF;
+  opacity: 1.0; }
+
+.sidebar .nav-link {
+  color: #B1B6BD;
+  font-family: 'Karla-Bold';
+  font-size: 0.875rem; }
+
+:root {
+  --color-main: #3B4859;
+  --color-sub: #BCE0FD;
+  --color-bg: #F1F9FF;
+  --color-white: #FFFFFF; }
+
+.NotValid {
+  font-family: 'Karla-Regular';
+  font-size: 1rem;
+  color: #ff8a8e;
+  font-weight: 700;
+  margin-top: 1rem;
+  display: none;
+  text-align: center;
+  margin-bottom: 1.625rem; }
 
 /*media section*/
 @media (min-width: 768px) and (max-width: 991px) {
