@@ -70,6 +70,7 @@ class Register extends Component {
                 <CardBody className="p-4">
                   <h1 className='text-center color-main'>Signup</h1>
                   <p className="text-center color-main">Create your account</p>
+                  <p className="NotValid">Email or Password is invalid. Please try again.</p>                  
                   <FormGroup>
                     <Label htmlFor="full name">Full Name</Label>
                     <Input type="text" id="full name" onChange={ this.handleName} placeholder="Mihai Petrea" required />
@@ -169,6 +170,12 @@ class Register extends Component {
         carrierError: "",
       });
     }else{
+      var alertValid = document.getElementsByClassName("NotValid");
+      alertValid[0].style.display = "block";
+      var expandBox = document.getElementsByClassName("Register");
+      expandBox[0].style.height = "44.875rem";
+      var expandCard = document.getElementsByClassName("RegisterPage");
+      expandCard[0].style.height = "44.875rem";
       var elem = document.getElementsByTagName("input")
         var dropDown = document.getElementById("dropdown");
         // dropDown.setAttribute('style', 'border: 1px solid red !important');
