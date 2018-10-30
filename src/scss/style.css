@@ -8144,7 +8144,6 @@ canvas {
       .sidebar .nav-link.active .nav-icon {
         color: #20a8d8; }
     .sidebar .nav-link:hover {
-      color: #fff;
       background: #20a8d8; }
       .sidebar .nav-link:hover .nav-icon {
         color: #fff; }
@@ -9950,7 +9949,7 @@ p.color-main {
   font-size: 1rem;
   color: #8392A7;
   margin-top: 1rem;
-  margin-bottom: 2.5625rem; }
+  margin-bottom: 1.5625rem; }
 
 div.app {
   background-color: #F9FAFC !important; }
@@ -10082,9 +10081,77 @@ button.Carrier.dropdown-toggle.btn.btn-secondary.btn-lg, .btn-group-lg > button.
 .CarrierTooltip {
   bottom: 40px; }
 
+.sidebar .nav-link.active {
+  background-color: #34404F !important;
+  color: #FFF;
+  opacity: 1.0; }
+
+.sidebar .nav-link {
+  color: #B1B6BD;
+  font-family: 'Karla-Bold';
+  font-size: 0.875rem; }
+
+:root {
+  --color-main: #3B4859;
+  --color-sub: #BCE0FD;
+  --color-bg: #F1F9FF;
+  --color-white: #FFFFFF; }
+
+.NotValid {
+  font-family: 'Karla-Regular';
+  font-size: 1rem;
+  color: #ff8a8e;
+  font-weight: 700;
+  margin-top: 1rem;
+  display: none;
+  text-align: center;
+  margin-bottom: 1.625rem; }
+
+.sidebar .nav-item {
+  margin-top: 5px; }
+
+.sidebar-fixed .sidebar {
+  width: 246px; }
+
+.sidebar .sidebar-nav {
+  width: 246px; }
+
+.sidebar .nav {
+  width: 246px; }
+
+html:not([dir="rtl"]) .sidebar-lg-show.sidebar-fixed .main,
+html:not([dir="rtl"]) .sidebar-lg-show.sidebar-fixed .app-footer,
+html:not([dir="rtl"]) .sidebar-show.sidebar-fixed .main,
+html:not([dir="rtl"]) .sidebar-show.sidebar-fixed .app-footer {
+  margin-left: 240px; }
+
+.sidebar-minimized .sidebar .nav-link:hover {
+  width: 50px; }
+
+.sidebar-minimized .sidebar .nav-link {
+  width: 50px !important;
+  color: transparent; }
+
+.sidebar-minimized .sidebar .nav > .nav-item > .nav-link > .Style:hover {
+  display: none; }
+
 /*media section*/
 @media (min-width: 768px) and (max-width: 991px) {
   div.app > div.container > div.row > div.col-md-6 > div.card {
     width: 416px; }
   div.app > div.container > div.row > div.col-md-6 {
     width: 430px; } }
+
+@media (max-width: 991px) {
+  html:not([dir="rtl"]) .sidebar-lg-show.sidebar-fixed .main {
+    margin-left: 46px; }
+  .sidebar .nav-link .nav-icon {
+    float: right;
+    text-align: center;
+    margin-right: 0px; }
+  button:focus {
+    outline: none; }
+  html:not([dir="rtl"]) .sidebar-show.sidebar-fixed .main {
+    margin-left: 247px; }
+  .sidebar-minimized .sidebar .nav-link {
+    width: 50px !important; } }

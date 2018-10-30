@@ -200,9 +200,48 @@ button.Carrier.dropdown-toggle.btn.btn-secondary.btn-lg, .btn-group-lg > button.
   text-align: center;
   margin-bottom: 1.625rem; }
 
+.sidebar .nav-item {
+  margin-top: 5px; }
+
+.sidebar-fixed .sidebar {
+  width: 246px; }
+
+.sidebar .sidebar-nav {
+  width: 246px; }
+
+.sidebar .nav {
+  width: 246px; }
+
+html:not([dir="rtl"]) .sidebar-lg-show.sidebar-fixed .main, html:not([dir="rtl"]) .sidebar-lg-show.sidebar-fixed .app-footer, html:not([dir="rtl"]) .sidebar-show.sidebar-fixed .main, html:not([dir="rtl"]) .sidebar-show.sidebar-fixed .app-footer {
+  margin-left: 240px; }
+
+.sidebar-minimized .sidebar .nav-link:hover {
+  width: 50px; }
+
+.sidebar-minimized .sidebar .nav-link {
+  width: 50px !important;
+  color: transparent; }
+
+.sidebar-minimized .sidebar .nav > .nav-item > .nav-link > .Style:hover {
+  display: none; }
+
 /*media section*/
 @media (min-width: 768px) and (max-width: 991px) {
   div.app > div.container > div.row > div.col-md-6 > div.card {
     width: 416px; }
   div.app > div.container > div.row > div.col-md-6 {
     width: 430px; } }
+
+@media (max-width: 991px) {
+  html:not([dir="rtl"]) .sidebar-lg-show.sidebar-fixed .main {
+    margin-left: 46px; }
+  .sidebar .nav-link .nav-icon {
+    float: right;
+    text-align: center;
+    margin-right: 0px; }
+  button:focus {
+    outline: none; }
+  html:not([dir="rtl"]) .sidebar-show.sidebar-fixed .main {
+    margin-left: 247px; }
+  .sidebar-minimized .sidebar .nav-link {
+    width: 50px !important; } }
