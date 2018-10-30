@@ -14,7 +14,7 @@
   "dependencies": {
     "@coreui/coreui": "^2.0.15",
     "@coreui/coreui-plugin-chartjs-custom-tooltips": "^1.2.0",
-    "@coreui/icons": "0.3.0",
+    "@coreui/icons": "^0.3.0",
     "@coreui/react": "^2.0.9",
     "@fortawesome/fontawesome-svg-core": "^1.2.6",
     "@fortawesome/free-solid-svg-icons": "^5.4.1",
