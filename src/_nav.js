@@ -42,13 +42,13 @@ export default {
       // icon: 'icon-speedometer',
     },
     {
-      name: 'Your Profile',
+      name: 'YOUR PROFILES',
       url: '/profile',
       icon: 'icon-settings'
       // icon: 'icon-speedometer',
     },
     {
-      name: 'Logout',
+      name: 'LOGOUT',
       url: '/logout',
       icon: 'icon-logout'
       // icon: 'icon-speedometer',
