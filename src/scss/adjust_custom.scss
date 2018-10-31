@@ -45,6 +45,11 @@ div.app > div.container > div.row > div.col-md-6 > div.card {
     src: local('Rubik-Regular'),
         url('../react-font/Rubik-Regular.ttf') format('truetype')
 }
+@font-face{
+    font-family: 'SourceSansPro-Bold';
+    src: local('SourceSansPro-Bold'),
+        url('../react-font/SourceSansPro-Bold.ttf') format('truetype')
+}
 h1.color-main{
     font-family: 'Rubik-Light';
     font-size: 2.25rem;
@@ -219,6 +224,7 @@ button.Carrier.dropdown-toggle.btn.btn-secondary.btn-lg, .btn-group-lg > button.
 }
 .sidebar .nav-item{
     margin-top: 5px;
+    color: #B1B6BD;
 }
 
 .sidebar-fixed .sidebar{
@@ -245,8 +251,121 @@ html:not([dir="rtl"]) .sidebar-lg-show.sidebar-fixed .main, html:not([dir="rtl"]
 .sidebar-minimized .sidebar .nav > .nav-item > .nav-link > .Style:hover{
     display: none;
 }
+i.nav-icon{
+    color: #B1B6BD !important;
+}
+.sidebar .nav-link.active{
+    border-left: 4px solid #79BFBC;
+}
+.sidebar .nav-link.active > i.nav-icon{
+    color: #79BFBC !important;
+}
+.headerName{
+    width: 246px;
+    background: #79BFBC; 
+    color: #FFFFFF;
+    text-align: center;
+    line-height: 49px;
+    font-family: 'SourceSansPro-Bold';
+    font-size: 0.9375rem;
+}
+.adminName{
+    vertical-align: middle;
+    
+}
+.admin{
+    margin: auto;
+    
+}
+.app-header .navbar-brand{
+    background-color: #79BFBC;
+    width: 246px;
+}
+.brand-minimized .app-header .navbar-brand{
+    background-color: #79BFBC;
+}
+.app-header .navbar-nav{
+    padding-right: 24px;
+}
+.icon-arrow-down{
+    padding-left: 10px;
+    padding-right: 10px;
+    vertical-align: middle;
+    font-weight: 900;
+    color: #8392A7;
+    font-size: 11px;
+}
+.alignPlan{
+   padding: 30px;
+   padding-bottom: 0px !important;
+   font-size: 28px;
+   font-family: 'Rubik-Light';
+   color:#3B4859;
+}
+.nav-tabs .nav-link.active{
+    border: none;
+    border-bottom: 4px solid #76D5CE;
+    background-color: transparent;
+    font-family: 'Rubik-Medium';
+    color: #76D5CE;
+    width: 150px;
+    text-align: center;
+}
+.nav-tabs .nav-link{
+    border: none;
+    width: 150px;
+    text-align: center;
+    font-family: 'Rubik-Regular';
+}
+.tab-content .tab-pane{
+    height: 226px;
+}
+.enableChat{
+    float: left;
+    padding: 20px;
+}
 
+
+.enableChat > label{
+    font-family: 'Rubik-Regular'
+}
+.form-check-input{
+    position: absolute;
+    font-size: .8em;
+    line-height: 0;
+   
+}
+  
+input[type='checkbox'] {
+    opacity: 0;
+    z-index: -1;
+}
+
+input[type='checkbox'] {
+    width: 40px;
+    height: 40px;
+    display: block;
+    position: relative;
+    margin: auto;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    text-indent: -999px;
+    overflow: hidden;
+    border: 1px solid $border-white;
+    cursor: pointer;
+}
+  
+  
+    
+.enableHis{
+    float: right;
+    
+}
 /*media section*/
+@media (min-width: 992px){
+    
+}
 @media (min-width: 768px) and (max-width: 991px){
     div.app > div.container > div.row > div.col-md-6 > div.card {
         width: 416px;
@@ -272,5 +391,8 @@ html:not([dir="rtl"]) .sidebar-lg-show.sidebar-fixed .main, html:not([dir="rtl"]
     }
     .sidebar-minimized .sidebar .nav-link{
         width: 50px !important;
+    }
+    .headerName{
+        display: none;
     }
 }

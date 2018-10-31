@@ -33,6 +33,10 @@ div.app > div.container > div.row > div.col-md-6 > div.card {
   font-family: 'Rubik-Regular';
   src: local("Rubik-Regular"), url("../react-font/Rubik-Regular.ttf") format("truetype"); }
 
+@font-face {
+  font-family: 'SourceSansPro-Bold';
+  src: local("SourceSansPro-Bold"), url("../react-font/SourceSansPro-Bold.ttf") format("truetype"); }
+
 h1.color-main {
   font-family: 'Rubik-Light';
   font-size: 2.25rem;
@@ -201,7 +205,8 @@ button.Carrier.dropdown-toggle.btn.btn-secondary.btn-lg, .btn-group-lg > button.
   margin-bottom: 1.625rem; }
 
 .sidebar .nav-item {
-  margin-top: 5px; }
+  margin-top: 5px;
+  color: #B1B6BD; }
 
 .sidebar-fixed .sidebar {
   width: 246px; }
@@ -225,6 +230,129 @@ html:not([dir="rtl"]) .sidebar-lg-show.sidebar-fixed .main, html:not([dir="rtl"]
 .sidebar-minimized .sidebar .nav > .nav-item > .nav-link > .Style:hover {
   display: none; }
 
+i.nav-icon {
+  color: #B1B6BD !important; }
+
+.sidebar .nav-link.active {
+  border-left: 4px solid #79BFBC; }
+
+.sidebar .nav-link.active > i.nav-icon {
+  color: #79BFBC !important; }
+
+.headerName {
+  width: 246px;
+  background: #79BFBC;
+  color: #FFFFFF;
+  text-align: center;
+  line-height: 49px;
+  font-family: 'SourceSansPro-Bold';
+  font-size: 0.9375rem; }
+
+.adminName {
+  vertical-align: middle; }
+
+.admin {
+  margin: auto; }
+
+.app-header .navbar-brand {
+  background-color: #79BFBC;
+  width: 246px; }
+
+.brand-minimized .app-header .navbar-brand {
+  background-color: #79BFBC; }
+
+.app-header .navbar-nav {
+  padding-right: 24px; }
+
+.icon-arrow-down {
+  padding-left: 10px;
+  padding-right: 10px;
+  vertical-align: middle;
+  font-weight: 900;
+  color: #8392A7;
+  font-size: 11px; }
+
+.alignPlan {
+  padding: 30px;
+  padding-bottom: 0px !important;
+  font-size: 28px;
+  font-family: 'Rubik-Light';
+  color: #3B4859; }
+
+.nav-tabs .nav-link.active {
+  border: none;
+  border-bottom: 4px solid #76D5CE;
+  background-color: transparent;
+  font-family: 'Rubik-Medium';
+  color: #76D5CE;
+  width: 150px;
+  text-align: center; }
+
+.nav-tabs .nav-link {
+  border: none;
+  width: 150px;
+  text-align: center;
+  font-family: 'Rubik-Regular'; }
+
+.tab-content .tab-pane {
+  height: 226px; }
+
+.enableChat {
+  float: left;
+  padding: 20px; }
+
+.enableChat > label {
+  font-family: 'Rubik-Regular'; }
+
+.form-check-input {
+  position: absolute;
+  font-size: .8em;
+  line-height: 0;
+  top: 50%;
+  left: 20%; }
+
+.styled-input-single {
+  position: relative;
+  padding: 20px 0 20px 40px;
+  text-align: left; }
+  .styled-input-single label {
+    cursor: pointer; }
+    .styled-input-single label:before, .styled-input-single label:checked {
+      content: '';
+      position: absolute;
+      top: 50%; }
+    .styled-input-single label:before {
+      left: 0;
+      width: 30px;
+      height: 30px;
+      margin: -15px 0 0;
+      background: #f7f7f7;
+      box-shadow: 0 0 1px grey; }
+    .styled-input-single label:checked {
+      left: 5px;
+      width: 20px;
+      height: 20px;
+      background: #37b2b2; }
+  .styled-input-single input[type="checkbox"] {
+    position: absolute;
+    top: 0;
+    left: -9999px;
+    visibility: hidden; }
+    .styled-input-single input[type="checkbox"]:checked + label:after {
+      transform: translate3d(0, 0, 0);
+      opacity: 1; }
+
+.styled-input--square label:before, .styled-input--square label:after {
+  border-radius: 0; }
+
+input[type="radio"]:checked + label:after,
+input[type="checkbox"]:checked + label:after {
+  transform: rotate(45deg);
+  opacity: 1; }
+
+.enableHis {
+  float: right; }
+
 /*media section*/
 @media (min-width: 768px) and (max-width: 991px) {
   div.app > div.container > div.row > div.col-md-6 > div.card {
@@ -244,4 +372,6 @@ html:not([dir="rtl"]) .sidebar-lg-show.sidebar-fixed .main, html:not([dir="rtl"]
   html:not([dir="rtl"]) .sidebar-show.sidebar-fixed .main {
     margin-left: 247px; }
   .sidebar-minimized .sidebar .nav-link {
-    width: 50px !important; } }
+    width: 50px !important; }
+  .headerName {
+    display: none; } }
