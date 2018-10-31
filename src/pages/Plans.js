@@ -40,8 +40,11 @@ class Tabs extends Component {
   render() {
     return (
       <div className="animated fadeIn">
+      <Row>
+        <p className="alignPlan">Plans</p>
+      </Row>
         <Row>
-          <Col xs="12" md="12" className="mb-4">
+          <Col xs="12" md="12" className="mb-4 ml-3">
             <Nav tabs>
               <NavItem>
                 <NavLink
@@ -64,14 +67,14 @@ class Tabs extends Component {
               <TabPane tabId="1">
                 <Form action="" method="post" encType="multipart/form-data" className="form-horizontal">
                   <FormGroup row>
-                    <Col md="2">
-                      <FormGroup check className="checkbox">
+                    <Col md="12">
+                      <FormGroup check className="enableChat">
                         <Input className="form-check-input" type="checkbox" id="checkbox1" name="checkbox1" value="option1" />
                         <Label check className="form-check-label" htmlFor="checkbox1">Enable Chat</Label>
                       </FormGroup>
-                      <FormGroup check className="checkbox">
+                      <FormGroup check className="checkbox enableHis">
                         <Input className="form-check-input" type="checkbox" id="checkbox2" name="checkbox2" value="option2" />
-                        <Label check className="form-check-label" htmlFor="checkbox2">Enable History</Label>
+                        <Label check className="form-check-label " htmlFor="checkbox2">Enable History</Label>
                       </FormGroup>
                     </Col>
                     <Col md="2">
