@@ -1,28 +1,28 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+// import React, { Component } from 'react';
+// import PropTypes from 'prop-types';
 
-const propTypes = {
-  children: PropTypes.node,
-};
+// const propTypes = {
+//   children: PropTypes.node,
+// };
 
-const defaultProps = {};
+// const defaultProps = {};
 
-class DefaultFooter extends Component {
-  render() {
+// class DefaultFooter extends Component {
+//   render() {
 
-    // eslint-disable-next-line
-    const { children, ...attributes } = this.props;
+//     // eslint-disable-next-line
+//     const { children, ...attributes } = this.props;
 
-    return (
-      <React.Fragment>
-        <span>&copy; 2018 Masa.</span>
-        <span className="ml-auto">by masa</span>
-      </React.Fragment>
-    );
-  }
-}
+//     return (
+//       <React.Fragment>
+//         <span>&copy; 2018 Masa.</span>
+//         <span className="ml-auto">by masa</span>
+//       </React.Fragment>
+//     );
+//   }
+// }
 
-DefaultFooter.propTypes = propTypes;
-DefaultFooter.defaultProps = defaultProps;
+// DefaultFooter.propTypes = propTypes;
+// DefaultFooter.defaultProps = defaultProps;
 
-export default DefaultFooter;
+// export default DefaultFooter;
