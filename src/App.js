@@ -27,9 +27,10 @@ import Page500 from './pages/Page500'
 //fontawesome 5.4.1 versions
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleDown, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
+import { faAngleDown, faInfoCircle, faCheck } from '@fortawesome/free-solid-svg-icons';
 library.add(faAngleDown);
 library.add(faInfoCircle);
+library.add(faCheck);
 class App extends Component {
 
   render() {
