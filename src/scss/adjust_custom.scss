@@ -318,16 +318,18 @@ i.nav-icon{
     font-family: 'Rubik-Regular';
 }
 .tab-content .tab-pane{
-    height: 226px;
+    height: 270px;
 }
 .enableChat{
     float: left;
     padding: 20px;
+    padding-left: 11px;
+    padding-top: 14px;
 }
-
-
-.enableChat > label{
-    font-family: 'Rubik-Regular'
+.enableHis{
+    padding: 20px;
+    padding-left: 11px;
+    padding-top: 14px;
 }
 .form-check-input{
     position: absolute;
@@ -335,32 +337,160 @@ i.nav-icon{
     line-height: 0;
    
 }
-  
-input[type='checkbox'] {
-    opacity: 0;
-    z-index: -1;
+
+
+input:checked + label.enableChat > .facheck-1 {
+    // Firefox doesn't render svg's that is loading with the use tag if its been set to display: none and then toggled to display: block, so you have to use tricks like this to get it to render again:
+    height: 24px;
+    animation: draw-checkbox ease-in-out 0.2s forwards;
+    background-color: #76D5CE;
+    color: white;
 }
 
-input[type='checkbox'] {
-    width: 40px;
-    height: 40px;
-    display: block;
-    position: relative;
-    margin: auto;
-    box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    text-indent: -999px;
-    overflow: hidden;
-    border: 1px solid $border-white;
+  label.enableChat:active::after {
+    // background-color: #e6e6e6;
+    background-color: #76D5CE;
+  }
+  
+  
+  label.enableChat {
+    color: #3B4859;
+    font-family: 'Rubik-Regular';
+    font-size: 15px;
+    line-height: 29px;
     cursor: pointer;
+    position: relative;
+    &:after {
+      content: "";
+      height: 30px;
+      width: 30px;
+      margin-right: 1rem;
+      float: left;
+      border: 1px solid #A0ACBC;
+      border-radius: 3px;
+      transition: 0.15s all ease-out;      
+    }
+  }
+  .facheck-1 {
+    color: transparent;
+    stroke-width: 2px;
+    height: 0; //Firefox fix
+    width: 30px;
+    height: 30px !important;
+    position: absolute;
+    left: 11px;
+    top: 14px;
+    border-radius: 3px;
+    padding: 5px;
+    stroke-dasharray: 33; //Firefox fix
+  }
+  
+  input:checked + label.enableHis > .facheck-2 {
+    // Firefox doesn't render svg's that is loading with the use tag if its been set to display: none and then toggled to display: block, so you have to use tricks like this to get it to render again:
+    height: 24px;
+    animation: draw-checkbox ease-in-out 0.2s forwards;
+    background-color: #76D5CE;
+    color: white;
 }
+
+  label.enableHis:active::after {
+    background-color: #76D5CE;
+  }
   
   
+  label.enableHis {
+    color: #3B4859;
+    font-family: 'Rubik-Regular';
+    font-size: 15px;
+    line-height: 29px;
+    cursor: pointer;
+    position: relative;
+    &:after {
+        content: "";
+        height: 30px;
+        width: 30px;
+        margin-right: 1rem;
+        float: left;
+        border: 1px solid #A0ACBC;
+        border-radius: 3px;
+        transition: 0.15s all ease-out;          
+    }
+  }
+  .facheck-2 {
+    color: transparent;
+    stroke-width: 2px;
+    height: 0; //Firefox fix
+    width: 30px;
+    height: 30px !important;
+    position: absolute;
+    left: 11px;
+    top: 14px;
+    border-radius: 3px;
+    padding: 5px;
+    stroke-dasharray: 33; //Firefox fix
+  }
+  input[type="radio"], input[type="checkbox"]{
+      display: none;
+  }
+@keyframes draw-checkbox {
+  0% {
+    stroke-dashoffset: 33;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+.fromChange{
+    line-height: 46px;
+    width: 200px;
+    border-radius: 5px;
+    border: 1px solid #A0ACBC;
+    padding-left: 20px;
+    font-family: 'Karla-Regular';
+    font-size: 16px;
+    color: #3B4859;
+    opacity: 0.7;
     
-.enableHis{
-    float: right;
+}
+.text-muted{
+    font-family: 'Rubik-Medium';
+    color: #3B4859 !important;
+    margin-bottom: 5px;
+    font-size: 15px;
+}
+.alignForm{
+    padding-left: 26px;
+}
+.adjustPositionOfToElement{
+    position: relative;
+    right: 107px;
+}
+.alignBetweenFromtoTo{
+    position: relative;
+    right: 47px;
+    top: 40px;
+    color: #3B4859 !important;
+    opacity: 0.7;
+    font-weight: 900px;
+    font-size: 20px;
+}
+.adjustBorderColor{
+    border-color: #ffffff !important;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.04) !important;
     
+}
+.adjustButtonUpdate{
+    width: 140px;
+    line-height: 30px;
+    border-radius: 2px;
+    background-image: linear-gradient(90deg, #76D5CE, #5FB2AE);
+    font-family: 'Karla-Bold';
+    font-size: 16px;
+    color: #FFFFFF;
+    border: none;
+}
+.adjustFormAction{
+    padding-left: 10px;
 }
 /*media section*/
 @media (min-width: 992px){
@@ -374,6 +504,34 @@ input[type='checkbox'] {
         width: 430px;
     }
 }
+.tab-content .tabpane-2{
+    height: 175px;
+}
+.alignOffer{
+   padding: 30px;
+   padding-bottom: 0px !important;
+   font-size: 28px;
+   font-family: 'Rubik-Light';
+   color:#3B4859;
+}
+.adjustOfferButton{
+    padding-top: 15px;
+}
+// .ActiveOffer{
+//     border: none !important;
+//     border-bottom: 4px solid #76D5CE !important;
+//     background-color: transparent !important;
+//     font-family: 'Rubik-Medium' !important;
+//     color: #76D5CE !important;
+//     width: 280px !important;
+//     text-align: center !important;
+// }
+// .nav-tabs .nav-link.NormalOffer{
+//     border: none !important;
+//     width: 280px !important;
+//     text-align: center !important;
+//     font-family: 'Rubik-Regular' !important;
+// }
 @media (max-width: 991px){
     html:not([dir="rtl"]) .sidebar-lg-show.sidebar-fixed .main{
         margin-left: 46px;
