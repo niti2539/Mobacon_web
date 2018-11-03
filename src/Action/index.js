@@ -4,11 +4,14 @@ async function signUp (data){
     let response = await fetch(baseUrl+'mobacon/api/web/signup', {
         method: 'POST',
         headers: {
-            Accept: 'application/json', // เซิฟเวอร์จะตอบกลับมารูปแบบไหน
-            'Content-Type': 'application/json' // สิ่งที่จะส่งไปให้เซิฟเวอร์รูปแบบไหน
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
         },
-        body: JSON.stringify(data), //เอาดาต้าที่ได้ไปแปลงเป็นเจสันก่อน
-    }).then(resp => resp.json()); //แปลงเรสปอนซ์ที่ได้กลับมาให้กลายเป็นไฟล์เจสัน
+        body: JSON.stringify(data),
+    }).then(resp => resp.json())
+    .catch(error => {
+     return {message: "error"}
+    });
     console.log(response);
     return response; 
 }
@@ -21,7 +24,10 @@ async function signIn (data){
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(data),
-    }).then(resp => resp.json());
+    }).then(resp => resp.json())
+    .catch(error => {
+     return {message: "error"}
+    });
     console.log(response);
     return response;
 }
