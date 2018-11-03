@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import '../scss/offer.scss';
 import { Badge,
   Col, 
   Nav, 
@@ -16,19 +17,17 @@ import { Badge,
 } from 'reactstrap';
 import DatePicker from 'react-datepicker';
 import classnames from 'classnames';
-
+import { fontFace } from 'polished';
 
 class Tabs extends Component {
 
   constructor(props) {
     super(props);
-
     this.toggle = this.toggle.bind(this);
     this.state = {
-      activeTab: '1',
+      activeTab: '1'
     };
   }
-
   toggle(tab) {
     if (this.state.activeTab !== tab) {
       this.setState({
@@ -36,19 +35,24 @@ class Tabs extends Component {
       });
     }
   }
-
+  
   render() {
+   
     return (
+      
       <div className="animated fadeIn">
         <Row>
-          <Col>
-            <div style={{float: 'right'}}>
-              <Button type="submit" color="primary">New Offer</Button>
+          <Col md="6">
+            <p className="alignOffer">Offers</p>
+          </Col>
+          <Col md="6">
+            <div style={{float: 'right'}} className="adjustOfferButton">
+              <Button type="submit" className="adjustButtonUpdate" >NEW OFFER</Button>
             </div>
           </Col>
         </Row>
         <Row>
-          <Col xs="12" md="12" className="mb-4">
+          <Col xs="12" md="12" className="mb-4 alignBox">
             <Nav tabs>
               <NavItem>
                 <NavLink
@@ -62,6 +66,7 @@ class Tabs extends Component {
                 <NavLink
                   className={classnames({ active: this.state.activeTab === '2' })}
                   onClick={() => { this.toggle('2'); }}
+                  id = "2"
                 >
                   SUMMER DEAL
                 </NavLink>
@@ -71,27 +76,32 @@ class Tabs extends Component {
               <TabPane tabId="1">
                 <Form action="" method="post" encType="multipart/form-data" className="form-horizontal">
                   <Row>  
-                    <Col md='3'>
+                    <Col md='6'>
                       <FormGroup>
-                        <Label htmlFor="Minutes">Minutes / Month</Label>
-                        <Input type="text" id="minutes" placeholder="minutes" required />
-                      </FormGroup>
-                      
-                      <FormGroup>
-                        <Label htmlFor="SMS">SMS / Month</Label>
-                        <Input type="text" id="sms" placeholder="sms" required />
-                      </FormGroup>
-
-                      <FormGroup>
-                        <Label htmlFor="Internet traffic">Internet traffic / Month</Label>
-                        <Input type="text" id="internetTraffic" placeholder="internet" required />
-                      </FormGroup>
-                      
-                      <FormGroup>
-                        <Label htmlFor="Cloud Storage">Cloud Storage / Month</Label>
-                        <Input type="text" id="cloudStorage" placeholder="x GB" required />
+                        <Label htmlFor="Minutes" className="Label">Minutes / Month</Label>
+                        <Input className="inputChange" type="text" id="minutes" placeholder="1000" required />
                       </FormGroup>
                     </Col>
+                    <Col md='6'>
+                    <FormGroup>
+                        <Label htmlFor="SMS" className="Label">SMS / Month</Label>
+                        <Input className="inputChange" type="text" id="sms" placeholder="500" required />
+                      </FormGroup>
+                    
+                    </Col>
+                    <Col md="6">
+                      <FormGroup>
+                        <Label htmlFor="Internet traffic" className="Label">Internet traffic / Month</Label>
+                        <Input className="inputChange" type="text" id="internetTraffic" placeholder="4 GB" required />
+                      </FormGroup>
+                    </Col>
+                    <Col md="6">
+                      <FormGroup>
+                        <Label className="Label" htmlFor="Cloud Storage">Cloud Storage / Month</Label>
+                        <Input className="inputChange" type="text" id="cloudStorage" placeholder="10 GB" required />
+                      </FormGroup>
+                    </Col> 
+                    
                   </Row>
 
                 </Form>

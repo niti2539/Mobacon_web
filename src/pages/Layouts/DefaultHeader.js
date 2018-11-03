@@ -2,9 +2,8 @@ import React, { Component } from 'react';
 import { Badge, DropdownItem, DropdownMenu, DropdownToggle, Nav, NavItem, NavLink } from 'reactstrap';
 import PropTypes from 'prop-types';
 
-import { AppAsideToggler, AppHeaderDropdown, AppNavbarBrand, AppSidebarToggler } from '@coreui/react';
-import logo from '../../assets/img/brand/logo.svg'
-import sygnet from '../../assets/img/brand/sygnet.svg'
+import { AppAsideToggler, AppHeaderDropdown, AppNavbarBrand, AppSidebarToggler, AppSidebarMinimizer } from '@coreui/react';
+
 
 const propTypes = {
   children: PropTypes.node,
@@ -13,18 +12,34 @@ const propTypes = {
 const defaultProps = {};
 
 class DefaultHeader extends Component {
+  state = {
+    name : 'APP NAME HERE',
+    notExpand: false,
+  }
+  toggleHandler = () => {
+    let doesshow = this.state.notExpand;
+    this.setState({notExpand: !doesshow});
+    if(this.state.notExpand){
+      this.setState({name: 'N'})
+    }else{
+      this.setState({name:'APP NAME HERE'})
+    }
+  }
+  
+ 
   render() {
 
     // eslint-disable-next-line
     const { children, ...attributes } = this.props;
+    var elem = document.getElementsByClassName('navbar-brand-minimized');
+    console.log(elem.values);
 
+    
     return (
       <React.Fragment>
         <AppSidebarToggler className="d-lg-none" display="md" mobile />
-        <AppNavbarBrand
-          full={{ src: logo, width: 89, height: 25 }}
-          minimized={{ src: sygnet, width: 30, height: 30 }}
-        />
+       
+        <AppSidebarMinimizer  className="headerName navbar-brand-minimized navbar-brand" ><span onClick={() => this.toggleHandler()} onChange={this.toggleHandler}>{this.state.name}</span></AppSidebarMinimizer>
         {/*<AppSidebarToggler className="d-md-down-none" display="lg" />*/}
 
         {/*
@@ -41,9 +56,9 @@ class DefaultHeader extends Component {
         </Nav>
         */}
         
-        <Nav className="ml-auto" navbar>
+        <Nav  navbar>
           <NavItem className="d-md-down-none">
-            <NavLink href="#"><i className="icon-location-pin"></i></NavLink>
+            <NavLink href="/chat"><i className="icon-bubble"></i></NavLink>
           </NavItem>
           <NavItem className="d-md-down-none">
             <NavLink href="#"><i className="icon-bell"></i><Badge pill color="danger">5</Badge></NavLink>
@@ -53,8 +68,13 @@ class DefaultHeader extends Component {
             <NavLink href="#"><i className="icon-list"></i></NavLink>
           </NavItem>
           */}
+           <NavItem className="d-md-down-none adminName" style={{ width: 100}}>
+            <p className="admin">Admin name</p>
+            </NavItem>
           <AppHeaderDropdown direction="down">
+
             <DropdownToggle nav>
+              <i className="icon-arrow-down"></i>
               <img src={'../assets/img/avatars/6.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com" />
             </DropdownToggle>
             <DropdownMenu right style={{ right: 'auto' }}>
@@ -74,9 +94,7 @@ class DefaultHeader extends Component {
             </DropdownMenu>
           </AppHeaderDropdown>
           
-          <NavItem className="d-md-down-none" style={{marginRight: 10, width: 100}}>
-            <p>Admin name</p>
-          </NavItem>
+          
         </Nav>
         {/*<AppAsideToggler className="d-md-down-none" />*/}
         {/*<AppAsideToggler className="d-lg-none" mobile />*/}

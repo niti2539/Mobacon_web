@@ -38,7 +38,7 @@ class DefaultLayout extends Component {
             <AppSidebarMinimizer />
           </AppSidebar>
           <main className="main">
-            <AppBreadcrumb appRoutes={routes}/>
+            {/* <AppBreadcrumb appRoutes={routes}/> */}
             <Container fluid>
               <Switch>
                 {routes.map((route, idx) => {
@@ -56,9 +56,9 @@ class DefaultLayout extends Component {
             <DefaultAside />
           </AppAside>
         </div>
-        <AppFooter>
+        {/* <AppFooter>
           <DefaultFooter />
-        </AppFooter>
+        </AppFooter> */}
       </div>
     );
   }
