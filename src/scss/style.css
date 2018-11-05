@@ -9977,7 +9977,7 @@ div.form-group > label {
   color: #3B4859;
   padding-top: 8px; }
 
-div.form-group > input {
+div.form-group > .changeSize {
   height: 3.25rem;
   font-family: 'Karla-Regular';
   font-size: 1rem;
@@ -10054,8 +10054,7 @@ div.form-group > input {
   font-family: 'Karla-Regular';
   font-size: 14px;
   color: #3B4859;
-  position: relative;
-  bottom: 3px; }
+  position: relative; }
 
 .phoneText {
   font-family: 'Rubik-Medium';
@@ -10095,16 +10094,55 @@ hr {
   font-family: 'Rubik-Medium';
   font-size: 12px;
   color: #E86D6D;
-  padding-left: 42px;
-  padding-top: 10px;
   font-weight: 700;
-  float: left; }
+  float: left;
+  padding-top: 10px;
+  padding-left: 40px; }
 
 .alignAfterHr {
   margin-bottom: 10px; }
 
 .onlyOperatorButton {
   margin-top: 26px; }
+
+.exZCJh {
+  width: 345px; }
+
+table {
+  border: none;
+  border-collapse: separate;
+  border-spacing: 0px 15px; }
+
+.card {
+  box-shadow: none;
+  border-radius: none;
+  border-color: transparent;
+  background-color: transparent; }
+
+.alignRequest {
+  padding: 30px;
+  padding-left: 8px !important;
+  padding-bottom: 10px !important;
+  font-size: 28px;
+  font-family: 'Rubik-Light';
+  color: #3B4859; }
+
+th {
+  border: none;
+  border-bottom: none;
+  border-width: 0px; }
+
+.table thead th {
+  border-bottom: none; }
+
+.table td {
+  background-color: white !important;
+  border-color: #ffffff !important;
+  border-radius: 0px; }
+
+tbody tr {
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.04) !important;
+  line-height: 34px; }
 
 div.app > div.container > div.row > div.col-md-6 {
   max-width: 28.75rem;
