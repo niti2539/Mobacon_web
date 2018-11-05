@@ -15,6 +15,8 @@ import { Badge,
   Button,
 } from 'reactstrap';
 import DatePicker from 'react-datepicker';
+import moment from 'moment';
+import 'react-datepicker/dist/react-datepicker.css';
 import classnames from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -37,10 +39,16 @@ class Tabs extends Component {
     }
   }
   state = {
-    check : false
+    check : false,
+    startDate : moment(),
+    endDate : moment()
+  };
+  handleChangeStart = (date) =>{
+    this.setState({startDate: date})
   }
-
-  
+  handleChangeEnd = (date) => {
+    this.setState({endDate: date})
+  }
   render() {
     return (
       <div className="animated fadeIn">
@@ -92,7 +100,8 @@ class Tabs extends Component {
                           <DatePicker
                             placeholderText='Select Date'
                             selected={this.state.startDate}
-                            onChange={this.handleChange}
+                            dateFormat="DD/MM/YYYY" 
+                            onChange={this.handleChangeStart}
                             className="fromChange"
                           />
                           
@@ -110,8 +119,9 @@ class Tabs extends Component {
                           <FormText color="muted" className="adjustPositionOfToElement">To</FormText>
                           <DatePicker
                             placeholderText='Select Date'
-                            selected={this.state.startDate}
-                            onChange={this.handleChange}
+                            selected={this.state.endDate}
+                            dateFormat="DD/MM/YYYY" 
+                            onChange={this.handleChangeEnd}
                             className="fromChange adjustPositionOfToElement"
                           />
                         </Col>
