@@ -19,7 +19,7 @@ div.form-group > label {
   color: #3B4859;
   padding-top: 8px; }
 
-div.form-group > input {
+div.form-group > .changeSize {
   height: 3.25rem;
   font-family: 'Karla-Regular';
   font-size: 1rem;
