@@ -1,0 +1,118 @@
+.card-body{
+    padding: 0px;
+    border-color: none;
+}
+.imageSection{
+    height: 202px;
+    background-color: #3B4859;
+}
+.imgAvatar{
+    margin-top: 25px;
+    width: 110px !important;
+    height: 110px !important;
+    border: 1px solid #A0ACBC;
+}
+.borderCard{
+    border-color: #ffffff !important;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.04) !important;
+    border-radius: 0px;
+}
+.bTKwuI{
+    width: 170px !important;
+    height: 170px !important;
+}
+.nameAvatar{
+    color: white;
+    font-family: 'Rubik-Medium';
+    font-size: 18px;
+    padding-top: 16px;
+}
+.alignOperator{
+    padding: 30px;
+    padding-left: 8px !important;
+    padding-bottom: 15px !important;
+    font-size: 28px;
+    font-family: 'Rubik-Light';
+    color:#3B4859;
+}
+.alignRow{
+    padding-left: 10px;
+}
+.emailSubText{
+    float: right;
+    font-family: 'Karla-Regular';
+    font-size: 14px;
+    color: #3B4859;
+    position: relative;
+    bottom: 3px;
+}
+.emailText{
+    font-family: 'Rubik-Medium';
+    font-size: 12px;
+    color: #3B4859;
+    float: left;
+}
+.emailForm{
+    padding-top: 28px;
+    padding-left: 32px;
+    padding-right: 32px;
+}
+.phoneSubText{
+    float: right;
+    font-family: 'Karla-Regular';
+    font-size: 14px;
+    color: #3B4859;
+    position: relative;
+    bottom: 3px;
+}
+.phoneText{
+    font-family: 'Rubik-Medium';
+    font-size: 12px;
+    color: #3B4859;
+    float: left;
+}
+.phoneForm{
+    padding-left: 32px;
+    padding-right: 32px;
+    margin-top: -6px;
+    margin-bottom: -7px;
+}
+hr{
+    color: #8392A7;
+}
+.thumbUp{
+    float: left;
+    padding-left: 34px;
+    color: #76D5CE !important;
+}
+.goodThumb{
+    font-family: 'Rubik-Medium';
+    font-size: 12px;
+    color: #76D5CE;
+    padding-left: 20px;
+    padding-top: 10px;
+    font-weight: 700;
+}
+.fa-2x{
+    font-size: 1.625rem;
+}
+.thumbDown{
+    
+    color: #E86D6D !important;
+}
+.badThumb{
+    font-family: 'Rubik-Medium';
+    font-size: 12px;
+    color: #E86D6D;
+    padding-left: 42px;
+    padding-top: 10px;
+    font-weight: 700;
+    float: left;
+}
+.alignAfterHr{
+    margin-bottom: 10px;
+}
+.onlyOperatorButton{
+    margin-top: 26px;
+}
+
