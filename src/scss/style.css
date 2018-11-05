@@ -9956,6 +9956,40 @@ html body .app.flex-row.align-items-center {
 .tab-content .tab-pane {
   height: 250px; }
 
+div.tab-content {
+  height: 443px;
+  width: 98%; }
+
+.adjustBorderColor {
+  border-color: #ffffff !important;
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.04) !important; }
+
+.alignProfile {
+  padding: 30px;
+  font-size: 28px;
+  font-family: 'Rubik-Light';
+  color: #3B4859;
+  padding-bottom: 20px; }
+
+div.form-group > label {
+  font-family: 'Rubik-Medium';
+  font-size: 0.875rem;
+  color: #3B4859;
+  padding-top: 8px; }
+
+div.form-group > input {
+  height: 3.25rem;
+  font-family: 'Karla-Regular';
+  font-size: 1rem;
+  color: #3B4859;
+  width: 35% !important;
+  margin-bottom: 1.25rem;
+  border: 1px solid #A0ACBC;
+  border-radius: 5px; }
+
+.alignForEmail, .alignForPassword {
+  padding-top: 16px !important; }
+
 div.app > div.container > div.row > div.col-md-6 {
   max-width: 28.75rem;
   height: 32.1875rem; }
