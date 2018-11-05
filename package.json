@@ -1,6 +1,6 @@
 {
   "name": "@coreui/coreui-free-react-admin-template",
-  "version": "2.0.6",
+  "version": "2.0.13",
   "description": "CoreUI React Open Source Bootstrap 4 Admin Template",
   "author": "Łukasz Holeczek",
   "homepage": "https://coreui.io",
@@ -12,26 +12,30 @@
     "url": "git@github.com:coreui/coreui-free-react-admin-template.git"
   },
   "dependencies": {
-    "@coreui/coreui": "^2.0.4",
+    "@coreui/coreui": "^2.0.15",
     "@coreui/coreui-plugin-chartjs-custom-tooltips": "^1.2.0",
-    "@coreui/icons": "0.2.0",
-    "@coreui/react": "^2.0.4",
+    "@coreui/icons": "0.3.0",
+    "@coreui/react": "^2.0.9",
     "@fortawesome/fontawesome-svg-core": "^1.2.7",
     "@fortawesome/free-solid-svg-icons": "^5.4.2",
     "@fortawesome/react-fontawesome": "^0.1.3",
-    "@livechat/ui-kit": "^0.2.3",
-    "bootstrap": "^4.1.1",
+    "@livechat/ui-kit": "^0.2.13",
+    "bootstrap": "^4.1.3",
     "chart.js": "^2.7.2",
     "classnames": "^2.2.6",
     "core-js": "^2.5.7",
-    "enzyme": "^3.3.0",
-    "enzyme-adapter-react-16": "^1.1.1",
-    "flag-icon-css": "^3.0.0",
+    "enzyme": "^3.7.0",
+    "enzyme-adapter-react-16": "^1.6.0",
+    "fetch": "^1.1.0",
+    "flag-icon-css": "^3.2.0",
+    "firebase": "^5.5.3",
     "font-awesome": "^4.7.0",
+    "node-sass": "^4.9.3",
     "lodash": "^4.17.10",
     "moment": "^2.22.2",
     "prop-types": "^15.6.2",
     "react": "^16.4.1",
+    "react-app-polyfill": "^0.1.3",
     "react-bootstrap": "^0.32.4",
     "react-chartjs-2": "^2.7.2",
     "react-chat-elements": "^10.0.0",
@@ -46,13 +50,14 @@
     "react-tooltip": "^3.9.0",
     "reactstrap": "^6.1.0",
     "simple-line-icons": "^2.4.1",
-    "styled-components": "^3.3.3"
+    "styled-components": "^4.0.2",
+    "trim": "0.0.1"
   },
   "devDependencies": {
     "babel-jest": "^23.0.1",
     "node-sass-chokidar": "^1.3.0",
     "npm-run-all": "^4.1.3",
-    "react-scripts": "^1.1.4"
+    "react-scripts": "^2.0.4"
   },
   "scripts": {
     "build-css": "node-sass-chokidar --include-path ./node_modules ./src/scss -o ./src/scss",
@@ -66,5 +71,11 @@
   },
   "bugs": {
     "url": "https://github.com/coreui/coreui-free-react-admin-template/issues"
-  }
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }

@@ -1,34 +1,13 @@
 import React, { Component } from 'react';
-import {
-  Badge,
-  Button,
-  ButtonDropdown,
-  Card,
-  CardBody,
-  CardFooter,
-  CardHeader,
-  Col,
-  Collapse,
-  DropdownItem,
-  DropdownMenu,
-  DropdownToggle,
-  Fade,
-  Form,
-  FormGroup,
-  FormText,
-  FormFeedback,
-  Input,
-  InputGroup,
-  InputGroupAddon,
-  InputGroupText,
-  Label,
-  // Row,
-} from 'reactstrap';
-// import { ChatItem, Dropdown, MessageList, Avatar } from 'react-chat-elements'
-import { Row, ThemeProvider, TextInput, TextComposer, SendButton } from '@livechat/ui-kit'
-import Messages from '../Components/Messages';
-import ChatList from '../Components/ChatList';
+import { Row,
+  ThemeProvider,
+  ChatList
+} from '@livechat/ui-kit'
 import styled from 'styled-components'
+import Header from '../Components/Header'
+import MessageList from '../Components/MessageList'
+import MessageBox from '../Components/MessageBox'
+import firebase from 'firebase'
 import _ from 'lodash';
 
 const theme = {
@@ -49,75 +28,44 @@ const theme = {
   },
 }
 
-class Forms extends Component {
-  constructor(props) {
+
+
+class AppChatList extends Component {
+  constructor(props){
     super(props);
-
-    this.toggle = this.toggle.bind(this);
-    this.toggleFade = this.toggleFade.bind(this);
-    this.state = {
-      collapse: true,
-      fadeIn: true,
-      timeout: 300
-    };
-  }
-
-  toggle() {
-    this.setState({ collapse: !this.state.collapse });
-  }
-
-  toggleFade() {
-    this.setState((prevState) => { return { fadeIn: !prevState }});
-  }
-
+    var config = {
+        apiKey: "AIzaSyCqTGMI8TjLLaPwckALXZh1xdWew87NGcA",
+        authDomain: "react-chat-b1e89.firebaseapp.com",
+        databaseURL: "https://react-chat-b1e89.firebaseio.com",
+        projectId: "react-chat-b1e89",
+        storageBucket: "react-chat-b1e89.appspot.com",
+        messagingSenderId: "347445845934"
+      };
+       firebase.initializeApp(config);
+}
   render() {
     return (
-        <div className="animated fadeIn">
-          <Row className="row no-gutters">
-            <Col xs="12" sm="3">
-              <Card style={{'height': 'calc(100vh - 200px)'}}>
-                <CardBody>
-                  <Label>Recent Chats</Label>
-                  <InputGroup>
-                    <InputGroupAddon addonType="prepend">
-                    <InputGroupText><i className="fa fa-search"></i></InputGroupText>
-                    </InputGroupAddon>
-                    <Input type="text" id="search" name="search" placeholder="search"/>
-                  </InputGroup>
-                </CardBody>
-
-                <ChatList/>
-                
-              </Card>
-            </Col>
-            <Col xs="12" sm="9">
-              <Card style={{'height': 'calc(100vh - 200px)'}}>
-                <CardHeader>
-                  Name Surname
-                </CardHeader>
-                <CardBody>
-                  <div style={{ maxWidth: '100%', height: 'calc(100vh - 340px)' }}>
-
-                    <Messages/>
-
-                  </div>
-                </CardBody>
-                <CardFooter style={{padding: 0}}>
-                  <ThemeProvider>
-                    <TextComposer defaultValue="Hello, can you help me?">
-                      <Row align="center">
-                        <TextInput fill />
-                        <SendButton fit />
-                      </Row>
-                    </TextComposer>
-                  </ThemeProvider>
-                </CardFooter>
-              </Card>
-            </Col>
-          </Row>
-        </div>
+      <ThemeProvider theme={theme}>
+        <ChatList style={{ 'overflow-y': 'scroll' }}>
+        <div className="container">
+                <Header title="Chat Room" />
+                <div className="columns">
+                    <div className="column is-3"></div>
+                    <div className="column is-6">
+                        <MessageList db={firebase} />
+                    </div>
+                </div>
+                <div className="columns">
+                    <div className="column is-3"></div>
+                    <div className="column is-6">
+                        <MessageBox db={firebase} />
+                    </div>
+                </div>
+            </div> 
+        </ChatList>
+      </ThemeProvider>
     );
   }
 }
 
-export default Forms;
+export default AppChatList;
