@@ -17,8 +17,7 @@ import { Badge,
   CardHeader,
   CardBody,
 } from 'reactstrap';
-import DatePicker from 'react-datepicker';
-import classnames from 'classnames';
+import '../scss/operator.scss';
 import styled from 'styled-components';
 import _ from 'lodash';
 
@@ -45,49 +44,52 @@ class Tabs extends Component {
     return (
       <div className="animated fadeIn">
         <Row>
-          <Col xs="12" md="12" className="mb-4">
+        <Col xs="6" md="6">
+            <p className="alignOperator">Operators</p>
+          </Col>
+          <Col xs="6" md="6" className="mb-4">
             <div style={{float: 'right'}}>
-              <Button type="submit" color="primary">ADD NEW</Button>
+              <Button type="submit" className="adjustButtonUpdate onlyOperatorButton">ADD NEW</Button>
             </div>
           </Col>          
         </Row>
-        <Row>
+        <Row className="alignRow">
           {_.range(12).map(i =>
             <Col xs="12" md="4" lg="4" className="mb-4">
-              <Card>
+              <Card className="borderCard">
                 <CardBody>
-                  <div className="card-header-actions">
-                    <div className="card-header-action btn btn-setting"><i className="fa fa-pencil"></i></div>
+                  <div row className="imageSection">
+                    <Avartar>
+                   
+                      <img className="imgAvatar" src='https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260'/>
+                      <p className="nameAvatar">Chuck Norris</p>
+                    </Avartar>
+
                   </div>
-                  <Avartar>
-                    <img src='https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260'/>
-                  </Avartar>
+        
                   <FormGroup row>
-                    <Col md="12">
-                      <FormText color="muted">Name</FormText>
-                      <Input type="text" id="text-input" name="name" placeholder="name" value="name" disabled/>
+                    <Col md="12" className="emailForm">
+                      <p className="emailText">EMAIL</p>
+                      <p className="emailSubText">chuck@norris.com</p>
                     </Col>
                   </FormGroup>
                   <FormGroup row>
-                    <Col md="12">
-                      <FormText color="muted">Email</FormText>
-                      <Input type="text" id="text-input" name="email" placeholder="email" value="email" disabled/>
+                    <Col md="12" className="phoneForm">
+                    <p className="phoneText">PHONE</p>
+                      <p className="phoneSubText">+40 0744 222 111</p>
                     </Col>
                   </FormGroup>
-                  <FormGroup row>
-                    <Col md="12">
-                      <FormText color="muted">Phone</FormText>
-                      <Input type="text" id="text-input" name="phone" placeholder="phone" value="phone" disabled/>
-                    </Col>
-                  </FormGroup>
-                  <Thumbs style={{float: 'left'}}>
-                    <Button style={thumbsStyle} className="icon"><i className="fa fa-thumbs-o-up fa-2x"></i></Button>
-                    <p>400 GOOD REVIEWS</p>
-                  </Thumbs>
-                  <Thumbs style={{float: 'right'}}>
-                    <Button style={thumbsStyle} className="icon"><i className="fa fa-thumbs-o-down fa-2x"></i></Button>
-                    <p>400 BAD REVIEWS</p>
-                  </Thumbs>
+                  <hr></hr>
+                  <Row className="alignAfterHr">
+                    
+                      <Button style={thumbsStyle} className="icon thumbUp"><i className="fa fa-thumbs-o-up fa-2x"></i></Button>
+                      <p className="goodThumb">45 GOOD REVIEWS</p>
+                  
+                      <p className="badThumb">12 BAD REVIEWS</p>
+                      <Button style={thumbsStyle} className="icon thumbDown"><i className="fa fa-thumbs-o-down fa-2x fa-flip-horizontal "></i></Button>
+                    
+                  </Row>
+                  
                 </CardBody>
               </Card>
             </Col>
