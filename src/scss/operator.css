@@ -62,8 +62,7 @@
   font-family: 'Karla-Regular';
   font-size: 14px;
   color: #3B4859;
-  position: relative;
-  bottom: 3px; }
+  position: relative; }
 
 .phoneText {
   font-family: 'Rubik-Medium';
@@ -103,10 +102,10 @@ hr {
   font-family: 'Rubik-Medium';
   font-size: 12px;
   color: #E86D6D;
-  padding-left: 42px;
-  padding-top: 10px;
   font-weight: 700;
-  float: left; }
+  float: left;
+  padding-top: 10px;
+  padding-left: 40px; }
 
 .alignAfterHr {
   margin-bottom: 10px; }
