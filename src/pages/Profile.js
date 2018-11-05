@@ -1,40 +1,39 @@
 import React, { Component } from 'react';
-import {
-  Badge,
-  Button,
-  ButtonDropdown,
-  Card,
-  CardBody,
-  CardFooter,
-  CardHeader,
-  Col,
-  Collapse,
-  DropdownItem,
-  DropdownMenu,
-  DropdownToggle,
-  Fade,
+import { Badge,
+  Col, 
+  Nav, 
+  NavItem, 
+  NavLink, 
+  Row, 
+  TabContent, 
+  TabPane,
   Form,
   FormGroup,
   FormText,
-  FormFeedback,
   Input,
-  InputGroup,
-  InputGroupAddon,
-  InputGroupText,
   Label,
-  Row,
+  Button,
 } from 'reactstrap';
-
+import 'react-datepicker/dist/react-datepicker.css';
+import classnames from 'classnames';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import '../scss/profile.scss'
 class Forms extends Component {
   constructor(props) {
     super(props);
 
     this.toggle = this.toggle.bind(this);
     this.toggleFade = this.toggleFade.bind(this);
+    this.handleName = this.handleName.bind(this);
+    this.handleEmail = this.handleEmail.bind(this);
+    this.handlePassword =this.handlePassword.bind(this);
     this.state = {
       collapse: true,
       fadeIn: true,
-      timeout: 300
+      timeout: 300,
+      name: '',
+      email: '',
+      password: '',
     };
   }
 
@@ -45,49 +44,53 @@ class Forms extends Component {
   toggleFade() {
     this.setState((prevState) => { return { fadeIn: !prevState }});
   }
-
+  handleName = (event) => {
+    this.setState({
+      name: event.target.value,
+    })
+  }
+  handleEmail = (event) => {
+    this.setState({
+      email: event.target.value,
+    })
+  }
+  handlePassword = (event) => {
+    this.setState({
+      password: event.target.value,
+    })
+  }
   render() {
     return (
       <div className="animated fadeIn">
+      <Row>
+        <p className="alignProfile">Your Profile</p>
+      </Row>
         <Row>
-          <Col xs="12" sm="4">
-            <Card>
-              <CardHeader>
-                Example Form
-              </CardHeader>
-              <CardBody>
+          <Col xs="12" md="12" className="mb-4 ml-3">
+          
+            <TabContent className="adjustBorderColor" >
+              <TabPane >
                 <Form action="" method="post">
                   <FormGroup>
-                    <InputGroup>
-                      <InputGroupAddon addonType="prepend">
-                        <InputGroupText><i className="fa fa-user"></i></InputGroupText>
-                      </InputGroupAddon>
-                      <Input type="text" id="username1" name="username1" placeholder="Username" autoComplete="name"/>
-                    </InputGroup>
+                    <Label htmlFor="full name">Full Name</Label>
+                    <Input type="text" id="full name" onChange={ this.handleName} placeholder="Mihai Petrea" required />
                   </FormGroup>
                   <FormGroup>
-                    <InputGroup>
-                      <InputGroupAddon addonType="prepend">
-                        <InputGroupText><i className="fa fa-envelope"></i></InputGroupText>
-                      </InputGroupAddon>
-                      <Input type="email" id="email1" name="email1" placeholder="Email" autoComplete="username"/>
-                    </InputGroup>
+                    <Label htmlFor="email" className="alignForEmail">Email</Label>
+                    <Input type="email" id="email" onChange={ this.handleEmail } placeholder="mihai@gmail.com" required />              
                   </FormGroup>
                   <FormGroup>
-                    <InputGroup>
-                      <InputGroupAddon addonType="prepend">
-                        <InputGroupText><i className="fa fa-asterisk"></i></InputGroupText>
-                      </InputGroupAddon>
-                      <Input type="password" id="password1" name="password1" placeholder="Password" autoComplete="current-password"/>
-                    </InputGroup>
+                    <Label htmlFor="password" className="alignForPassword">password</Label>
+                    <Input type="password" id="password" onChange={ this.handlePassword } placeholder="●●●●●●●" required />
                   </FormGroup>
-                  <FormGroup className="form-actions">
-                    <Button type="submit" size="sm" color="success">Submit</Button>
-                  </FormGroup>
+                  <div className="form-actions">
+                    <Button type="submit" className="adjustButtonUpdate">UPDATE</Button>
+                  </div>
                 </Form>
-              </CardBody>
-            </Card>
-          </Col>
+              </TabPane>
+            
+            </TabContent>
+          </Col>          
         </Row>
       </div>
     );
