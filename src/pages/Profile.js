@@ -73,15 +73,15 @@ class Forms extends Component {
                 <Form action="" method="post">
                   <FormGroup>
                     <Label htmlFor="full name">Full Name</Label>
-                    <Input type="text" id="full name" onChange={ this.handleName} placeholder="Mihai Petrea" required />
+                    <Input className="changeSize" type="text" id="full name" onChange={ this.handleName} placeholder="Mihai Petrea" required />
                   </FormGroup>
                   <FormGroup>
                     <Label htmlFor="email" className="alignForEmail">Email</Label>
-                    <Input type="email" id="email" onChange={ this.handleEmail } placeholder="mihai@gmail.com" required />              
+                    <Input className="changeSize" type="email" id="email" onChange={ this.handleEmail } placeholder="mihai@gmail.com" required />              
                   </FormGroup>
                   <FormGroup>
                     <Label htmlFor="password" className="alignForPassword">password</Label>
-                    <Input type="password" id="password" onChange={ this.handlePassword } placeholder="●●●●●●●" required />
+                    <Input className="changeSize" type="password" id="password" onChange={ this.handlePassword } placeholder="●●●●●●●" required />
                   </FormGroup>
                   <div className="form-actions">
                     <Button type="submit" className="adjustButtonUpdate">UPDATE</Button>
