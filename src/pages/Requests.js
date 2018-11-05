@@ -41,11 +41,16 @@ class Tables extends Component {
   render() {
     return (
       <div className="animated fadeIn">
+       <Row>
+         <Col md="12" xs="12">
+          <p className="alignRequest">Requests</p>
+         </Col>
+       </Row>
         <Row>
           <Col xs="12" lg="12">
             <Card>
               <CardBody>
-                <Table responsive>
+                <Table responsive border="0">
                   <thead>
                   <tr>
                     <th>CUSTOMER NAME</th>
@@ -84,26 +89,7 @@ class Tables extends Component {
                   </tbody>
                 </Table>
                 
-                <Pagination>
-                  <PaginationItem>
-                    <PaginationLink previous tag="button"></PaginationLink>
-                  </PaginationItem>
-                  <PaginationItem active>
-                    <PaginationLink tag="button">1</PaginationLink>
-                  </PaginationItem>
-                  <PaginationItem>
-                    <PaginationLink tag="button">2</PaginationLink>
-                  </PaginationItem>
-                  <PaginationItem>
-                    <PaginationLink tag="button">3</PaginationLink>
-                  </PaginationItem>
-                  <PaginationItem>
-                    <PaginationLink tag="button">4</PaginationLink>
-                  </PaginationItem>
-                  <PaginationItem>
-                    <PaginationLink next tag="button"></PaginationLink>
-                  </PaginationItem>
-                </Pagination>
+              
               </CardBody>
             </Card>
           </Col>
