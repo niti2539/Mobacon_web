@@ -19,7 +19,7 @@ import {
 import _ from 'lodash';
 
 const actionStyle = {background: 'none', border: 'none', boxShadow: 'none', lineHeight: 0, marginTop: -10}
-
+const index = [0,1,2,3,4,5,6,7,8,9,10];
 class Tables extends Component {
   
   constructor(props) {
@@ -36,9 +36,12 @@ class Tables extends Component {
     this.setState({
       dropdownOpen: newArray,
     });
+
+    
   }
 
   render() {
+    
     return (
       <div className="animated fadeIn">
        <Row>
@@ -50,40 +53,92 @@ class Tables extends Component {
           <Col xs="12" lg="12">
             <Card>
               <CardBody>
-                <Table responsive border="0">
+                <Table responsive className="requestMain" >
                   <thead>
-                  <tr>
-                    <th>CUSTOMER NAME</th>
-                    <th>CLIENT SINCE</th>
-                    <th>ACTIVE PLAN</th>
-                    <th>AVERAGE BILL</th>
-                    <th>DATE REQUESTED</th>
-                    <th>STATUS</th>
-                    <th>OPERATOR</th>
-                    <th>ACTIONS</th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                  {_.range(10).map(i => 
                     <tr>
-                      <td><Link to='/request/1'>Samppa Nori</Link></td>
+                      <th>CUSTOMER NAME</th>
+                      <th>CLIENT SINCE</th>
+                      <th>ACTIVE PLAN</th>
+                      <th>AVERAGE BILL</th>
+                      <th>DATE REQUESTED</th>
+                      <th>STATUS</th>
+                      <th>OPERATOR</th>
+                      <th>ACTIONS</th>
+                    </tr>
+                  </thead>
+                  <tbody className="requestMainTbody">
+                  {_.range(0,2).map(i => 
+                    <tr key={i.id}>
+                      <td ><Link to='/request/1' className="LinkName">Mihai Petrea</Link></td>
                       <td>2012/01/01</td>
                       <td>Basic Plan</td>
                       <td>200$</td>
                       <td>17.06.2018</td>
-                      <td><Badge color="danger">Banned</Badge></td>
+                      <td ><Link to='/request/1'><div className="alignPending"><span className="pending">Pending</span></div></Link></td>
                       <td>Chuck Norris</td>
+                      
                       <td>
-                        <ButtonDropdown isOpen={this.state.dropdownOpen[i]} toggle={() => { this.toggle(i); }}>
-                          <DropdownToggle style={actionStyle}>
+                        
+                        <Link to='/request/1' className="threeDot">
+                          . . .
+                        </Link>
+                       
+                    </td>
+                      
+                    </tr>
+                  )}
+                  {_.range(3,4).map(i => 
+                    <tr key={i.id}>
+                      <td><Link to='/request/1' className="LinkName">Mihai Petrea</Link></td>
+                      <td>2012/01/01</td>
+                      <td>Basic Plan</td>
+                      <td >200$</td>
+                      <td>17.06.2018</td>
+                      <td ><div className="alignRejected"><span className="rejected">Rejected</span></div></td>
+                      <td >Chuck Norris</td>
+                      <td>
+                        
+                          <Link to='/request/1' className="threeDot">
                             . . .
-                          </DropdownToggle>
-                          <DropdownMenu right>
-                            <DropdownItem>Action</DropdownItem>
-                            <DropdownItem>Another Action</DropdownItem>
-                          </DropdownMenu>
-                        </ButtonDropdown>
+                          </Link>
+                         
                       </td>
+                    </tr>
+                  )}
+                   {_.range(4,5).map(i => 
+                    <tr key={i.id}>
+                      <td><Link to='/request/1' className="LinkName">Mihai Petrea</Link></td>
+                      <td>2012/01/01</td>
+                      <td>Basic Plan</td>
+                      <td>200$</td>
+                      <td>17.06.2018</td>
+                      <td><div className="alignAccepted"><span className="accepted">Accepted</span></div></td>
+                      <td>Chuck Norris</td>
+                      
+                      <td>
+                        <Link to='/request/1' className="threeDot">
+                          . . .
+                        </Link>
+                    </td>
+                      
+                    </tr>
+                  )}
+                  {_.range(5,11).map(i => 
+                    <tr key={i.id}>
+                      <td ><Link to='/request/1' className="LinkName">Mihai Petrea</Link></td>
+                      <td>2012/01/01</td>
+                      <td>Basic Plan</td>
+                      <td>200$</td>
+                      <td>17.06.2018</td>
+                      <td><Link to='/request/1'><div className="alignPending"><span className="pending">Pending</span></div></Link></td>
+                      <td>Chuck Norris</td>
+                      
+                      <td>
+                        <Link to='/request/1' className="threeDot">
+                          . . .
+                        </Link>
+                    </td>
+                      
                     </tr>
                   )}
                   </tbody>
@@ -97,6 +152,7 @@ class Tables extends Component {
       </div>
 
     );
+
   }
 }
 
