@@ -9953,10 +9953,10 @@ html body .app.flex-row.align-items-center {
   max-width: 97% !important;
   margin-left: 20px; }
 
-.tab-content .tab-pane {
-  height: 250px; }
+.OfferTabContent {
+  height: 270px; }
 
-div.tab-content {
+.adjustTabWidth {
   height: 443px;
   width: 98%; }
 
@@ -10108,7 +10108,7 @@ hr {
 .exZCJh {
   width: 345px; }
 
-table {
+.requestMain {
   border: none;
   border-collapse: separate;
   border-spacing: 0px 15px; }
@@ -10122,27 +10122,97 @@ table {
 .alignRequest {
   padding: 30px;
   padding-left: 8px !important;
-  padding-bottom: 10px !important;
+  padding-bottom: 0px !important;
   font-size: 28px;
   font-family: 'Rubik-Light';
   color: #3B4859; }
 
-th {
+.requestMain thead th {
   border: none;
+  border-width: 0px;
   border-bottom: none;
-  border-width: 0px; }
+  font-family: 'Rubik-Medium';
+  font-size: 12px;
+  color: #3B4859 !important; }
 
-.table thead th {
-  border-bottom: none; }
-
-.table td {
+.requestMain td {
   background-color: white !important;
   border-color: #ffffff !important;
-  border-radius: 0px; }
+  border-radius: 0px;
+  vertical-align: middle; }
 
-tbody tr {
+.requestMainTbody tr {
   box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.04) !important;
   line-height: 34px; }
+
+.requestMainTbody td {
+  font-family: 'Karla-Regular';
+  font-size: 14px;
+  color: #3B4859 !important; }
+
+.LinkName {
+  color: #3B4859 !important; }
+
+.requestMain {
+  padding-left: 10px; }
+
+.alignPending {
+  border: 1px solid #79BFBC;
+  position: relative;
+  right: 17px;
+  height: 24px;
+  bottom: 1px;
+  border-radius: 15px;
+  width: 82px; }
+
+.pending {
+  position: relative;
+  left: 13px;
+  bottom: 6px;
+  color: #79BFBC; }
+
+a {
+  text-decoration: none !important; }
+
+.alignRejected {
+  border: 1px solid #E86D6D;
+  position: relative;
+  right: 17px;
+  height: 24px;
+  bottom: 1px;
+  border-radius: 15px;
+  background-color: #E86D6D;
+  width: 82px; }
+
+.rejected {
+  position: relative;
+  left: 13px;
+  bottom: 6px;
+  color: #FFFFFF; }
+
+.alignAccepted {
+  border: 1px solid #79BFBC;
+  position: relative;
+  right: 17px;
+  height: 24px;
+  bottom: 1px;
+  border-radius: 15px;
+  background-color: #79BFBC;
+  width: 82px; }
+
+.accepted {
+  position: relative;
+  left: 11px;
+  bottom: 6px;
+  color: #FFFFFF; }
+
+.threeDot {
+  color: #3B4859;
+  position: relative;
+  left: 13px;
+  bottom: 7px;
+  font-weight: 900;
+  font-size: x-large; }
 
 div.app > div.container > div.row > div.col-md-6 {
   max-width: 28.75rem;
@@ -10602,16 +10672,6 @@ input[type="checkbox"] {
 .adjustFormAction {
   padding-left: 10px; }
 
-/*media section*/
-@media (min-width: 768px) and (max-width: 991px) {
-  div.app > div.container > div.row > div.col-md-6 > div.card {
-    width: 416px; }
-  div.app > div.container > div.row > div.col-md-6 {
-    width: 430px; } }
-
-.tab-content .tabpane-2 {
-  height: 175px; }
-
 .alignOffer {
   padding: 30px;
   padding-bottom: 0px !important;
@@ -10621,6 +10681,16 @@ input[type="checkbox"] {
 
 .adjustOfferButton {
   padding-top: 15px; }
+
+.adjustWidth {
+  width: 98%; }
+
+/*media section*/
+@media (min-width: 768px) and (max-width: 991px) {
+  div.app > div.container > div.row > div.col-md-6 > div.card {
+    width: 416px; }
+  div.app > div.container > div.row > div.col-md-6 {
+    width: 430px; } }
 
 @media (max-width: 991px) {
   html:not([dir="rtl"]) .sidebar-lg-show.sidebar-fixed .main {
