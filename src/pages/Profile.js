@@ -68,7 +68,7 @@ class Forms extends Component {
         <Row>
           <Col xs="12" md="12" className="mb-4 ml-3">
           
-            <TabContent className="adjustBorderColor" >
+            <TabContent className="adjustBorderColor adjustTabWidth" >
               <TabPane >
                 <Form action="" method="post">
                   <FormGroup>
