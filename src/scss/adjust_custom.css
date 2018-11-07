@@ -450,16 +450,6 @@ input[type="radio"], input[type="checkbox"] {
 .adjustFormAction {
   padding-left: 10px; }
 
-/*media section*/
-@media (min-width: 768px) and (max-width: 991px) {
-  div.app > div.container > div.row > div.col-md-6 > div.card {
-    width: 416px; }
-  div.app > div.container > div.row > div.col-md-6 {
-    width: 430px; } }
-
-.tab-content .tabpane-2 {
-  height: 175px; }
-
 .alignOffer {
   padding: 30px;
   padding-bottom: 0px !important;
@@ -469,6 +459,16 @@ input[type="radio"], input[type="checkbox"] {
 
 .adjustOfferButton {
   padding-top: 15px; }
+
+.adjustWidth {
+  width: 98%; }
+
+/*media section*/
+@media (min-width: 768px) and (max-width: 991px) {
+  div.app > div.container > div.row > div.col-md-6 > div.card {
+    width: 416px; }
+  div.app > div.container > div.row > div.col-md-6 {
+    width: 430px; } }
 
 @media (max-width: 991px) {
   html:not([dir="rtl"]) .sidebar-lg-show.sidebar-fixed .main {

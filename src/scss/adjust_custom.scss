@@ -492,6 +492,19 @@ input:checked + label.enableChat > .facheck-1 {
 .adjustFormAction{
     padding-left: 10px;
 }
+.alignOffer{
+   padding: 30px;
+   padding-bottom: 0px !important;
+   font-size: 28px;
+   font-family: 'Rubik-Light';
+   color:#3B4859;
+}
+.adjustOfferButton{
+    padding-top: 15px;
+}
+.adjustWidth{
+    width: 98%;
+}
 /*media section*/
 @media (min-width: 992px){
     
@@ -504,34 +517,7 @@ input:checked + label.enableChat > .facheck-1 {
         width: 430px;
     }
 }
-.tab-content .tabpane-2{
-    height: 175px;
-}
-.alignOffer{
-   padding: 30px;
-   padding-bottom: 0px !important;
-   font-size: 28px;
-   font-family: 'Rubik-Light';
-   color:#3B4859;
-}
-.adjustOfferButton{
-    padding-top: 15px;
-}
-// .ActiveOffer{
-//     border: none !important;
-//     border-bottom: 4px solid #76D5CE !important;
-//     background-color: transparent !important;
-//     font-family: 'Rubik-Medium' !important;
-//     color: #76D5CE !important;
-//     width: 280px !important;
-//     text-align: center !important;
-// }
-// .nav-tabs .nav-link.NormalOffer{
-//     border: none !important;
-//     width: 280px !important;
-//     text-align: center !important;
-//     font-family: 'Rubik-Regular' !important;
-// }
+
 @media (max-width: 991px){
     html:not([dir="rtl"]) .sidebar-lg-show.sidebar-fixed .main{
         margin-left: 46px;
