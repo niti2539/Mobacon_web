@@ -37,6 +37,11 @@ class Tabs extends Component {
         activeTab: tab,
       });
     }
+    if(tab === '2'){
+      document.getElementById(tab).style.height = "175px";
+    }else if(tab === '1'){
+      document.getElementById(tab).style.height = "289px";
+    }
   }
   state = {
     check : false,
@@ -49,15 +54,16 @@ class Tabs extends Component {
   handleChangeEnd = (date) => {
     this.setState({endDate: date})
   }
+  
   render() {
-    return (
+    return(
       <div className="animated fadeIn">
       <Row>
         <p className="alignPlan">Plans</p>
       </Row>
         <Row>
           <Col xs="12" md="12" className="mb-4 ml-3">
-            <Nav tabs>
+            <Nav tabs className="adjustWidth">
               <NavItem>
                 <NavLink
                   className={classnames({ active: this.state.activeTab === '1' })}
@@ -69,14 +75,14 @@ class Tabs extends Component {
               <NavItem>
                 <NavLink
                   className={classnames({ active: this.state.activeTab === '2' })}
-                  onClick={() => { this.toggle('2'); }}
+                  onClick={() => { this.toggle('2');}}
                 >
                   PREMIUM
                 </NavLink>
               </NavItem>
             </Nav>
-            <TabContent activeTab={this.state.activeTab} className="adjustBorderColor">
-              <TabPane tabId="1">
+            <TabContent activeTab={this.state.activeTab} className="adjustBorderColor ">
+              <TabPane tabId="1" id="1">
                 <Form action="" method="post" encType="multipart/form-data" className="form-horizontal">
                   <FormGroup row>
                     <Col md="6">
@@ -133,20 +139,20 @@ class Tabs extends Component {
                   </div>
                 </Form>
               </TabPane>
-              <TabPane tabId="2" className="tabpane-2">
+              <TabPane tabId="2" className="tabpane-2" id="2">
                 <Form action="" method="post" encType="multipart/form-data" className="form-horizontal">
                   <FormGroup row>
                     <Col md="6">
                     <input id="tmp3" type="checkbox" />
                       <label for="tmp3" className="enableChat">
-                             <FontAwesomeIcon icon="check" class="facheck-1"></FontAwesomeIcon>
+                             <FontAwesomeIcon icon="check" className="facheck-1"></FontAwesomeIcon>
                         Enable Chat    
                       </label>
                     </Col>
                     <Col md="6">
                       <input id="tmp4" type="checkbox" />
                         <label for="tmp4" className="enableHis">
-                              <FontAwesomeIcon icon="check" class="facheck-2"></FontAwesomeIcon>
+                              <FontAwesomeIcon icon="check" className="facheck-2"></FontAwesomeIcon>
                           Enable History   
                         </label>
                       </Col>
