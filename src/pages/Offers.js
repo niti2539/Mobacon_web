@@ -72,7 +72,7 @@ class Tabs extends Component {
                 </NavLink>
               </NavItem>
             </Nav>
-            <TabContent activeTab={this.state.activeTab}>
+            <TabContent activeTab={this.state.activeTab} className="adjustBorderColor OfferTabContent">
               <TabPane tabId="1">
                 <Form action="" method="post" encType="multipart/form-data" className="form-horizontal">
                   <Row>  
@@ -107,7 +107,36 @@ class Tabs extends Component {
                 </Form>
               </TabPane>
               <TabPane tabId="2">
-                
+                <Form action="" method="post" encType="multipart/form-data" className="form-horizontal">
+                  <Row>  
+                    <Col md='6'>
+                      <FormGroup>
+                        <Label htmlFor="Minutes" className="Label">Minutes / Month</Label>
+                        <Input className="inputChange" type="text" id="minutes" placeholder="1000" required />
+                      </FormGroup>
+                    </Col>
+                    <Col md='6'>
+                    <FormGroup>
+                        <Label htmlFor="SMS" className="Label">SMS / Month</Label>
+                        <Input className="inputChange" type="text" id="sms" placeholder="500" required />
+                      </FormGroup>
+                    
+                    </Col>
+                    <Col md="6">
+                      <FormGroup>
+                        <Label htmlFor="Internet traffic" className="Label">Internet traffic / Month</Label>
+                        <Input className="inputChange" type="text" id="internetTraffic" placeholder="4 GB" required />
+                      </FormGroup>
+                    </Col>
+                    <Col md="6">
+                      <FormGroup>
+                        <Label className="Label" htmlFor="Cloud Storage">Cloud Storage / Month</Label>
+                        <Input className="inputChange" type="text" id="cloudStorage" placeholder="10 GB" required />
+                      </FormGroup>
+                    </Col> 
+                    
+                  </Row>
+                </Form>
               </TabPane>
             </TabContent>
           </Col>          
