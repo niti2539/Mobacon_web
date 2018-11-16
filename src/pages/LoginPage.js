@@ -79,12 +79,6 @@ class Login extends Component {
                   </Row>
                 </CardBody>
               </Card>
-              <Row className="justify-content-center Link-to-signup">
-                <Col md='auto'>
-                  Don’t have an account?
-                  <Link to='/register' className="SignupLink">  Signup!</Link>
-                </Col>
-              </Row>
             </Col>
 
 
