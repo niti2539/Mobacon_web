@@ -46,9 +46,9 @@ class App extends Component {
           <Route exact path="/500" name="Page 500" component={Page500} />
           <PrivateRoute exact path="/dashboard" component={DefaultLayout}/>
           <PrivateRoute exact path="/plans" component={DefaultLayout} />
-          <PrivateRoute exact path="/offers" component={DefaultLayout} />
           <PrivateRoute exact path="/requests" component={DefaultLayout} />
           <PrivateRoute exact path="/request/:id" component={DefaultLayout} />
+          <PrivateRoute exact path="/accepted" component={DefaultLayout} />
           <PrivateRoute exact path="/operator" component={DefaultLayout} />
           <PrivateRoute exact path="/chat" component={DefaultLayout} />
           <PrivateRoute exact path="/profile" component={DefaultLayout} />
