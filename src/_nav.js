@@ -17,17 +17,17 @@ export default {
       icon: 'icon-list',
       // icon: 'icon-speedometer',
     },
-    {
-      name: 'OFFERS',
-      url: '/offers',
-      icon: 'icon-tag'
-      // icon: 'icon-speedometer',
-    },
+    
     {
       name: 'REQUESTS',
       url: '/requests',
       icon: 'icon-envelope'
       // icon: 'icon-speedometer',
+    },
+    {
+      name: 'ACCEPTED',
+      url: '/accepted',
+      icon: 'icon-check'
     },
     {
       name: 'OPERATOR (CONTRACT)',
