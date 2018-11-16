@@ -17,8 +17,8 @@ const Plans = Loadable({
   loading: Loading,
 });
 
-const Offers = Loadable({
-  loader: () => import('./pages/Offers'),
+const Accepted = Loadable({
+  loader: () => import('./pages/Accepted'),
   loading: Loading,
 });
 
@@ -56,7 +56,7 @@ const routes = [
   { path: '/', exact: true, name: 'Home', component: Dashboard },
   { path: '/dashboard', name: 'Dashboard', component: Dashboard },
   { path: '/plans', name: 'Plans', component: Plans },
-  { path: '/offers', name: 'Offers', component: Offers },
+  { path: '/accepted', name: 'Accepted', component: Accepted },
   { path: '/requests', name: 'Requests', component: Requests },
   { path: '/request/:id?', name: 'Request', component: Request },
   { path: '/operator', name: 'Operator', component: Operator },
