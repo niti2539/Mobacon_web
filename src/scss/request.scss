@@ -11,7 +11,7 @@
 }
 .alignRequest{
     padding: 30px;
-    padding-left: 8px !important;
+    padding-left: 24px !important;
     padding-bottom: 0px !important;
     font-size: 28px;
     font-family: 'Rubik-Light';
@@ -48,48 +48,33 @@
 .requestMain{
     padding-left: 10px;
 }
-.alignPending{
-    border: 1px solid #79BFBC;
-    position: relative;
-    right: 17px;
-    height: 24px;
-    bottom: 1px;
-    border-radius: 15px;
-    width: 82px;
-}
-.pending{
-    position: relative;
-    left: 13px;
-    bottom: 6px;
-    color: #79BFBC;
-}
 a {
     text-decoration: none !important;
 }
-.alignRejected{
-    border: 1px solid #E86D6D;
+.alignReviewed{
+    border: 1px solid #79BFBC;
     position: relative;
     right: 17px;
-    height: 24px;
+    height: 25px;
     bottom: 1px;
     border-radius: 15px;
-    background-color: #E86D6D;
+    background-color: #79BFBC;
     width: 82px;
 }
-.rejected{
+.reviewed{
     position: relative;
-    left: 13px;
+    left: 11px;
     bottom: 6px;
     color: #FFFFFF;
 }
 .alignAccepted{
-    border: 1px solid #79BFBC;
+    border: 1px solid rgb(25, 36, 192);
     position: relative;
     right: 17px;
     height: 24px;
     bottom: 1px;    
     border-radius: 15px;
-    background-color: #79BFBC;
+    background-color: rgb(25, 36, 192);
     width: 82px;
 }
 .accepted{
@@ -105,4 +90,69 @@ a {
     bottom: 7px;
     font-weight: 900;
     font-size: x-large;
+}
+.colorAcceptButton{
+    color: white;
+    background-color: #29572a;
+    position: relative;
+    right: 10px;
+    border-radius: 10px;
+}
+.colorAcceptButton:hover{
+    background-color: #29572a;
+    color: white;
+    cursor: pointer;
+}
+.alignAction{
+    padding-left: 41px !important;
+}
+.colorAfterAcceptButton{
+    background-color: #3B4859;
+    color: white;
+    position: relative;
+    top: 6px;
+    border-radius: 10px;
+    cursor: not-allowed;
+}
+th.sort-column{
+    position: relative;
+    left: 21px;
+    top: 6px;
+}
+.pagination{
+    justify-content: center;
+    float: right;
+}
+.page-link:focus{
+    box-shadow: none;
+}
+.btn-secondary:focus, .btn-secondary.focus{
+    box-shadow: none;
+}
+.show > .btn-secondary.dropdown-toggle:focus{
+    box-shadow: none;
+}
+.dropdown-menu{
+    top: auto;
+    bottom: 100%;
+}
+.divColumn{
+    border: 1px solid #E86D6D;
+    position: relative;
+    right: 17px;
+    height: 24px;
+    bottom: 1px;
+    border-radius: 15px;
+    width: 82px;
+    background-color: #E86D6D;
+}
+.spanColumn{
+    position: relative;
+    left: 13px;
+    bottom: 6px;
+    color: white;
+}
+.elsespanColumn{
+    position: relative;
+    right: 7px;
 }
