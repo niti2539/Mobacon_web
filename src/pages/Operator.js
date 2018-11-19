@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { Badge,
   Col, 
   Nav, 
@@ -49,7 +50,7 @@ class Tabs extends Component {
           </Col>
           <Col xs="6" md="6" className="mb-4">
             <div style={{float: 'right'}}>
-              <Button type="submit" className="adjustButtonUpdate onlyOperatorButton">ADD NEW</Button>
+              <Link to="/register"><Button type="submit" className="adjustButtonUpdate onlyOperatorButton">ADD NEW</Button></Link>
             </div>
           </Col>          
         </Row>
