@@ -18,6 +18,17 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import RequestAside from './Aside';
 import _ from 'lodash';
+import {  AppAside,
+  AppBreadcrumb,
+  AppFooter,
+  AppHeader,
+  AppSidebar,
+  AppSidebarFooter,
+  AppSidebarForm,
+  AppSidebarHeader,
+  AppSidebarMinimizer,
+  AppSidebarNav, } from '@coreui/react';
+  import $ from 'jquery';
 
 class Tabs extends Component {
 
@@ -33,10 +44,52 @@ class Tabs extends Component {
       });
     }
   }
+  componentDidMount = () => {
 
+    $('.sidebar-minimizer').click(function(){
+      // $('.sidebar').toggle("slow");
+      var isMinimized = document.body.classList.contains('sidebar-minimized');
+      var sidebar = document.querySelector('.sidebar-nav');
+      $( '.sidebar-minimizer' ).toggle(
+        function() {
+          $( this ).addClass( 'ps', 'ps-container', 'ps--active-y' );
+        }, function() {
+          $( this ).removeClass( 'ps', 'ps-container', 'ps--active-y');
+        }
+      );
+      if(sidebar){
+        if(!isMinimized){
+          $('.asideIndex').css({
+            'width': '543px',
+          })
+        }else{
+          // $('.asideIndex').css({
+          //   'width': '543px',
+          // })
+        }
+      }
+      
+    });
+   
+  }
   render() {
+    // var elem = document.getElementsByClassName('asideIndex').item(0);
+    // console.log(elem.innerHTML);
+    
+    // console.log(elem);
+   
+    // if(!isMinimized){
+    //   var elem = document.body.contains('.asideIndex');
+    //   console.log(elem);
+    //   // .asideIndex{
+    //   //           width: 543px;
+    //   //           left: 93px;
+    //   //       }
+    // }
     return (
-      <div className="animated fadeIn">
+      <React.Fragment>
+         <AppSidebarMinimizer  />
+         <div className="animated fadeIn">
         <Row>
           <Col xs="6" md="6" className="mb-4" className="alignHeader">
             <p className="alignRequestIndex">Mihai Petrea's Request</p>
@@ -59,7 +112,7 @@ class Tabs extends Component {
                     <Input type="textarea" name="textarea-input" id="textarea-input" rows="6"
                       placeholder="Write your review" className="textArea" />
                   </FormGroup>
-                  <FormGroup className="alignFormGroupStatus">
+                  <FormGroup className="alignFormGroupStatus" >
                     <Label htmlFor="request" className="label">Request Status</Label><br/>
                     <FormGroup check inline>
                       <Input className="form-check-input" type="radio" id="inline-radio1" name="inline-radios" value="option1" />
@@ -83,9 +136,9 @@ class Tabs extends Component {
             </Card>
           </Col>
           <Col md='6'>
-            <Card className="asideIndex">
+            <Card className="asideIndex" name="asideIndex">
               <ListGroup className="increaseHeight">
-                <ListGroupItem className="adjustListgroupHead">
+                <ListGroupItem className="adjustListgroup">
                   <div style={{float: 'left'}} className="textLeft">CLIENT SINCE</div>
                   <div style={{float: 'right'}} className="textRight">CLIENT SINCE</div>
                 </ListGroupItem>
@@ -109,7 +162,7 @@ class Tabs extends Component {
                   <div style={{float: 'left'}} className="textLeft">AVERAGE BILL</div>
                   <div style={{float: 'right'}} className="textRight">200$</div>
                 </ListGroupItem>
-                <ListGroupItem className="adjustListgroupTail">
+                <ListGroupItem className="adjustListgroup">
                   <div style={{float: 'left'}} className="textLeft">FEEDBACK</div>
                   <div style={{float: 'right'}} className="textRightOffer">Liked Offer</div>
                 </ListGroupItem>
@@ -189,6 +242,8 @@ class Tabs extends Component {
 
 
       </div>
+      </React.Fragment>
+     
     );
   }
 }
