@@ -26,35 +26,44 @@ import Page404 from './pages/Page404'
 import Page500 from './pages/Page500'
 //fontawesome 5.4.1 versions
 import { library } from '@fortawesome/fontawesome-svg-core';
+// import { Provider } from 'react-redux';
+// import { createStore } from 'redux';
+// import rootReducer from './reducer/reducergit ';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleDown, faInfoCircle, faCheck, faCircle } from '@fortawesome/free-solid-svg-icons';
+import { faAngleDown, faInfoCircle, faCheck, faCircle, faCaretDown } from '@fortawesome/free-solid-svg-icons';
 library.add(faAngleDown);
 library.add(faInfoCircle);
 library.add(faCheck);
 library.add(faCircle);
+library.add(faCaretDown);
+
+// const store = createStore(rootReducer);
 class App extends Component {
 
   render() {
     console.log(localStorage.getItem('accessToken'))
     return (
-      <Router>
-        <div>
-          <Route exact path="/" name="Login" component={Login} />
-          <Route exact path="/login" name="Login" component={Login} />
-          <Route exact path="/register" name="Register" component={Register} />
-          <Route exact path="/404" name="Page 404" component={Page404} />
-          <Route exact path="/500" name="Page 500" component={Page500} />
-          <PrivateRoute exact path="/dashboard" component={DefaultLayout}/>
-          <PrivateRoute exact path="/plans" component={DefaultLayout} />
-          <PrivateRoute exact path="/requests" component={DefaultLayout} />
-          <PrivateRoute exact path="/request/:id" component={DefaultLayout} />
-          <PrivateRoute exact path="/accepted" component={DefaultLayout} />
-          <PrivateRoute exact path="/operator" component={DefaultLayout} />
-          <PrivateRoute exact path="/chat" component={DefaultLayout} />
-          <PrivateRoute exact path="/profile" component={DefaultLayout} />
-          <PrivateRoute exact path="/logout" component={DefaultLayout} />
-        </div>
-      </Router>
+      // <Provider store={store}>
+        <Router>
+          <div>
+            <Route exact path="/" name="Login" component={Login} />
+            <Route exact path="/login" name="Login" component={Login} />
+            <Route exact path="/register" name="Register" component={Register} />
+            <Route exact path="/404" name="Page 404" component={Page404} />
+            <Route exact path="/500" name="Page 500" component={Page500} />
+            <PrivateRoute exact path="/dashboard" component={DefaultLayout}/>
+            <PrivateRoute exact path="/plans" component={DefaultLayout} />
+            <PrivateRoute exact path="/requests" component={DefaultLayout} />
+            <PrivateRoute exact path="/request/:id" component={DefaultLayout} />
+            <PrivateRoute exact path="/accepted" component={DefaultLayout} />
+            <PrivateRoute exact path="/operator" component={DefaultLayout} />
+            <PrivateRoute exact path="/chat" component={DefaultLayout} />
+            <PrivateRoute exact path="/profile" component={DefaultLayout} />
+            <PrivateRoute exact path="/logout" component={DefaultLayout} />
+          </div>
+        </Router>
+      // </Provider>
+     
     )
   }
 }
