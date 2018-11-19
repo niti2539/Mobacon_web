@@ -7,7 +7,8 @@ div.app > div.container > div.row > div.col-md-6 > div.card {
   height: 32.1875rem;
   border-color: white;
   box-shadow: 0px 0px 10px #e1f1f2;
-  margin-top: -30px; }
+  margin-top: -30px;
+  background-color: white; }
 
 @font-face {
   font-family: 'Karla-Bold';
@@ -36,6 +37,19 @@ div.app > div.container > div.row > div.col-md-6 > div.card {
 @font-face {
   font-family: 'SourceSansPro-Bold';
   src: local("SourceSansPro-Bold"), url("../react-font/SourceSansPro-Bold.ttf") format("truetype"); }
+
+.Logo {
+  padding-left: 30px;
+  position: relative;
+  left: 32px; }
+
+.backgroundLogo {
+  background-color: #79BFBC;
+  line-height: 56px;
+  width: 246px; }
+
+.cursorProfile {
+  cursor: pointer; }
 
 h1.color-main {
   font-family: 'Rubik-Light';
@@ -484,4 +498,6 @@ input[type="radio"], input[type="checkbox"] {
   .sidebar-minimized .sidebar .nav-link {
     width: 50px !important; }
   .headerName {
+    display: none; }
+  .Logo {
     display: none; } }
