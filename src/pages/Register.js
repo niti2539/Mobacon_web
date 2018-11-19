@@ -78,25 +78,6 @@ class Register extends Component {
                     <ReactTooltip />
                   </FormGroup>
                   <FormGroup>
-                    <Label htmlFor="carrier">Carrier</Label>
-                    <div>
-                      <ButtonDropdown isOpen={this.state.dropdownOpen} toggle={this.toggle} >
-                      <DropdownToggle caret size="lg" className="Carrier" id="dropdown">
-                     {this.state.carrier} <FontAwesomeIcon icon="angle-down" className="angleDown"/>
-                      </DropdownToggle>
-                      <DropdownMenu className="carrierChoice">
-                        <DropdownItem onClick={this.nameChangeCarrier}>Softbank</DropdownItem>
-                        <DropdownItem onClick={this.nameChangeCarrier}>KDDI</DropdownItem>
-                        <DropdownItem onClick={this.nameChangeCarrier}>UQ</DropdownItem>
-                        <DropdownItem onClick={this.nameChangeCarrier}>DOKOMO</DropdownItem>
-                        <DropdownItem onClick={this.nameChangeCarrier}>R</DropdownItem>
-                      </DropdownMenu>
-                    </ButtonDropdown>
-                    </div>
-                    <a data-tip="Carrier can't be null"><FontAwesomeIcon icon="info-circle" className="circle CarrierTooltip" tool-tip-toggle="tooltip-demo"/></a>
-                    <ReactTooltip />
-                  </FormGroup>
-                  <FormGroup>
                     <Label htmlFor="email">Email</Label>
                     <Input type="email" id="email" onChange={ this.handleEmail } placeholder="user@domain.com" required />
                     <a data-tip="Required valid email" ><FontAwesomeIcon icon="info-circle" className="circle EmailTooltip" tool-tip-toggle="tooltip-demo"/></a>
@@ -116,12 +97,6 @@ class Register extends Component {
                   </Row>
                 </CardBody>
               </Card>
-              <Row className="justify-content-center Link-to-signin">
-                <Col md='auto'>
-                  Already have an account? 
-                  <Link to='/login'> Login!</Link>
-                </Col>
-              </Row>
             </Col>
           </Row>
          
