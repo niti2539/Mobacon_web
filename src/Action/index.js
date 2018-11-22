@@ -35,4 +35,5 @@ async function signIn (data){
     }
     return response;
 }
+
 export default { signUp, signIn };

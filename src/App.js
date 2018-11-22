@@ -26,9 +26,9 @@ import Page404 from './pages/Page404'
 import Page500 from './pages/Page500'
 //fontawesome 5.4.1 versions
 import { library } from '@fortawesome/fontawesome-svg-core';
-// import { Provider } from 'react-redux';
-// import { createStore } from 'redux';
-// import rootReducer from './reducer/reducergit ';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
+import rootReducer from './reducer/reducer';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleDown, faInfoCircle, faCheck, faCircle, faCaretDown } from '@fortawesome/free-solid-svg-icons';
 library.add(faAngleDown);
@@ -37,13 +37,13 @@ library.add(faCheck);
 library.add(faCircle);
 library.add(faCaretDown);
 
-// const store = createStore(rootReducer);
+const store = createStore(rootReducer);
 class App extends Component {
 
   render() {
     console.log(localStorage.getItem('accessToken'))
     return (
-      // <Provider store={store}>
+      <Provider store={store}>
         <Router>
           <div>
             <Route exact path="/" name="Login" component={Login} />
@@ -62,7 +62,7 @@ class App extends Component {
             <PrivateRoute exact path="/logout" component={DefaultLayout} />
           </div>
         </Router>
-      // </Provider>
+      </Provider>
      
     )
   }

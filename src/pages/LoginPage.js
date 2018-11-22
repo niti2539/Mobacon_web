@@ -5,6 +5,11 @@ import { Nav, Navbar, NavDropdown, MenuItem, Tabs, ButtonToolbar, Table, ButtonG
 import mobaconApi from '../Action';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ReactTooltip from 'react-tooltip';
+import {setUser} from '../Action/user';
+import { connect } from 'react-redux';
+
+
+
 class Login extends Component {
 
   state = {
@@ -22,6 +27,7 @@ class Login extends Component {
 
 
   render() {
+    console.log(this.props.user_datail);
     return (
       <div className="app flex-row align-items-center">
         <Container>
@@ -176,6 +182,7 @@ class Login extends Component {
     }
     let result = await mobaconApi.signIn(data);
     if (result.token) {
+      this.props.setUser(result);
       localStorage.setItem('accessToken', result.token);
       this.props.history.push('/dashboard');
     } else {
@@ -183,6 +190,13 @@ class Login extends Component {
     }
   }
 }
+const mapStateToProps = (state) => ({
+  user_detail: state.user_detail
+})
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setUser: (result) => dispatch(setUser(result))
+  }
+}
 
-
-export default Login;
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

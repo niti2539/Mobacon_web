@@ -23,7 +23,7 @@ import {
 import styled from 'styled-components';
 import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips';
 import { getStyle, hexToRgba } from '@coreui/coreui/dist/js/coreui-utilities'
-
+import { connect } from 'react-redux';
 const brandPrimary = getStyle('--primary')
 const brandSuccess = getStyle('--success')
 const brandInfo = getStyle('--info')
@@ -477,6 +477,7 @@ class Dashboard extends Component {
   }
 
   render() {
+    console.log('state', this.props.state)
     const w20per = {width: '20%', flex: '0 0 20%'};
     return (
       <DashStyle className="animated fadeIn">
@@ -663,7 +664,18 @@ class Dashboard extends Component {
   }
 }
 
-export default Dashboard;
+const mapStateToProps = (state) => ({
+  state,
+  user_detail: state.user_detail
+})
+const mapDispatchToProps = (dispatch) => {
+  return {
+    
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
+
 
 const DashStyle = styled.div`
   @media (min-width: 992px) {
