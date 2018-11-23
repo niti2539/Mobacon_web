@@ -97,11 +97,24 @@ a {
     position: relative;
     right: 10px;
     border-radius: 10px;
+    width: 74.8px;
 }
 .colorAcceptButton:hover{
     background-color: #29572a;
     color: white;
     cursor: pointer;
+}
+.colorAcceptedButton{
+    color: white;
+    background-color: #3B4859;
+    position: relative;
+    right: 10px;
+    border-radius: 10px;
+}
+.colorAcceptedButton:hover{
+    background-color: #3B4859;
+    color: white;
+    cursor: not-allowed;
 }
 .alignAction{
     padding-left: 41px !important;
@@ -139,7 +152,7 @@ th.sort-column{
 .divColumn{
     border: 1px solid #E86D6D;
     position: relative;
-    right: 17px;
+    left: 3px;
     height: 24px;
     bottom: 1px;
     border-radius: 15px;
@@ -152,7 +165,35 @@ th.sort-column{
     bottom: 6px;
     color: white;
 }
-.elsespanColumn{
+.reviewedColumn{
     position: relative;
-    right: 7px;
+    left: 11px;
+    bottom: 6px;
+    color: white;
+}
+.acceptedColumn{
+    position: relative;
+    left: 11px;
+    bottom: 6px;
+    color: white;
+}
+.acceptColumn{
+    border: 1px solid #0e0282;
+    position: relative;
+    left: 3px;
+    height: 24px;
+    bottom: 1px;
+    border-radius: 15px;
+    width: 82px;
+    background-color: #0e0282;
+}
+.reviewColumn{
+    border: 1px solid #0b9609;
+    position: relative;
+    left: 3px;
+    height: 24px;
+    bottom: 1px;
+    border-radius: 15px;
+    width: 82px;
+    background-color: #0b9609;
 }
