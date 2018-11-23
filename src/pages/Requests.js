@@ -31,7 +31,7 @@ var products = [{
     daterequest: "28.08.2018",
     status: "Pending",
     operator: " ",
-    action: "Accepted"
+    action: "Accept"
 }, {
     name: "Mihai Petrea",
     clientdate: "01.03.2014",
@@ -39,7 +39,7 @@ var products = [{
     daterequest: "28.08.2018",
     status: "Pending",
     operator: " ",
-    action: "Accepted"
+    action: "Accept"
 },{
     name: "Mihai Petrea",
     clientdate: "01.03.2014",
@@ -64,7 +64,7 @@ var products = [{
     daterequest: "28.08.2018",
     status: "Pending",
     operator: " ",
-    action: "Accepted"
+    action: "Accept"
 },
 {
     name: "Mihai Petrea",
@@ -73,7 +73,7 @@ var products = [{
     daterequest: "28.08.2018",
     status: "Pending",
     operator: " ",
-    action: "Accepted"
+    action: "Accept"
 },
 {
     name: "Mihai Petrea",
@@ -82,7 +82,7 @@ var products = [{
     daterequest: "28.08.2018",
     status: "Pending",
     operator: " ",
-    action: "Accepted"
+    action: "Accept"
 },
 {
     name: "Mihai Petrea",
@@ -91,7 +91,7 @@ var products = [{
     daterequest: "28.08.2018",
     status: "Pending",
     operator: " ",
-    action: "Accepted"
+    action: "Accept"
 },
 {
     name: "Mihai Petrea",
@@ -100,7 +100,7 @@ var products = [{
     daterequest: "28.08.2018",
     status: "Pending",
     operator: " ",
-    action: "Accepted"
+    action: "Accept"
 },
 {
     name: "Mihai Petrea",
@@ -109,7 +109,7 @@ var products = [{
     daterequest: "28.08.2018",
     status: "Pending",
     operator: " ",
-    action: "Accepted"
+    action: "Accept"
 },
 {
     name: "Mihai Petrea",
@@ -118,7 +118,7 @@ var products = [{
     daterequest: "28.08.2018",
     status: "Pending",
     operator: " ",
-    action: "Accepted"
+    action: "Accept"
 },
 {
     name: "Mihai Petrea",
@@ -127,7 +127,7 @@ var products = [{
     daterequest: "28.08.2018",
     status: "Pending",
     operator: " ",
-    action: "Accepted"
+    action: "Accept"
 },
 {
     name: "Mihai Petrea",
@@ -136,16 +136,17 @@ var products = [{
     daterequest: "28.08.2018",
     status: "Pending",
     operator: " ",
-    action: "Accepted"
+    action: "Accept"
 }
 ];
 function pendingFormatter (cell, row)  {
     for(var i = 0; i < products.length; i++){
         if(products[i].status == 'Pending' && cell == 'Pending'){
-           
             return '<div class="divColumn"><span class="spanColumn">'+ cell + '</span></div>';
-        }else{
-            return '<span class="elsespanColumn">'+cell+'</span>';
+        }else if (products[i].status == 'Reviewed' && cell == 'Reviewed'){
+            return '<div class="reviewColumn"><span class="reviewedColumn">'+cell+'</span></div>';
+        }else if (products[i].status == 'Accepted' && cell == 'Accepted'){
+            return '<div class="acceptColumn"><span class="acceptedColumn">'+cell+'</span></div>';
         }
     }
     
@@ -154,7 +155,11 @@ function pendingFormatter (cell, row)  {
     
  
   function actionFormatter(cell, row) {
-     
+    for(var i = 0; i < products.length; i++){
+        if(products[i].action == 'Accepted' && cell == 'Accepted'){
+            return '<a href="/request/1" class="clickOnce"> <Button class="colorAcceptedButton" disabled>'+cell+'</Button> </a>'
+        }
+    }
     return  '<a href="/request/1" class="clickOnce"> <Button class="colorAcceptButton">'+cell+'</Button> </a>';              
     
   }
