@@ -30,13 +30,14 @@ import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import rootReducer from './reducer/reducer';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleDown, faInfoCircle, faCheck, faCircle, faCaretDown } from '@fortawesome/free-solid-svg-icons';
+import { faAngleDown, faInfoCircle, faCheck, faCircle, faCaretDown, faUpload, faTimes } from '@fortawesome/free-solid-svg-icons';
 library.add(faAngleDown);
 library.add(faInfoCircle);
 library.add(faCheck);
 library.add(faCircle);
 library.add(faCaretDown);
-
+library.add(faUpload);
+library.add(faTimes);
 const store = createStore(rootReducer);
 class App extends Component {
 
@@ -48,7 +49,6 @@ class App extends Component {
           <div>
             <Route exact path="/" name="Login" component={Login} />
             <Route exact path="/login" name="Login" component={Login} />
-            <Route exact path="/register" name="Register" component={Register} />
             <Route exact path="/404" name="Page 404" component={Page404} />
             <Route exact path="/500" name="Page 500" component={Page500} />
             <PrivateRoute exact path="/dashboard" component={DefaultLayout}/>

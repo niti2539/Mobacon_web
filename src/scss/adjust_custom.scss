@@ -129,6 +129,7 @@ div.justify-content-center > div.col-md-auto > button{
     font-family: 'Karla-Bold';
     font-size: 1rem;
     color: #FFFFFF;
+    margin-top: 9px;
 }
 .SignupButton{
     margin-left: 13%;
@@ -160,9 +161,8 @@ div.Link-to-signup > div.col-md-auto > a{
     text-decoration: underline;
     padding-left: 5px;
 }
-.Carrier{
+.RoleId{
     background-color: #FFFFFF;
-    height: 3.25rem;
     width: 23.75rem;
     border: 1px solid #e4e7ea;
     border-radius: 5px;
@@ -170,14 +170,14 @@ div.Link-to-signup > div.col-md-auto > a{
     font-size: 1rem;
     color: rgba(59, 72, 89, 0.8) !important;
 }
-.Carrier:hover{
+.RoleId:hover{
     background-color: #FFFFFF;
     border: 1px solid #e4e7ea;
 }
-.Carrier::after:hover{
+.RoleId::after:hover{
     background-color: #FFFFFF;
 }
-button.Carrier.dropdown-toggle.btn.btn-secondary.btn-lg{
+button.RoleId.dropdown-toggle.btn.btn-secondary.btn-lg{
     text-align: left;
     font-family: 'Karla-Regular';
     font-size: 1rem;
@@ -189,7 +189,7 @@ button.Carrier.dropdown-toggle.btn.btn-secondary.btn-lg{
     display:none !important;
 }
 .btn-group, .btn-group-vertical{
-    width: 90% !important;
+    width: 100% !important;
 }
 .angleDown{
     position: relative;
@@ -199,16 +199,16 @@ button.Carrier.dropdown-toggle.btn.btn-secondary.btn-lg{
     float: right;
     font-family: 'Karla-Regular';
 }
-.carrierChoice{
+.roleIdChoice{
     width: 343px !important;
     font-family: 'Karla-Regular';
     font-size: 1rem;
 }
-button.Carrier.dropdown-toggle.btn.btn-secondary.btn-lg, .btn-group-lg > button.Carrier.dropdown-toggle.btn.btn-secondary{
+button.RoleId.dropdown-toggle.btn.btn-secondary.btn-lg, .btn-group-lg > button.Carrier.dropdown-toggle.btn.btn-secondary{
     border: 1px solid #e4e7ea !important;
   
 }
-.CarrierTooltip{
+.RoleIdTooltip{
     bottom: 40px;
 }
 .sidebar .nav-link.active{

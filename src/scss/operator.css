@@ -10,7 +10,8 @@
   margin-top: 25px;
   width: 110px !important;
   height: 110px !important;
-  border: 1px solid #A0ACBC; }
+  border: 1px solid #A0ACBC;
+  cursor: pointer; }
 
 .borderCard {
   border-color: #ffffff !important;
@@ -115,3 +116,82 @@ hr {
 
 .exZCJh {
   width: 345px; }
+
+.styles_modal__gNwvD {
+  position: relative;
+  height: 730px;
+  top: 54px;
+  left: 120px; }
+
+.styles_closeButton__20ID4 {
+  cursor: pointer; }
+
+.form-control {
+  height: 42px; }
+
+.fileInput {
+  cursor: pointer;
+  background-color: white;
+  border-color: #c4c4c9; }
+
+.alignImage {
+  font-family: 'Rubik-Medium';
+  font-size: 0.875rem;
+  color: #3B4859; }
+
+.file-field {
+  padding-top: 15px; }
+
+.imageName {
+  position: relative;
+  left: 17px; }
+
+.imageCss {
+  width: 200px;
+  height: 200px;
+  border-radius: 100%;
+  border: 5px solid #76D5CE;
+  position: relative;
+  bottom: 84px; }
+
+.boxOperator {
+  height: 300px; }
+
+.timeCss {
+  left: 386px;
+  position: relative;
+  top: 10px;
+  cursor: pointer;
+  font-size: 27px; }
+
+.modal-content {
+  left: 21px;
+  width: 84%;
+  height: 516px; }
+
+.imageOperator {
+  border-radius: 100%;
+  border: 5px solid #76D5CE;
+  text-align: center;
+  width: 200px;
+  height: 200px;
+  position: relative;
+  left: 25px;
+  bottom: 25px; }
+
+.detail {
+  font-family: 'Rubik-Medium';
+  font-size: 20px;
+  margin-top: 10px; }
+
+.head {
+  margin-top: 5px; }
+
+.imgProfile {
+  cursor: pointer; }
+
+.modal-dialog {
+  margin-top: 158px; }
+
+.zIndexImg {
+  position: absolute; }

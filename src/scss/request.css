@@ -194,3 +194,30 @@ th.sort-column {
   border-radius: 15px;
   width: 82px;
   background-color: #0b9609; }
+
+.colorAcceptedButtonAcceptedPage {
+  color: white;
+  background-color: #0e0282;
+  position: relative;
+  right: 10px;
+  border-radius: 10px; }
+
+.colorAcceptedButtonAcceptedPage:hover {
+  background-color: #0e0282;
+  color: white;
+  cursor: pointer; }
+
+.colorReviewedButtonAcceptedPage {
+  color: white;
+  background-color: #29572a;
+  position: relative;
+  right: 10px;
+  border-radius: 10px; }
+
+.colorReviewedButtonAcceptedPage:hover {
+  background-color: #29572a;
+  color: white;
+  cursor: pointer; }
+
+.AlignOperator {
+  padding-left: 9px; }

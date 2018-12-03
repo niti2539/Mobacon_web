@@ -29,25 +29,9 @@ var products = [{
     clientdate: "01.03.2014",
     plan: "Basic Plan",
     daterequest: "28.08.2018",
-    status: "Pending",
-    operator: " ",
-    action: "Accept"
-}, {
-    name: "Mihai Petrea",
-    clientdate: "01.03.2014",
-    plan: "Basic Plan",
-    daterequest: "28.08.2018",
-    status: "Pending",
-    operator: " ",
-    action: "Accept"
-},{
-    name: "Mihai Petrea",
-    clientdate: "01.03.2014",
-    plan: "Basic Plan",
-    daterequest: "28.08.2018",
     status: "Reviewed",
-    operator: "Chuck Norris",
-    action: "Accepted"
+    operator: "Nantapat Tian",
+    action: "Reviewed"
 },
 {
     name: "Mihai Petrea",
@@ -55,90 +39,11 @@ var products = [{
     plan: "Basic Plan",
     daterequest: "28.08.2018",
     status: "Accepted",
-    operator: "Chuck Norris",
+    operator: "Nantapat Tian",
     action: "Accepted"
-},{
-    name: "Mihai Petrea",
-    clientdate: "01.03.2014",
-    plan: "Basic Plan",
-    daterequest: "28.08.2018",
-    status: "Pending",
-    operator: " ",
-    action: "Accept"
-},
-{
-    name: "Mihai Petrea",
-    clientdate: "01.03.2014",
-    plan: "Premium Plan",
-    daterequest: "28.08.2018",
-    status: "Pending",
-    operator: " ",
-    action: "Accept"
-},
-{
-    name: "Mihai Petrea",
-    clientdate: "01.03.2014",
-    plan: "Premium Plan",
-    daterequest: "28.08.2018",
-    status: "Pending",
-    operator: " ",
-    action: "Accept"
-},
-{
-    name: "Mihai Petrea",
-    clientdate: "01.03.2014",
-    plan: "Premium Plan",
-    daterequest: "28.08.2018",
-    status: "Pending",
-    operator: " ",
-    action: "Accept"
-},
-{
-    name: "Mihai Petrea",
-    clientdate: "01.03.2014",
-    plan: "Premium Plan",
-    daterequest: "28.08.2018",
-    status: "Pending",
-    operator: " ",
-    action: "Accept"
-},
-{
-    name: "Mihai Petrea",
-    clientdate: "01.03.2014",
-    plan: "Premium Plan",
-    daterequest: "28.08.2018",
-    status: "Pending",
-    operator: " ",
-    action: "Accept"
-},
-{
-    name: "Mihai Petrea",
-    clientdate: "01.03.2014",
-    plan: "Premium Plan",
-    daterequest: "28.08.2018",
-    status: "Pending",
-    operator: " ",
-    action: "Accept"
-},
-{
-    name: "Mihai Petrea",
-    clientdate: "01.03.2014",
-    plan: "Premium Plan",
-    daterequest: "28.08.2018",
-    status: "Pending",
-    operator: " ",
-    action: "Accept"
-},
-{
-    name: "Mihai Petrea",
-    clientdate: "01.03.2014",
-    plan: "Premium Plan",
-    daterequest: "28.08.2018",
-    status: "Pending",
-    operator: " ",
-    action: "Accept"
 }
 ];
+
 function pendingFormatter (cell, row)  {
     for(var i = 0; i < products.length; i++){
         if(products[i].status == 'Pending' && cell == 'Pending'){
@@ -152,15 +57,17 @@ function pendingFormatter (cell, row)  {
     
   }
   
-    
- 
+  function operatorFormatter (cell, row)  {
+    return '<span class="AlignOperator">'+cell+'</span>'
+  } 
   function actionFormatter(cell, row) {
     for(var i = 0; i < products.length; i++){
         if(products[i].action == 'Accepted' && cell == 'Accepted'){
-            return '<a href="/request/1" class="clickOnce"> <Button class="colorAcceptedButton" disabled>'+cell+'</Button> </a>'
+            return '<a href="/request/1" class="clickOnce"> <Button class="colorAcceptedButtonAcceptedPage">'+cell+'</Button> </a>'
+        }else if(products[i].action == 'Reviewed' && cell == 'Reviewed'){
+            return '<a href="/request/1" class="clickOnce"> <Button class="colorReviewedButtonAcceptedPage">'+cell+'</Button> </a>'
         }
     }
-    return  '<a href="/request/1" class="clickOnce"> <Button class="colorAcceptButton">'+cell+'</Button> </a>';              
     
   }
   
@@ -291,8 +198,8 @@ class Accepted extends Component {
                 <TableHeaderColumn dataField='clientdate' >CLIENT SINCE</TableHeaderColumn>
                 <TableHeaderColumn dataField='plan' dataSort={ true }>ACTIVE PLAN</TableHeaderColumn>
                 <TableHeaderColumn dataField='daterequest' dataSort={ true }>DATE REQUESTED</TableHeaderColumn>
-                <TableHeaderColumn dataField='status'  dataFormat={pendingFormatter}>STATUS</TableHeaderColumn>
-                <TableHeaderColumn dataField='operator'>OPERATOR</TableHeaderColumn>
+                <TableHeaderColumn dataField='status' dataFormat={pendingFormatter} >STATUS</TableHeaderColumn>
+                <TableHeaderColumn dataField='operator' dataFormat={operatorFormatter}>OPERATOR</TableHeaderColumn>
                 <TableHeaderColumn dataField='action' dataFormat={actionFormatter} >ACTIONS</TableHeaderColumn>
 
              </BootstrapTable>

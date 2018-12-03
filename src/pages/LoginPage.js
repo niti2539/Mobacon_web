@@ -27,7 +27,6 @@ class Login extends Component {
 
 
   render() {
-    console.log(this.props.user_datail);
     return (
       <div className="app flex-row align-items-center">
         <Container>
@@ -181,6 +180,7 @@ class Login extends Component {
       password: this.state.password
     }
     let result = await mobaconApi.signIn(data);
+    console.log(data);
     if (result.token) {
       this.props.setUser(result);
       localStorage.setItem('accessToken', result.token);

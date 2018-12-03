@@ -1,15 +1,16 @@
 const baseUrl = 'http://mobacon-api.pieros.site/';
-
 async function signUp (data){
+    let auth = localStorage.getItem('accessToken');
+    console.log(localStorage.getItem('accessToken'));
     let response;
     try{
-        response = await fetch(baseUrl+'mobacon/api/web/signup', {
+        response = await fetch(baseUrl+'/mobacon/api/web/operator', {
             method: 'POST',
             headers: {
-                Accept: 'application/json', // เซิฟเวอร์จะตอบกลับมารูปแบบไหน
-                'Content-Type': 'application/json' // สิ่งที่จะส่งไปให้เซิฟเวอร์รูปแบบไหน
+                Authorization: `Bearer ${auth}`,  
+                'Content-Type': 'multipart/form-data'
             },
-            body: JSON.stringify(data), //เอาดาต้าที่ได้ไปแปลงเป็นเจสันก่อน
+            body: data, //เอาดาต้าที่ได้ไปแปลงเป็นเจสันก่อน
         }).then(resp => resp.json()); //แปลงเรสปอนซ์ที่ได้กลับมาให้กลายเป็นไฟล์เจสัน
         console.log(response);
     }catch(e){
@@ -36,4 +37,22 @@ async function signIn (data){
     return response;
 }
 
-export default { signUp, signIn };
+async function getOperators (data){
+    let response;
+    try{
+        response = await fetch(baseUrl+'/mobacon/api/web/operators', {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: data,
+        }).then(resp => resp.json());
+        console.log(response);
+    }catch(e){
+        response= {message: "fails"};
+    }
+    return response;
+}
+
+export default { signUp, signIn, getOperators };
