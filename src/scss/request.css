@@ -1,4 +1,4 @@
-.requestMain {
+.requestTable {
   border: none;
   border-collapse: separate;
   border-spacing: 0px 15px; }
@@ -17,7 +17,7 @@
   font-family: 'Rubik-Light';
   color: #3B4859; }
 
-.requestMain thead th {
+.requestTable thead th {
   border: none;
   border-width: 0px;
   border-bottom: none;
@@ -25,17 +25,17 @@
   font-size: 12px;
   color: #3B4859 !important; }
 
-.requestMain td {
+.requestTable td {
   background-color: white !important;
   border-color: #ffffff !important;
   border-radius: 0px;
   vertical-align: middle; }
 
-.requestMainTbody tr {
+.requestTableTbody tr {
   box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.04) !important;
   line-height: 34px; }
 
-.requestMainTbody td {
+.requestTableTbody td {
   font-family: 'Karla-Regular';
   font-size: 14px;
   color: #3B4859 !important; }
@@ -43,7 +43,7 @@
 .LinkName {
   color: #3B4859 !important; }
 
-.requestMain {
+.requestTable {
   padding-left: 10px; }
 
 a {

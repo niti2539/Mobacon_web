@@ -177,80 +177,73 @@ class Accepted extends Component {
         
     }
     componentDidMount = () => {
-        $("table").removeClass('table-bordered');
-        $("table").addClass('requestMain');
-        $(".table-hover.requestMain").css({
-            borderSpacing: '0px 0px',
-        })
-        $("tbody").addClass('requestMainTbody');
-        $(".table-hover").css({
-            position: 'relative',
-            top: '11px',
-        })
-        $("td:nth-child(1)").css({
-            width: '198px'
-        })
-        $("td:nth-child(2)").css({
-            width: '182px'
-        })
-        $("td:nth-child(3)").css({
-            width: '200px'
-        })
-        $("td:nth-child(4)").css({
-            width: '175px'
-        })
-        $("td:nth-child(6)").css({
-            width: '145px',
+    //     $("table").removeClass('table-bordered');
+    //     $("table").addClass('requestMain');
+    //     $(".table-hover.requestMain").css({
+    //         borderSpacing: '0px 0px',
+    //     })
+    //     $("tbody").addClass('requestMainTbody');
+    //     $(".table-hover").css({
+    //         position: 'relative',
+    //         top: '11px',
+    //     })
+    //     $("td:nth-child(1)").css({
+    //         width: '198px'
+    //     })
+    //     $("td:nth-child(2)").css({
+    //         width: '182px'
+    //     })
+    //     $("td:nth-child(3)").css({
+    //         width: '200px'
+    //     })
+    //     $("td:nth-child(4)").css({
+    //         width: '175px'
+    //     })
+    //     $("td:nth-child(6)").css({
+    //         width: '145px',
            
-        })
-        $("th:nth-child(3)").css({
-            position: 'relative',
-            left: '20px'
-        })
-        $("th:nth-child(4)").css({
-            position: 'relative',
-            left: '32px'
-        })
-        $("th:nth-child(5)").css({
-            position: 'relative',
-            left: '16px'
-        })
-        $("th:nth-child(6)").css({
-            position: 'relative',
-            left: '20px'
-        })
-        $("th:nth-child(7)").css({
-            position: 'relative',
-            left: '20px'
-        })
-        $(".caret").addClass("fas fa-caret-down");
-        $("span.dropdown").css({
-            paddingLeft: "10px",
-        })
-        $("#pageDropDown").css({
-            backgroundColor: "#ffffff"
-        })
+    //     })
+    //     $("th:nth-child(3)").css({
+    //         position: 'relative',
+    //         left: '20px'
+    //     })
+    //     $("th:nth-child(4)").css({
+    //         position: 'relative',
+    //         left: '32px'
+    //     })
+    //     $("th:nth-child(5)").css({
+    //         position: 'relative',
+    //         left: '16px'
+    //     })
+    //     $("th:nth-child(6)").css({
+    //         position: 'relative',
+    //         left: '20px'
+    //     })
+    //     $("th:nth-child(7)").css({
+    //         position: 'relative',
+    //         left: '20px'
+    //     })
+    //     $(".caret").addClass("fas fa-caret-down");
+    //     $("span.dropdown").css({
+    //         paddingLeft: "10px",
+    //     })
+    //     $("#pageDropDown").css({
+    //         backgroundColor: "#ffffff"
+    //     })
       
-        $(".colorAcceptButton").one("click", function(e){
-            e.preventDefault();
-          var index = $(".colorAcceptButton").index(this);
-          $( this  ).html('Open');
-          $(this ).css({
-            width : "74.8px",
-            backgroundColor: "#29572a",
-            color: "#ffffff",
-            outline: "none"
-          })
-          $(".textOperator").eq(index).text("Nannapas");
-         });
-      console.log($('td:contains("")'));
-       
-        
-        
-       
-       
-
-        
+    //     $(".colorAcceptButton").one("click", function(e){
+    //         e.preventDefault();
+    //       var index = $(".colorAcceptButton").index(this);
+    //       $( this  ).html('Open');
+    //       $(this ).css({
+    //         width : "74.8px",
+    //         backgroundColor: "#29572a",
+    //         color: "#ffffff",
+    //         outline: "none"
+    //       })
+    //       $(".textOperator").eq(index).text("Nannapas");
+    //      });
+    //   console.log($('td:contains("")'));
     }
     
     render() {
@@ -286,14 +279,14 @@ class Accepted extends Component {
           <Col xs="12" lg="12">
             <Card>
               <CardBody>
-              <BootstrapTable  data={products} version='4' className="requestMain" pagination={true} options={options} id="myTable" >
-                <TableHeaderColumn dataField='name' isKey={ true } >CUSTOMER NAME</TableHeaderColumn>
-                <TableHeaderColumn dataField='clientdate' >CLIENT SINCE</TableHeaderColumn>
-                <TableHeaderColumn dataField='plan' dataSort={ true }>ACTIVE PLAN</TableHeaderColumn>
-                <TableHeaderColumn dataField='daterequest' dataSort={ true }>DATE REQUESTED</TableHeaderColumn>
-                <TableHeaderColumn dataField='status'  dataFormat={pendingFormatter}>STATUS</TableHeaderColumn>
-                <TableHeaderColumn dataField='operator'>OPERATOR</TableHeaderColumn>
-                <TableHeaderColumn dataField='action' dataFormat={actionFormatter} >ACTIONS</TableHeaderColumn>
+              <BootstrapTable data={products} version='4' className="requestTable" pagination={true} options={options} id="myTable" >
+                <TableHeaderColumn className="table-header"  dataField='name' isKey={ true } >CUSTOMER NAME</TableHeaderColumn>
+                <TableHeaderColumn className="table-header" dataField='clientdate' >CLIENT SINCE</TableHeaderColumn>
+                <TableHeaderColumn className="table-header" dataField='plan' dataSort={ true }>ACTIVE PLAN</TableHeaderColumn>
+                <TableHeaderColumn className="table-header" dataField='daterequest' dataSort={ true }>DATE REQUESTED</TableHeaderColumn>
+                <TableHeaderColumn className="table-header" dataField='status'  dataFormat={pendingFormatter}>STATUS</TableHeaderColumn>
+                <TableHeaderColumn className="table-header" dataField='operator'>OPERATOR</TableHeaderColumn>
+                <TableHeaderColumn className="table-header" dataField='action' dataFormat={actionFormatter} >ACTIONS</TableHeaderColumn>
 
              </BootstrapTable>
               </CardBody>
