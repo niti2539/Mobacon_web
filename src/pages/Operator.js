@@ -19,8 +19,11 @@ import {
   DropdownMenu,
   DropdownItem
 } from "reactstrap";
+
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import mobaconApi from "../Action";
+import { user } from "../stores/actions";
 import Modal from "react-responsive-modal";
 import "../scss/operator.scss";
 import styled from "styled-components";
@@ -29,7 +32,6 @@ import Register from "./Register.js";
 import ReactTooltip from "react-tooltip";
 import $ from "jquery";
 import FormData from "form-data";
-import config from "../config";
 class Tabs extends Component {
   state = {
     activeTab: "1",
@@ -275,15 +277,15 @@ class Tabs extends Component {
         </div>
 
         <div
-          class="modal fade"
+          className="modal fade"
           id="exampleModalLong"
           tabindex="-1"
           role="dialog"
           aria-labelledby="exampleModalLongTitle"
           aria-hidden="true"
         >
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
+          <div className="modal-dialog" role="document">
+            <div className="modal-content">
               <FontAwesomeIcon
                 icon="times"
                 className="timeCss close"
@@ -291,7 +293,7 @@ class Tabs extends Component {
                 aria-label="Close"
               />
 
-              <div class="modal-body">
+              <div className="modal-body">
                 <img
                   className="imageOperator"
                   src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260"
@@ -386,9 +388,9 @@ class Tabs extends Component {
 
               {/* <FontAwesomeIcon icon="upload"></FontAwesomeIcon>
                 <Input type="file" onChange={this.fileChangedHandler} id="image" /> */}
-              <form class="md-form">
+              <form className="md-form">
                 <span className="alignImage">Image</span>
-                <div class="file-field">
+                <div className="file-field">
                   <div className="btn btn-sm fileInput">
                     <Input
                       type="file"
@@ -444,7 +446,7 @@ class Tabs extends Component {
     for (let key of formData.values()) {
       console.log(key);
     }
-    let result = await mobaconApi.signUp(formData);
+    let result = await this.props.signUp(formData);
     if (result.message === "created") {
       this.props.history.push("/");
     } else {
@@ -478,8 +480,6 @@ class Tabs extends Component {
   };
 }
 
-export default Tabs;
-
 const thumbsStyle = { background: "none", boxShadow: "none", border: "none" };
 const Thumbs = styled.div`
   text-align: center;
@@ -500,3 +500,17 @@ const Avartar = styled.div`
     object-fit: cover;
   }
 `;
+
+const mapStateToProps = ({ user_detail }) => ({
+  user_detail
+});
+const mapDispatchToProps = dispatch => {
+  return {
+    signUp: data => bindActionCreators(user.signUp)
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Tabs);

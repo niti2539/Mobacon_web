@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 import { Link } from "react-router-dom";
 import {
   Badge,
@@ -55,19 +54,19 @@ function pendingFormatter(cell, row) {
   for (var i = 0; i < products.length; i++) {
     if (products[i].status == "Pending" && cell == "Pending") {
       return (
-        '<div class="divColumn"><span class="spanColumn">' +
+        '<div className="divColumn"><span className="spanColumn">' +
         cell +
         "</span></div>"
       );
     } else if (products[i].status == "Reviewed" && cell == "Reviewed") {
       return (
-        '<div class="reviewColumn"><span class="reviewedColumn">' +
+        '<div className="reviewColumn"><span className="reviewedColumn">' +
         cell +
         "</span></div>"
       );
     } else if (products[i].status == "Accepted" && cell == "Accepted") {
       return (
-        '<div class="acceptColumn"><span class="acceptedColumn">' +
+        '<div className="acceptColumn"><span className="acceptedColumn">' +
         cell +
         "</span></div>"
       );
@@ -76,19 +75,19 @@ function pendingFormatter(cell, row) {
 }
 
 function operatorFormatter(cell, row) {
-  return '<span class="AlignOperator">' + cell + "</span>";
+  return '<span className="AlignOperator">' + cell + "</span>";
 }
 function actionFormatter(cell, row) {
   for (var i = 0; i < products.length; i++) {
     if (products[i].action == "Accepted" && cell == "Accepted") {
       return (
-        '<a href="/request/1" class="clickOnce"> <Button class="colorAcceptedButtonAcceptedPage">' +
+        '<a href="/request/1" className="clickOnce"> <Button className="colorAcceptedButtonAcceptedPage">' +
         cell +
         "</Button> </a>"
       );
     } else if (products[i].action == "Reviewed" && cell == "Reviewed") {
       return (
-        '<a href="/request/1" class="clickOnce"> <Button class="colorReviewedButtonAcceptedPage">' +
+        '<a href="/request/1" className="clickOnce"> <Button className="colorReviewedButtonAcceptedPage">' +
         cell +
         "</Button> </a>"
       );
@@ -214,7 +213,7 @@ class Accepted extends Component {
           <Col xs="12" lg="12">
             <Card>
               <CardBody>
-                <BootstrapTable
+                {/* <BootstrapTable
                   data={products}
                   version="4"
                   className="requestMain"
@@ -252,7 +251,7 @@ class Accepted extends Component {
                   >
                     ACTIONS
                   </TableHeaderColumn>
-                </BootstrapTable>
+                </BootstrapTable> */}
               </CardBody>
             </Card>
           </Col>

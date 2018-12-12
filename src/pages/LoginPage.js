@@ -10,14 +10,7 @@ import {
   FormGroup,
   Label,
   Input,
-  InputGroup,
-  InputGroupAddon,
-  InputGroupText,
-  Row,
-  ButtonDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem
+  Row
 } from "reactstrap";
 import {
   Nav,
@@ -34,10 +27,10 @@ import {
   DropdownButton,
   OverlayTrigger
 } from "react-bootstrap";
-import mobaconApi from "../Action";
+import { user } from "../stores/actions";
+import { bindActionCreators } from "redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ReactTooltip from "react-tooltip";
-import { setUser } from "../Action/user";
 import { connect } from "react-redux";
 
 class Login extends Component {
@@ -226,15 +219,13 @@ class Login extends Component {
     }
   };
   signin = async () => {
-    console.log(this);
     let data = {
       email: this.state.email,
       password: this.state.password
     };
-    let result = await mobaconApi.signIn(data);
-    console.log(data);
+    let result = await this.props.signIn(data);
+    console.log("Login result", result);
     if (result.token) {
-      this.props.setUser(result);
       localStorage.setItem("accessToken", result.token);
       this.props.history.push("/dashboard");
     } else {
@@ -247,7 +238,7 @@ const mapStateToProps = state => ({
 });
 const mapDispatchToProps = dispatch => {
   return {
-    setUser: result => dispatch(setUser(result))
+    signIn: user.signIn(dispatch)
   };
 };
 

@@ -1,36 +1,49 @@
-import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Link,Redirect } from 'react-router-dom';
-import './App.css';
+import React, { Component } from "react";
+import {
+  BrowserRouter as Router,
+  Route,
+  Link,
+  Redirect
+} from "react-router-dom";
+import {hot} from 'react-hot-loader'
+import "./App.css";
 // Styles
 // CoreUI Icons Set
-import '@coreui/icons/css/coreui-icons.min.css';
+import "@coreui/icons/css/coreui-icons.min.css";
 // Import Flag Icons Set
-import 'flag-icon-css/css/flag-icon.min.css';
+import "flag-icon-css/css/flag-icon.min.css";
 // Import Font Awesome Icons Set
-import 'font-awesome/css/font-awesome.min.css';
+import "font-awesome/css/font-awesome.min.css";
 // Import Simple Line Icons Set
-import 'simple-line-icons/css/simple-line-icons.css';
+import "simple-line-icons/css/simple-line-icons.css";
 
 import "react-datepicker/dist/react-datepicker-cssmodules.css";
-import 'react-chat-elements/dist/main.css';
+import "react-chat-elements/dist/main.css";
 
 // Import Main styles for this application
-import './scss/style.css'
+import "./scss/style.css";
 
 // Containers
-import DefaultLayout from './pages/Layouts';
+import DefaultLayout from "./pages/Layouts";
 // Pages
-import Login from './pages/LoginPage'
-import Register from './pages/Register'
-import Page404 from './pages/Page404'
-import Page500 from './pages/Page500'
+import Login from "./pages/LoginPage";
+import Register from "./pages/Register";
+import Page404 from "./pages/Page404";
+import Page500 from "./pages/Page500";
 //fontawesome 5.4.1 versions
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { Provider } from 'react-redux';
-import { createStore } from 'redux';
-import rootReducer from './reducer/reducer';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleDown, faInfoCircle, faCheck, faCircle, faCaretDown, faUpload, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { Provider } from "react-redux";
+import { store } from "./stores";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faAngleDown,
+  faInfoCircle,
+  faCheck,
+  faCircle,
+  faCaretDown,
+  faUpload,
+  faTimes
+} from "@fortawesome/free-solid-svg-icons";
 library.add(faAngleDown);
 library.add(faInfoCircle);
 library.add(faCheck);
@@ -38,11 +51,9 @@ library.add(faCircle);
 library.add(faCaretDown);
 library.add(faUpload);
 library.add(faTimes);
-const store = createStore(rootReducer);
 class App extends Component {
-
   render() {
-    console.log(localStorage.getItem('accessToken'))
+    console.log(localStorage.getItem("accessToken"));
     return (
       <Provider store={store}>
         <Router>
@@ -51,27 +62,32 @@ class App extends Component {
             <Route exact path="/login" name="Login" component={Login} />
             <Route exact path="/404" name="Page 404" component={Page404} />
             <Route exact path="/500" name="Page 500" component={Page500} />
-            <PrivateRoute exact path="/dashboard" component={DefaultLayout}/>
-            <PrivateRoute exact path="/plans" component={DefaultLayout} />
-            <PrivateRoute exact path="/requests" component={DefaultLayout} />
-            <PrivateRoute exact path="/request/:id" component={DefaultLayout} />
-            <PrivateRoute exact path="/accepted" component={DefaultLayout} />
-            <PrivateRoute exact path="/operator" component={DefaultLayout} />
-            <PrivateRoute exact path="/chat" component={DefaultLayout} />
-            <PrivateRoute exact path="/profile" component={DefaultLayout} />
-            <PrivateRoute exact path="/logout" component={DefaultLayout} />
+            <CustomRoute exact path="/dashboard" component={DefaultLayout} />
+            <CustomRoute exact path="/plans" component={DefaultLayout} />
+            <CustomRoute exact path="/requests" component={DefaultLayout} />
+            <CustomRoute exact path="/request/:id" component={DefaultLayout} />
+            <CustomRoute exact path="/accepted" component={DefaultLayout} />
+            <CustomRoute exact path="/operator" component={DefaultLayout} />
+            <CustomRoute exact path="/chat" component={DefaultLayout} />
+            <CustomRoute exact path="/profile" component={DefaultLayout} />
+            <CustomRoute exact path="/logout" component={DefaultLayout} />
           </div>
         </Router>
       </Provider>
-     
-    )
+    );
   }
 }
 
-const PrivateRoute = ({ component: Component, ...rest }) => (
-  <Route {...rest} render={ (props) => (
-    localStorage.getItem('accessToken') ? <Component {...props} />
-      : <Redirect to='/login' />
-  )} />
- );
-export default App;
+const CustomRoute = ({ component: Component, ...rest }) => (
+  <Route
+    {...rest}
+    render={props =>
+      localStorage.getItem("accessToken") ? (
+        <Component {...props} />
+      ) : (
+        <Redirect to="/login" />
+      )
+    }
+  />
+);
+export default hot(module)(App);

@@ -88,14 +88,14 @@ class Tabs extends Component {
                     <Col md="6">
                      <input id="tmp1" type="checkbox" />
                       <label for="tmp1" className="enableChat">
-                             <FontAwesomeIcon icon="check" class="facheck-1"></FontAwesomeIcon>
+                             <FontAwesomeIcon icon="check" className="facheck-1"></FontAwesomeIcon>
                         Enable Chat    
                       </label>
                     </Col>
                     <Col md="6">
                     <input id="tmp2" type="checkbox" />
                       <label for="tmp2" className="enableHis">
-                             <FontAwesomeIcon icon="check" class="facheck-2"></FontAwesomeIcon>
+                             <FontAwesomeIcon icon="check" className="facheck-2"></FontAwesomeIcon>
                         Enable History   
                       </label>
                     </Col>
@@ -145,14 +145,14 @@ class Tabs extends Component {
                     <Col md="6">
                     <input id="tmp3" type="checkbox" />
                       <label for="tmp3" className="enableChat">
-                             <FontAwesomeIcon icon="check" class="facheck-1"></FontAwesomeIcon>
+                             <FontAwesomeIcon icon="check" className="facheck-1"></FontAwesomeIcon>
                         Enable Chat    
                       </label>
                     </Col>
                     <Col md="6">
                       <input id="tmp4" type="checkbox" />
                         <label for="tmp4" className="enableHis">
-                              <FontAwesomeIcon icon="check" class="facheck-2"></FontAwesomeIcon>
+                              <FontAwesomeIcon icon="check" className="facheck-2"></FontAwesomeIcon>
                           Enable History   
                         </label>
                       </Col>

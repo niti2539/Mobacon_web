@@ -10212,10 +10212,14 @@ hr {
 .zIndexImg {
   position: absolute; }
 
-.requestTable {
-  border: none;
-  border-collapse: separate;
-  border-spacing: 0px 15px; }
+.requestTable * {
+  border: none; }
+
+.requestTable .react-bs-container-header table {
+  margin: 0; }
+
+.requestTable .react-bs-container-body .table tbody > tr {
+  margin-bottom: 10px !important; }
 
 .card {
   box-shadow: none;

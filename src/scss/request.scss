@@ -1,7 +1,14 @@
 .requestTable {
-    border: none;
-    border-collapse: separate;
-    border-spacing: 0px 15px;
+    * {
+        border: none;
+    }
+    .react-bs-container-header table {
+        margin: 0;
+    }
+    .react-bs-container-body .table tbody > tr {
+        margin-bottom: 10px !important;
+    }
+    
 }
 .card  {
     box-shadow: none;
