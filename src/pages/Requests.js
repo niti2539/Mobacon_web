@@ -103,9 +103,9 @@ function actionFormatter(data) {
       {!acceptOp || typeof acceptOp != "object" ? (
         <Button className="acceptRequestButton">Accept</Button>
       ) : acceptOp.id === operatorId ? (
-        <Button className="openRequestButton">
-          <Link to={`request/${1}`}>Open</Link>
-        </Button>
+        <Link to={`request/${1}`} style={{width: '100%'}}>
+          <Button className="openRequestButton">Open</Button>
+        </Link>
       ) : (
         <Button disabled className="acceptedRequestButton">
           Accepted

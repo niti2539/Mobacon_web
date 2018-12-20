@@ -37,8 +37,8 @@ var emailTimeOutValidate = setTimeout(() => {}, 1000);
 
 class Login extends Component {
   state = {
-    email: "",
-    password: "",
+    email: "admin@mobacon.com",
+    password: "wiwiwi",
     errorMsg: [],
     emailError: false,
     emailSuccess: false,
