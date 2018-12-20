@@ -69,7 +69,8 @@
     "simple-line-icons": "^2.4.1",
     "styled-components": "^4.0.2",
     "tablesort": "^5.1.0",
-    "trim": "0.0.1"
+    "trim": "0.0.1",
+    "yarn": "^1.12.3"
   },
   "devDependencies": {
     "@babel/core": "^7.2.0",
