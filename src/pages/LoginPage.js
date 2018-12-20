@@ -33,21 +33,36 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ReactTooltip from "react-tooltip";
 import { connect } from "react-redux";
 
+var emailTimeOutValidate = setTimeout(() => {}, 1000);
+
 class Login extends Component {
   state = {
     email: "",
-    password: ""
+    password: "",
+    errorMsg: [],
+    emailError: false,
+    emailSuccess: false,
+    passwordError: false
   };
   handleEmailChange = async event => {
-    await this.setState({ email: event.target.value });
-    await this.clickValidate();
+    const email = event.target.value;
+    await this.setState({
+      email
+    });
   };
   handlePasswordChange = async event => {
-    await this.setState({ password: event.target.value });
-    //  await this.clickValidate();
+    await this.setState({ password: event.target.value, passwordError: false });
   };
 
   render() {
+    const {
+      errorMsg,
+      emailError,
+      passwordError,
+      email,
+      password,
+      emailSuccess
+    } = this.state;
     return (
       <div className="app flex-row align-items-center">
         <Container>
@@ -59,25 +74,53 @@ class Login extends Component {
                   <p className="text-center color-main">
                     Sign In to your account
                   </p>
-                  <p className="NotValid">
-                    Email or Password is invalid. Please try again.
-                  </p>
+                  {errorMsg.map((err, i) => (
+                    <p key={i} className="NotValid">
+                      {err}
+                    </p>
+                  ))}
                   <Form onSubmit={this.onSubmit}>
                     <FormGroup>
                       <Label htmlFor="email">Email</Label>
                       <Input
+                        style={
+                          emailError
+                            ? styles.fieldError
+                            : emailSuccess
+                            ? styles.fieldSuccess
+                            : {}
+                        }
                         type="email"
                         name="email"
-                        value={this.state.email}
+                        value={email}
+                        onKeyDown={() => {
+                          clearTimeout(emailTimeOutValidate);
+                        }}
+                        onKeyUp={() => {
+                          clearTimeout(emailTimeOutValidate);
+                          emailTimeOutValidate = setTimeout(() => {
+                            this.setState({
+                              emailError: !this.validateEmail(email),
+                              emailSuccess:
+                                email.length > 0 && this.validateEmail(email)
+                            });
+                          }, 500);
+                        }}
                         id="email"
                         placeholder="petreamihaic@gmail.com"
                         required
                         onChange={this.handleEmailChange}
                       />
-
                       <a data-tip="Required valid email ex: abc@gmail.com">
                         <FontAwesomeIcon
-                          icon="info-circle"
+                          style={
+                            emailError
+                              ? styles.iconError
+                              : emailSuccess
+                              ? styles.fieldSuccess
+                              : {}
+                          }
+                          icon={"info-circle"}
                           className="circle"
                           tool-tip-toggle="tooltip-demo"
                           data-original-title="Required valid email"
@@ -88,10 +131,11 @@ class Login extends Component {
                     <FormGroup>
                       <Label htmlFor="password">Password</Label>
                       <Input
+                        style={passwordError ? styles.fieldError : {}}
                         type="password"
                         id="password"
                         name="password"
-                        value={this.state.password}
+                        value={password}
                         placeholder="●●●●●●●"
                         required
                         onChange={this.handlePasswordChange}
@@ -99,6 +143,7 @@ class Login extends Component {
 
                       <a data-tip="Password can't be null">
                         <FontAwesomeIcon
+                          style={passwordError ? styles.iconError : {}}
                           icon="info-circle"
                           className="circle"
                           tool-tip-toggle="tooltip-demo"
@@ -136,100 +181,51 @@ class Login extends Component {
       </div>
     );
   }
-  clickValidate = () => {
-    let isError = false;
-    const errors = {
-      emailError: "",
-      passwordError: ""
-    };
+
+  validateEmail = email => {
+    if (email.length < 1) return true;
     var emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-    if (emailRegex.test(this.state.email)) {
-      if (this.state.password !== "") {
-        isError = true;
-        this.signin();
-      }
-    } else {
-      isError = false;
-    }
-    this.setState({
-      ...this.state,
-      ...errors
-    });
-    return isError;
+    return emailRegex.test(email);
   };
 
   onSubmit = e => {
     e.preventDefault();
-    var emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-    const err = this.clickValidate();
+    const { email, password } = this.state;
+    const isPassword = password.length > 0,
+      isEmail = this.validateEmail(email);
     // const err = false;
-    if (err) {
-      this.setState({
-        email: this.state.email,
-        emailError: "",
-        password: this.state.password,
-        passwordError: ""
-      });
-    } else {
-      var alertValid = document.getElementsByClassName("NotValid");
-      alertValid[0].style.display = "block";
-      var expandBox = document.getElementsByClassName("col-md-6");
-      expandBox[0].style.height = "34.375rem";
-      var expandCard = document.getElementsByClassName("Login");
-      expandCard[0].style.height = "34.375rem";
-      if (this.state.password.length !== 0) {
-        this.setState({
-          email: "",
-          emailError: "Requires valid email",
-          password: this.state.password,
-          passwordError: ""
-        });
-        var elem = document.getElementsByTagName("input");
-        var icon = document.getElementsByClassName("circle");
-        elem[0].style.borderColor = "red";
-        icon[0].style.color = "red";
-      } else if (
-        emailRegex.test(this.state.email) &&
-        this.state.password.length === 0
-      ) {
-        this.setState({
-          email: this.state.email,
-          emailError: "",
-          password: "",
-          passwordError: "Password can't be null"
-        });
-        elem = document.getElementsByTagName("input");
-        icon = document.getElementsByClassName("circle");
-        elem[1].style.borderColor = "red";
-        icon[1].style.color = "red";
-      } else {
-        this.setState({
-          email: "",
-          emailError: "Requires valid email",
-          password: "",
-          passwordError: "Password can't be null"
-        });
-        elem = document.getElementsByTagName("input");
-        icon = document.getElementsByClassName("circle");
-        elem[0].style.borderColor = "red";
-        icon[0].style.color = "red";
-        elem[1].style.borderColor = "red";
-        icon[1].style.color = "red";
-      }
+    if (isPassword && isEmail) {
+      return this.signin(email, password);
     }
+    this.setState({
+      emailError: !isEmail,
+      errorMsg: [
+        email.length < 1
+          ? "Email required!"
+          : !isEmail
+          ? "Email is invalid!"
+          : "",
+        !isPassword ? "Password required!" : ""
+      ],
+      passwordError: !isPassword
+    });
   };
-  signin = async () => {
-    let data = {
-      email: this.state.email,
-      password: this.state.password
+  signin = async (email, password) => {
+    const data = {
+      email,
+      password
     };
     let result = await this.props.signIn(data);
-    console.log("Login result", result);
     if (result.token) {
+      localStorage.setItem("id", result.info.id);
       localStorage.setItem("accessToken", result.token);
       this.props.history.push("/dashboard");
     } else {
-      this.props.history.push("/");
+      this.setState({
+        emailError: true,
+        passwordError: true,
+        errorMsg: ["Email or password invalid!!"]
+      });
     }
   };
 }
@@ -241,7 +237,19 @@ const mapDispatchToProps = dispatch => {
     signIn: user.signIn(dispatch)
   };
 };
-
+const styles = {
+  fieldError: {
+    borderColor: "red",
+    color: "red"
+  },
+  fieldSuccess: {
+    borderColor: "#2db84e",
+    color: "#2db84e"
+  },
+  iconError: {
+    color: "red"
+  }
+};
 export default connect(
   mapStateToProps,
   mapDispatchToProps

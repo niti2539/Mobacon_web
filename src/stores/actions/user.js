@@ -2,8 +2,6 @@ import { apiRequest } from "../../Configs";
 import { actionType } from ".";
 
 async function signUp(data) {
-  let auth = localStorage.getItem("accessToken");
-  console.log(localStorage.getItem("accessToken"));
   let response;
   try {
     response = await apiRequest("/operator", "POST", data, {
@@ -15,6 +13,17 @@ async function signUp(data) {
   }
   return response;
 }
+
+const authorize = async (dispatch) => {
+  try {
+    const id = localStorage.getItem("id");
+    var response = await apiRequest(`/operator/${id}`, "GET");
+    dispatch({ type: actionType.USER_DETIAL, data: response.operator });
+  } catch (err) {
+    console.log("Error", err);
+    return alert("Cannot authorized!!");
+  }
+};
 
 const signIn = dispatch => async data => {
   let response;
@@ -38,4 +47,4 @@ async function getOperators(data) {
   return response;
 }
 
-export { signUp, signIn, getOperators };
+export { signUp, signIn, authorize, getOperators };

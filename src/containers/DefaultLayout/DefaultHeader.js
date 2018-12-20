@@ -1,45 +1,62 @@
-import React, { Component } from 'react';
-import { Badge, DropdownItem, DropdownMenu, DropdownToggle, Nav, NavItem, NavLink } from 'reactstrap';
-import PropTypes from 'prop-types';
+import React, { Component } from "react";
+import {
+  Badge,
+  DropdownItem,
+  DropdownMenu,
+  DropdownToggle,
+  Nav,
+  NavItem,
+  NavLink
+} from "reactstrap";
+import PropTypes from "prop-types";
 
-import { AppAsideToggler, AppHeaderDropdown, AppNavbarBrand, AppSidebarToggler, AppSidebarMinimizer } from '@coreui/react';
-
+import {
+  AppAsideToggler,
+  AppHeaderDropdown,
+  AppNavbarBrand,
+  AppSidebarToggler,
+  AppSidebarMinimizer
+} from "@coreui/react";
 
 const propTypes = {
-  children: PropTypes.node,
+  children: PropTypes.node
 };
 
 const defaultProps = {};
 
 class DefaultHeader extends Component {
   state = {
-    name : 'APP NAME HERE',
-    notExpand: false,
-  }
+    name: "APP NAME HERE",
+    notExpand: false
+  };
   toggleHandler = () => {
     let doesshow = this.state.notExpand;
-    this.setState({notExpand: !doesshow});
-    if(this.state.notExpand){
-      this.setState({name: 'N'})
-    }else{
-      this.setState({name:'APP NAME HERE'})
+    this.setState({ notExpand: !doesshow });
+    if (this.state.notExpand) {
+      this.setState({ name: "N" });
+    } else {
+      this.setState({ name: "APP NAME HERE" });
     }
-  }
-  
- 
-  render() {
+  };
 
+  render() {
     // eslint-disable-next-line
     const { children, ...attributes } = this.props;
-    var elem = document.getElementsByClassName('navbar-brand-minimized');
+    var elem = document.getElementsByClassName("navbar-brand-minimized");
     console.log(elem.values);
 
-    
     return (
       <React.Fragment>
         <AppSidebarToggler className="d-lg-none" display="md" mobile />
-       
-        <AppSidebarMinimizer  className="headerName navbar-brand-minimized navbar-brand" ><span onClick={() => this.toggleHandler()} onChange={this.toggleHandler}>{this.state.name}</span></AppSidebarMinimizer>
+
+        <AppSidebarMinimizer className="headerName navbar-brand-minimized navbar-brand">
+          <span
+            onClick={() => this.toggleHandler()}
+            onChange={this.toggleHandler}
+          >
+            {this.state.name}
+          </span>
+        </AppSidebarMinimizer>
         {/*<AppSidebarToggler className="d-md-down-none" display="lg" />*/}
 
         {/*
@@ -55,46 +72,84 @@ class DefaultHeader extends Component {
           </NavItem>
         </Nav>
         */}
-        
-        <Nav  navbar>
+
+        <Nav navbar>
           <NavItem className="d-md-down-none">
-            <NavLink href="/chat"><i className="icon-bubble"></i></NavLink>
+            <NavLink href="/chat">
+              <i className="icon-bubble" />
+            </NavLink>
           </NavItem>
           <NavItem className="d-md-down-none">
-            <NavLink href="#"><i className="icon-bell"></i><Badge pill color="danger">5</Badge></NavLink>
+            <NavLink href="#">
+              <i className="icon-bell" />
+              <Badge pill color="danger">
+                5
+              </Badge>
+            </NavLink>
           </NavItem>
           {/*
           <NavItem className="d-md-down-none">
             <NavLink href="#"><i className="icon-list"></i></NavLink>
           </NavItem>
           */}
-           <NavItem className="d-md-down-none adminName" style={{ width: 100}}>
+          <NavItem className="d-md-down-none adminName" style={{ width: 100 }}>
             <p className="admin">Admin name</p>
-            </NavItem>
+          </NavItem>
           <AppHeaderDropdown direction="down">
-
             <DropdownToggle nav>
-              <i className="icon-arrow-down"></i>
-              <img src={'../assets/img/avatars/6.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com" />
+              <i className="icon-arrow-down" />
+              {/* <img
+                src={avatars6}
+                className="img-avatar"
+                alt="admin@bootstrapmaster.com"
+              /> */}
             </DropdownToggle>
-            <DropdownMenu right style={{ right: 'auto' }}>
-              <DropdownItem header tag="div" className="text-center"><strong>Account</strong></DropdownItem>
-              <DropdownItem><i className="fa fa-bell-o"></i> Updates<Badge color="info">42</Badge></DropdownItem>
-              <DropdownItem><i className="fa fa-envelope-o"></i> Messages<Badge color="success">42</Badge></DropdownItem>
-              <DropdownItem><i className="fa fa-tasks"></i> Tasks<Badge color="danger">42</Badge></DropdownItem>
-              <DropdownItem><i className="fa fa-comments"></i> Comments<Badge color="warning">42</Badge></DropdownItem>
-              <DropdownItem header tag="div" className="text-center"><strong>Settings</strong></DropdownItem>
-              <DropdownItem><i className="fa fa-user"></i> Profile</DropdownItem>
-              <DropdownItem><i className="fa fa-wrench"></i> Settings</DropdownItem>
-              <DropdownItem><i className="fa fa-usd"></i> Payments<Badge color="secondary">42</Badge></DropdownItem>
-              <DropdownItem><i className="fa fa-file"></i> Projects<Badge color="primary">42</Badge></DropdownItem>
+            <DropdownMenu right style={{ right: "auto" }}>
+              <DropdownItem header tag="div" className="text-center">
+                <strong>Account</strong>
+              </DropdownItem>
+              <DropdownItem>
+                <i className="fa fa-bell-o" /> Updates
+                <Badge color="info">42</Badge>
+              </DropdownItem>
+              <DropdownItem>
+                <i className="fa fa-envelope-o" /> Messages
+                <Badge color="success">42</Badge>
+              </DropdownItem>
+              <DropdownItem>
+                <i className="fa fa-tasks" /> Tasks
+                <Badge color="danger">42</Badge>
+              </DropdownItem>
+              <DropdownItem>
+                <i className="fa fa-comments" /> Comments
+                <Badge color="warning">42</Badge>
+              </DropdownItem>
+              <DropdownItem header tag="div" className="text-center">
+                <strong>Settings</strong>
+              </DropdownItem>
+              <DropdownItem>
+                <i className="fa fa-user" /> Profile
+              </DropdownItem>
+              <DropdownItem>
+                <i className="fa fa-wrench" /> Settings
+              </DropdownItem>
+              <DropdownItem>
+                <i className="fa fa-usd" /> Payments
+                <Badge color="secondary">42</Badge>
+              </DropdownItem>
+              <DropdownItem>
+                <i className="fa fa-file" /> Projects
+                <Badge color="primary">42</Badge>
+              </DropdownItem>
               <DropdownItem divider />
-              <DropdownItem><i className="fa fa-shield"></i> Lock Account</DropdownItem>
-              <DropdownItem><i className="fa fa-lock"></i> Logout</DropdownItem>
+              <DropdownItem>
+                <i className="fa fa-shield" /> Lock Account
+              </DropdownItem>
+              <DropdownItem>
+                <i className="fa fa-lock" /> Logout
+              </DropdownItem>
             </DropdownMenu>
           </AppHeaderDropdown>
-          
-          
         </Nav>
         {/*<AppAsideToggler className="d-md-down-none" />*/}
         {/*<AppAsideToggler className="d-lg-none" mobile />*/}

@@ -1,11 +1,17 @@
-import { actionType, request } from "../actions";
+import { actionType } from "../actions";
 const initialState = {
-    data: []
+  recordsTotal: 0,
+  filteredTotal: 0,
+  data: [],
+  currentOpen: {}
 };
 const requestReducer = (state = initialState, action) => {
   switch (action.type) {
-    case actionType.GET_REQUEST:
-      return request.getRequest(state, action);
+    case actionType.REQUEST_FETCH:
+      return {
+        ...state,
+        ...action.data
+      };
     default:
       return state;
   }

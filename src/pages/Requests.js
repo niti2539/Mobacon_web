@@ -2,114 +2,77 @@ import React, { Component } from "react";
 import ReactTable from "react-table";
 import { getRequest } from "../stores/actions/request";
 import { connect } from "react-redux";
+import { store } from "../stores";
 import { Link } from "react-router-dom";
-import {
-  Badge,
-  Card,
-  CardBody,
-  CardHeader,
-  Col,
-  Row,
-  Table,
-  Pagination,
-  PaginationItem,
-  PaginationLink,
-  ButtonDropdown,
-  DropdownItem,
-  DropdownToggle,
-  DropdownMenu,
-  Button
-} from "reactstrap";
+import { Card, CardBody, Col, Row, Button } from "reactstrap";
 import _ from "lodash";
-const actionStyle = {
-  background: "none",
-  border: "none",
-  boxShadow: "none",
-  lineHeight: 0,
-  marginTop: -10
-};
-const index = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+import moment from "moment";
 
-var clickcount = 0;
-var datas = [
-  {
-    name: "Mihai Petrea",
-    clientdate: "01.03.2014",
-    plan: "Basic Plan",
-    daterequest: "28.08.2018",
-    status: "Pending",
-    operator: " ",
-    action: "Accept"
-  },
-  {
-    name: "Mihai Petrea",
-    clientdate: "01.03.2014",
-    plan: "Basic Plan",
-    daterequest: "28.08.2018",
-    status: "Pending",
-    operator: " ",
-    action: "Accept"
-  },
-  {
-    name: "Mihai Petrea",
-    clientdate: "01.03.2014",
-    plan: "Basic Plan",
-    daterequest: "28.08.2018",
-    status: "Reviewed",
-    operator: "Chuck Norris",
-    action: "Accepted"
-  }
-];
-/*<TableHeaderColumn dataField='name' isKey={ true } >CUSTOMER NAME</TableHeaderColumn>
-                <TableHeaderColumn dataField='clientdate' >CLIENT SINCE</TableHeaderColumn>
-                <TableHeaderColumn dataField='plan' dataSort={ true }>ACTIVE PLAN</TableHeaderColumn>
-                <TableHeaderColumn dataField='daterequest' dataSort={ true }>DATE REQUESTED</TableHeaderColumn>
-                <TableHeaderColumn dataField='status'  dataFormat={pendingFormatter}>STATUS</TableHeaderColumn>
-                <TableHeaderColumn dataField='operator'>OPERATOR</TableHeaderColumn>
-                <TableHeaderColumn dataField='action' dataFormat={actionFormatter} >ACTIONS</TableHeaderColumn> */
+const Header = (value, align) => {
+  return (
+    <div
+      style={{
+        textAlign:
+          align === "left" ? "left" : align === "right" ? "right" : "center",
+        fontWeight: "bold",
+        whiteSpace: "unset"
+      }}
+    >
+      {value}
+    </div>
+  );
+};
 
 const columns = [
   {
-    Header: "CUSTOMER NAME",
-    accessor: "user.fullName" // String-based value accessors!
+    Header: Header("CUSTOMER NAME", "left"),
+    accessor: "user.fullName"
   },
   {
-    Header: "CLIENT SINCE",
-    accessor: "user.createdAt" // String-based value accessors!
+    Header: Header("CARRIER", "left"),
+    accessor: "carrier.name"
   },
   {
-    Header: "ACTIVE PLAN",
-    accessor: "user.plan.name" // String-based value accessors!
+    Header: Header("ACTIVE PLAN", "left"),
+    accessor: "user.plan.name"
   },
   {
-    Header: "DATE REQUESTED",
-    accessor: "createdAt" // String-based value accessors!
+    Header: Header("CLIENT SINCE", "left"),
+    accessor: "user.createdAt",
+    Cell: data => moment(data.value).format("DD.MM.YYYY")
+  },
+
+  {
+    Header: Header("DATE REQUESTED", "left"),
+    accessor: "createdAt",
+    Cell: data => moment(data.value).format("DD.MM.YYYY")
   },
   {
-    Header: "OPERATOR",
+    Header: Header("OPERATOR", "left"),
     accessor: "operator.fullName"
   },
   {
-    Header: "ACTIONS",
+    Header: Header("ACTIONS"),
+    accessor: "operator",
     Cell: actionFormatter // Custom cell components!
   }
 ];
 
 function pendingFormatter(cell) {
-  for (var i = 0; i < datas.length; i++) {
-    if (datas[i].status == "Pending" && cell == "Pending") {
+  for (var i = 0; i < data.length; i++) {
+    if (data[i].status == "Pending" && cell == "Pending") {
       return (
         <div class="divColumn">
           <span class="spanColumn">{cell}</span>
         </div>
       );
-    } else if (datas[i].status == "Reviewed" && cell == "Reviewed") {
+    } else if (data[i].status == "Reviewed" && cell == "Reviewed") {
       return (
         <div class="reviewColumn">
           <span class="reviewedColumn">{cell}</span>
         </div>
       );
-    } else if (datas[i].status == "Accepted" && cell == "Accepted") {
+    } else if (data[i].status == "Accepted" && cell == "Accepted") {
       return (
         <div class="acceptColumn">
           <span class="acceptedColumn">{cell}</span>
@@ -120,22 +83,36 @@ function pendingFormatter(cell) {
 }
 
 function actionFormatter(data) {
-  return <Button className="colorAcceptButton">Accept</Button>;
-  //     if(data)
-  //   for (var i = 0; i < datas.length; i++) {
-  //     if (datas[i].action == "Accepted" && data == "Accepted") {
-  //       return (
-  //         '<a href="/request/1" class="clickOnce"> <Button class="colorAcceptedButton" disabled>' +
-  //         data +
-  //         "</Button> </a>"
-  //       );
-  //     }
-  //   }
-  //   return (
-  //     '<a href="/request/1" class="clickOnce"> <Button class="colorAcceptButton">' +
-  //     cell +
-  //     "</Button> </a>"
-  //   );
+  const acceptOp = data.value;
+  // console.log("data", data);
+  let { user_detail: user } = store.getState().user,
+    operatorId = null;
+  if (user) {
+    operatorId = user.id;
+  }
+  // console.log("accept op", acceptOp, "operatorId", operatorId);
+  return (
+    <div
+      style={{
+        display: "flex",
+        width: "100%",
+        justifyContent: "center",
+        alignItems: "center"
+      }}
+    >
+      {!acceptOp || typeof acceptOp != "object" ? (
+        <Button className="acceptRequestButton">Accept</Button>
+      ) : acceptOp.id === operatorId ? (
+        <Button className="openRequestButton">
+          <Link to={`request/${1}`}>Open</Link>
+        </Button>
+      ) : (
+        <Button disabled className="acceptedRequestButton">
+          Accepted
+        </Button>
+      )}
+    </div>
+  );
 }
 
 class Requests extends Component {
@@ -145,40 +122,56 @@ class Requests extends Component {
       defaultSortName: "name", // default sort column name
       defaultSortOrder: "desc" // default sort order
     };
+    // console.log("props", props);
+    this.state = {
+      defaultPageSize: 10,
+      data: props.request.data,
+      pages: null
+    };
   }
-  componentWillUpdate = () => {};
-  componentDidMount = () => {};
+
+  setDataTable = (data, page, pageSize, sorted) => {
+    console.log("data", data);
+    console.log("Sorted", sorted);
+    const sortedData = _.orderBy(
+      data.data,
+      sorted.map(sort => {
+        return row => {
+          const id = _.get(row, sort.id);
+          if (id === null || id === undefined) {
+            return -Infinity;
+          }
+          return typeof id === "string" ? id.toLowerCase() : id;
+        };
+      }),
+      sorted.map(d => (d.desc ? "desc" : "asc"))
+    );
+    this.setState(
+      {
+        page,
+        loading: false,
+        data: sortedData,
+        pages: Math.ceil(data.recordsTotal / pageSize)
+      },
+      () => console.log("Total page", this.state.pages)
+    );
+  };
+
+  fetchData = state => {
+    this.setState({ loading: true }, () => {
+      const { pageSize, page, sorted } = state;
+      console.log("Page", page);
+      this.props.getRequest(page + 1, pageSize /* limit */).then(res => {
+        this.setDataTable(res.data, page, res.pageSize, sorted);
+      });
+    });
+  };
 
   render() {
-    const options = {
-      page: 1, // which page you want to show as default
-      sizePerPageList: [
-        {
-          text: "5",
-          value: 5
-        },
-        {
-          text: "10",
-          value: 10
-        },
-        {
-          text: "All",
-          value: datas.length
-        }
-      ],
-      sizePerPage: 5, // which size per page you want to locate as default
-      pageStartIndex: 1, // where to start counting the pages
-      paginationSize: 3, // the pagination bar size.
-      prePage: "Prev", // Previous page button text
-      nextPage: "Next", // Next page button text
-      firstPage: "First", // First page button text
-      lastPage: "Last", // Last page button text
-      paginationShowsTotal: this.renderShowsTotal, // Accept bool or function
-      paginationPosition: "bottom" // default is bottom, top and both is all available
-    };
+    const { defaultPageSize, data, pages, page, loading } = this.state;
     return (
       <div className="animated fadeIn">
-        <Row>
+        <Row className="textHeader">
           <Col md="12" xs="12">
             <p className="alignRequest">Requests</p>
           </Col>
@@ -187,14 +180,56 @@ class Requests extends Component {
           <Col xs="12" lg="12">
             <Card>
               <CardBody>
-                <ReactTable
-                  data={datas}
+                <ReactTable // filterable
+                  onFetchData={this.fetchData}
+                  defaultPageSize={defaultPageSize}
+                  pages={pages}
+                  // NextComponent={() => (
+                  //   <Button color="primary" block>
+                  //     {"Next >"}
+                  //   </Button>
+                  // )}
+                  // PreviousComponent={(props) => (
+                  //   <Button
+                  //     color={page < 1 ? "secondary" : "primary"}
+                  //     disabled={page < 1}
+                  //     block
+                  //   >
+                  //     {"< Previous"}
+                  //   </Button>
+                  // )}
+                  manual
+                  data={data}
+                  loading={loading}
                   columns={columns}
+                  getPaginationProps={() => ({
+                    style: {
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center"
+                    }
+                  })}
                   getProps={() => ({ style: { border: "none" } })}
-                  getTheadProps={() => ({ style: { boxShadow: "none" } })}
-                  getTheadThProps={() => ({ style: { border: "none" } })}
-                  getTdProps={() => ({ style: { border: "none" } })}
-                  getTrGroupProps={() => ({ style: { border: "none" } })}
+                  getTheadProps={() => ({
+                    style: { boxShadow: "none", marginBottom: 10 }
+                  })}
+                  getTheadThProps={() => ({
+                    style: {
+                      border: "none",
+                      whiteSpace: "unset",
+                      wordBreak: "break-word"
+                    }
+                  })}
+                  getTdProps={() => ({
+                    style: {
+                      border: "none",
+                      padding: "0 10px",
+                      display: "flex",
+                      alignItems: "center",
+                      whiteSpace: "unset"
+                    }
+                  })}
+                  getTrGroupProps={() => ({ style: tableStyles.trGroup })}
                 />
               </CardBody>
             </Card>
@@ -205,13 +240,23 @@ class Requests extends Component {
   }
 }
 
+const tableStyles = {
+  trGroup: {
+    border: "none",
+    backgroundColor: "#fff",
+    marginBottom: 15,
+    minHeight: 60,
+    boxShadow: "0 1px 5px 1px rgba(0,0,0, .05)"
+  }
+};
+
 const mapDispatchToProps = dispatch => ({
   getRequest: getRequest(dispatch) // this will return function
 });
 
-const mapStateToProps = ({ request }) => ({ request });
+const mapStateToProps = ({ request, user }) => ({ request, user });
 
 export default connect(
-  mapDispatchToProps,
-  mapStateToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(Requests);

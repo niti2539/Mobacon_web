@@ -1,6 +1,20 @@
 import { actionType } from "../actions";
 const initialState = {
-  user_detail: {},
+  user_detail: {
+    id: null,
+    fullName: "",
+    phoneNumber: null,
+    email: "",
+    imagePath: "",
+    verified: false,
+    activated: false,
+    like: 0,
+    dislike: 0,
+    role: {
+      id: null,
+      name: ""
+    }
+  },
   loading: false
 };
 

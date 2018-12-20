@@ -3,9 +3,9 @@ import {
   BrowserRouter as Router,
   Route,
   Link,
-  Redirect
+  Redirect,
+  Switch
 } from "react-router-dom";
-import {hot} from 'react-hot-loader'
 import "./App.css";
 // Styles
 // CoreUI Icons Set
@@ -20,8 +20,11 @@ import "simple-line-icons/css/simple-line-icons.css";
 import "react-datepicker/dist/react-datepicker-cssmodules.css";
 import "react-chat-elements/dist/main.css";
 
+import { connect } from "react-redux";
+import { user } from "./stores/actions";
+
 // Import Main styles for this application
-import "./scss/style.css";
+import "./scss/style.scss";
 
 // Containers
 import DefaultLayout from "./pages/Layouts";
@@ -53,41 +56,65 @@ library.add(faUpload);
 library.add(faTimes);
 class App extends Component {
   render() {
-    console.log(localStorage.getItem("accessToken"));
     return (
-      <Provider store={store}>
-        <Router>
-          <div>
-            <Route exact path="/" name="Login" component={Login} />
-            <Route exact path="/login" name="Login" component={Login} />
-            <Route exact path="/404" name="Page 404" component={Page404} />
-            <Route exact path="/500" name="Page 500" component={Page500} />
-            <CustomRoute exact path="/dashboard" component={DefaultLayout} />
-            <CustomRoute exact path="/plans" component={DefaultLayout} />
-            <CustomRoute exact path="/requests" component={DefaultLayout} />
-            <CustomRoute exact path="/request/:id" component={DefaultLayout} />
-            <CustomRoute exact path="/accepted" component={DefaultLayout} />
-            <CustomRoute exact path="/operator" component={DefaultLayout} />
-            <CustomRoute exact path="/chat" component={DefaultLayout} />
-            <CustomRoute exact path="/profile" component={DefaultLayout} />
-            <CustomRoute exact path="/logout" component={DefaultLayout} />
-          </div>
-        </Router>
-      </Provider>
+      <Switch>
+        <Route exact path="/" name="Login" component={Login} />
+        <Route exact path="/login" name="Login" component={Login} />
+        <MainRoute />
+        <Route name="Page 404" component={Page404} />
+        <Route name="Page 500" component={Page500} />
+      </Switch>
     );
   }
 }
 
-const CustomRoute = ({ component: Component, ...rest }) => (
-  <Route
-    {...rest}
-    render={props =>
-      localStorage.getItem("accessToken") ? (
-        <Component {...props} />
-      ) : (
-        <Redirect to="/login" />
-      )
-    }
-  />
+const AppWrapper = props => (
+  <Provider store={store}>
+    <Router>
+      <App />
+    </Router>
+  </Provider>
 );
-export default hot(module)(App);
+
+class MainRoute extends React.Component {
+  componentDidMount() {
+    console.log("Authorization");
+    user.authorize(store.dispatch);
+  }
+
+  render() {
+    return (
+      <React.Fragment>
+        <CustomRoute exact path="/dashboard" component={DefaultLayout} />
+        <CustomRoute exact path="/plans" component={DefaultLayout} />
+        <CustomRoute exact path="/requests" component={DefaultLayout} />
+        <CustomRoute exact path="/request/:id" component={DefaultLayout} />
+        <CustomRoute exact path="/accepted" component={DefaultLayout} />
+        <CustomRoute exact path="/operator" component={DefaultLayout} />
+        <CustomRoute exact path="/chat" component={DefaultLayout} />
+        <CustomRoute exact path="/profile" component={DefaultLayout} />
+        <CustomRoute exact path="/logout" component={DefaultLayout} />
+      </React.Fragment>
+    );
+  }
+}
+
+class CustomRoute extends React.Component {
+  render() {
+    const { component: Component, ...rest } = this.props;
+    return (
+      <Route
+        {...rest}
+        render={props =>
+          localStorage.getItem("accessToken") ? (
+            <Component {...props} />
+          ) : (
+            <Redirect to="/login" />
+          )
+        }
+      />
+    );
+  }
+}
+
+export default AppWrapper;

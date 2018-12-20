@@ -1,313 +1,291 @@
-.alignRequestIndex{
-    font-size: 28px;
-    color: #3B4859;
-    font-family: 'Rubik-Light';
-    position: relative;
-    top: 5px;
+.alignRequestIndex {
+  font-size: 28px;
+  color: #3b4859;
+  font-family: "Rubik-Light";
+  margin-right: 10px;
 }
-.alignHeader{
-    padding-top: 30px;
-    padding-left: 30px;
-    padding-bottom: 25px;
+.alignHeader {
+  align-items: center;
 }
-.adjustButtonHistory{
-    width: 140px;
-    line-height: 30px;
-    border-radius: 2px;
-    border: 2px solid #79BFBC;
-    font-family: 'Karla-Bold';
-    font-size: 16px;
-    color: #79BFBC;
-    background-color: #F9FAFC;
-    bottom: 2px;
-    position: relative;
+.adjustButtonHistory {
+  width: 140px;
+  line-height: 30px;
+  border-radius: 2px;
+  border: 2px solid #79bfbc;
+  font-family: "Karla-Bold";
+  font-size: 16px;
+  color: #79bfbc;
+  background-color: #f9fafc;
+  bottom: 2px;
+  position: relative;
 }
-.floatLeft{
-    border: 1px solid #79BFBC;
-    position: relative;
-    right: 138px;
-    height: 25px;
-    bottom: 44px;
-    border-radius: 15px;
-    width: 82px;
-    float: right;
-    background-color: #FFFFFF;
+.statusLabel {
+  border: 1px solid #79bfbc;
+  padding: 4;
+  align-items: center;
+  justify-content: center;
+  border-radius: 15px;
+  width: 82px;
+  background-color: #ffffff;
+  color: #79bfbc;
 }
-.pending_index{
-    position: relative;
-    left: 13px;
-    color: #79BFBC;
+.requestFormIndex {
+  height: 415px;
+  background-color: #ffffff;
+  border-color: #ffffff !important;
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.04) !important;
 }
-.requestFormIndex{
-    height: 415px;
-    width: 650px;
-    background-color: #FFFFFF;
-    border-color: #ffffff !important;
-    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.04) !important;
-    position: relative;
-    bottom: 31px;
-    left: 17px;
+.asideIndex {
+  height: 417px;
+  background-color: white;
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.04) !important;
+  border-color: white;
 }
-.asideIndex{
-    height: 417px;
-    width: 396px;
-    position: relative;
-    left: 133px;
-    bottom: 32px;
-    background-color: white;
-    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.04) !important;
-    border-color: white;
+.label {
+  font-family: "Rubik-Medium";
+  font-size: 14px;
+  color: #3b4859;
+  padding-bottom: 10px;
 }
-.label{
-    font-family: 'Rubik-Medium';
-    font-size: 14px;
-    color: #3B4859;
-    padding-bottom: 10px;
+.textArea {
+  width: 100%;
+  height: 104px;
+  border: 1px solid #a0acbc;
+  border-radius: 5px;
+  font-family: "Karla-Regular";
+  font-size: 16px;
+  color: rgba(59, 72, 89, 0.7);
+  padding-left: 20px;
+  padding-top: 17px;
 }
-.textArea{
-    width: 600px;
-    height: 104px;
-    border: 1px solid #A0ACBC;
-    border-radius: 5px;
-    font-family: 'Karla-Regular';
-    font-size: 16px;
-    color: rgba(59, 72, 89, 0.7);
-    padding-left: 20px;
-    padding-top: 17px;
+.alignFormGroup {
+  padding: 20px;
 }
-.alignFormGroup{
-    padding-left: 26px;
-    padding-right: 20px;
-    padding-top: 20px;
+.alignFormGroupStatus {
+  padding-left: 26px;
+  padding-right: 20px;
 }
-.alignFormGroupStatus{
-    padding-left: 26px;
-    padding-right: 20px;
- 
+.enableAccept {
+  float: left;
+  padding: 20px;
+  padding-left: 0px;
+  padding-top: 14px;
 }
-.enableAccept{
-    float: left;
-    padding: 20px;
-    padding-left: 0px;
-    padding-top: 14px;
-}
-.enableDecline{
-    padding: 20px;
-    padding-left: 0px;
-    padding-top: 14px;
+.enableDecline {
+  padding: 20px;
+  padding-left: 0px;
+  padding-top: 14px;
 }
 input:checked + label.enableAccept > .faCircle-1 {
-    // Firefox doesn't render svg's that is loading with the use tag if its been set to display: none and then toggled to display: block, so you have to use tricks like this to get it to render again:
-    height: 24px;
-    animation: draw-checkbox ease-in-out 0.2s forwards;
-    background-color: #76D5CE;
-    color: white;
-    width: 2em;
+  // Firefox doesn't render svg's that is loading with the use tag if its been set to display: none and then toggled to display: block, so you have to use tricks like this to get it to render again:
+  height: 24px;
+  animation: draw-checkbox ease-in-out 0.2s forwards;
+  background-color: #76d5ce;
+  color: white;
+  width: 2em;
 }
 
 label.enableAccept:active::after {
-// background-color: #e6e6e6;
-background-color: #76D5CE;
+  // background-color: #e6e6e6;
+  background-color: #76d5ce;
 }
 
-
 label.enableAccept {
-color: #3B4859;
-font-family: 'Rubik-Regular';
-font-size: 14px;
-line-height: 22px;
-cursor: pointer;
-position: relative;
-bottom: 42px;
-&:after {
+  color: #3b4859;
+  font-family: "Rubik-Regular";
+  font-size: 14px;
+  line-height: 22px;
+  cursor: pointer;
+  position: relative;
+  bottom: 42px;
+  &:after {
     content: "";
     height: 22px;
     width: 22px;
     margin-right: 1rem;
     float: left;
-    border: 1px solid #A0ACBC;
+    border: 1px solid #a0acbc;
     border-radius: 100%;
-    transition: 0.15s all ease-out;      
-}
+    transition: 0.15s all ease-out;
+  }
 }
 .faCircle-1 {
-color: transparent;
-stroke-width: 2px;
-height: 0; //Firefox fix
-width: 22px !important;
-height: 22px !important;
-font-size: 14px;
-position: absolute;
-right: 82px;
-border-radius: 100%;
-padding: 8px;
-stroke-dasharray: 33; //Firefox fix
+  color: transparent;
+  stroke-width: 2px;
+  height: 0; //Firefox fix
+  width: 22px !important;
+  height: 22px !important;
+  font-size: 14px;
+  position: absolute;
+  right: 82px;
+  border-radius: 100%;
+  padding: 8px;
+  stroke-dasharray: 33; //Firefox fix
 }
 input:checked + label.enableDecline > .faCircle-2 {
-// Firefox doesn't render svg's that is loading with the use tag if its been set to display: none and then toggled to display: block, so you have to use tricks like this to get it to render again:
-height: 24px;
-animation: draw-checkbox ease-in-out 0.2s forwards;
-background-color: #76D5CE;
-color: white;
-width: 2em;
+  // Firefox doesn't render svg's that is loading with the use tag if its been set to display: none and then toggled to display: block, so you have to use tricks like this to get it to render again:
+  height: 24px;
+  animation: draw-checkbox ease-in-out 0.2s forwards;
+  background-color: #76d5ce;
+  color: white;
+  width: 2em;
 }
 
 label.enableDecline:active::after {
-// background-color: #e6e6e6;
-background-color: #76D5CE;
+  // background-color: #e6e6e6;
+  background-color: #76d5ce;
 }
 
-
 label.enableDecline {
-color: #3B4859;
-font-family: 'Rubik-Regular';
-font-size: 15px;
-line-height: 22px;
-cursor: pointer;
-position: relative;
-bottom: 42px;
-&:after {
+  color: #3b4859;
+  font-family: "Rubik-Regular";
+  font-size: 15px;
+  line-height: 22px;
+  cursor: pointer;
+  position: relative;
+  bottom: 42px;
+  &:after {
     content: "";
     height: 22px;
     width: 22px;
     margin-right: 1rem;
     float: left;
-    border: 1px solid #A0ACBC;
+    border: 1px solid #a0acbc;
     border-radius: 100%;
-    transition: 0.15s all ease-out;      
-}
+    transition: 0.15s all ease-out;
+  }
 }
 .faCircle-2 {
-color: transparent;
-stroke-width: 2px;
-height: 0; //Firefox fix
-width: 22px !important;
-height: 22px !important;
-position: absolute;
-top: 14px;
-border-radius: 100%;
-padding: 8px;
-right: 88px;
-stroke-dasharray: 33; //Firefox fix
+  color: transparent;
+  stroke-width: 2px;
+  height: 0; //Firefox fix
+  width: 22px !important;
+  height: 22px !important;
+  position: absolute;
+  top: 14px;
+  border-radius: 100%;
+  padding: 8px;
+  right: 88px;
+  stroke-dasharray: 33; //Firefox fix
 }
-.adjustSubmitButton{
-width: 140px;
-line-height: 30px;
-border-radius: 2px;
-background-image: linear-gradient(90deg, #76D5CE, #5FB2AE);
-font-family: 'Karla-Bold';
-font-size: 16px;
-color: #FFFFFF;
-border: none;
-position: relative;
-bottom: 60px;
-left: 27px;
+.adjustSubmitButton {
+  width: 140px;
+  line-height: 30px;
+  border-radius: 2px;
+  background-image: linear-gradient(90deg, #76d5ce, #5fb2ae);
+  font-family: "Karla-Bold";
+  font-size: 16px;
+  color: #ffffff;
+  border: none;
+  position: relative;
+  bottom: 60px;
+  left: 27px;
 }
-.increaseHeight{
-    height: 415px;
+.increaseHeight {
+  height: 415px;
 }
-.adjustListgroup{
-    line-height: 37px;
-    position: relative;
-    border: none;      
-    background-color: transparent;
+.adjustListgroup {
+  line-height: 37px;
+  position: relative;
+  border: none;
+  background-color: transparent;
 }
-.textLeft{
-    font-family: 'Rubik-Medium';
-    font-size: 12px;
-    color: #3B4859
+.textLeft {
+  font-family: "Rubik-Medium";
+  font-size: 12px;
+  color: #3b4859;
 }
-.textRight{
-    font-family: 'Karla-Regular';
-    font-size: 14px;
-    color: #3B4859;
+.textRight {
+  font-family: "Karla-Regular";
+  font-size: 14px;
+  color: #3b4859;
 }
-.textRightOffer{
-    font-family: 'Karla-Regular';
-    font-size: 14px;
-    color: #76D4CD;
-    cursor: pointer;
+.textRightOffer {
+  font-family: "Karla-Regular";
+  font-size: 14px;
+  color: #76d4cd;
+  cursor: pointer;
 }
-.tableRequest_1{
-    background-color: white;
-    position: relative;
+.tableRequest_1 {
+  background-color: white;
+  position: relative;
 }
-.billText{
-    position: relative;
-    left: 17px;
-    bottom: 10px;
-    width: 1083px;
-    border-bottom: none;
-    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.04) !important;
-    border-right-color: white;
-    border-top-color: white;
-    border-left-color: white;
-    font-family: 'Rubik-Light';
-    font-size: 24px;
-    color: #3B4859;
-    padding-left: 28px;
-    padding-top: 26px;
+.billText {
+  position: relative;
+  left: 17px;
+  bottom: 10px;
+  width: 1083px;
+  border-bottom: none;
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.04) !important;
+  border-right-color: white;
+  border-top-color: white;
+  border-left-color: white;
+  font-family: "Rubik-Light";
+  font-size: 24px;
+  color: #3b4859;
+  padding-left: 28px;
+  padding-top: 26px;
 }
-.cardBodyBill{
-    position: relative;
-    bottom: 10px;
-    width: 1083px;
-    left: 17px;
-    background-color: white;
+.cardBodyBill {
+  position: relative;
+  bottom: 10px;
+  width: 1083px;
+  left: 17px;
+  background-color: white;
 }
-.alignTable{
-    padding: 20px;
-    padding-top: 0px;
+.alignTable {
+  padding: 20px;
+  padding-top: 0px;
 }
-.thead{
-    font-family: 'Rubik-Medium';
-    font-size: 12px;
-    color: #3B4859;
+.thead {
+  font-family: "Rubik-Medium";
+  font-size: 12px;
+  color: #3b4859;
 }
-.tbody{
-    font-family: 'Karla-Regular';
-    font-size: 14px;
-    color: #3B4859;
+.tbody {
+  font-family: "Karla-Regular";
+  font-size: 14px;
+  color: #3b4859;
 }
-.fullHistory{
-    font-family: 'Karla-Bold';
-    font-size: 16px;
-    color: #76D4CD;
-    position: relative;
-    left: 9px;
-    cursor: pointer;
+.fullHistory {
+  font-family: "Karla-Bold";
+  font-size: 16px;
+  color: #76d4cd;
+  position: relative;
+  left: 9px;
+  cursor: pointer;
 }
-.memoFromIndex{
-    height: 253px;
-    width: 1083px;
-    background-color: #FFFFFF;
-    border-color: #ffffff !important;
-    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.04) !important;
-    position: relative;
-    left: 17px;
+.memoFromIndex {
+  height: 253px;
+  width: 1083px;
+  background-color: #ffffff;
+  border-color: #ffffff !important;
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.04) !important;
+  position: relative;
+  left: 17px;
 }
-.textAreaMemo{
-    width: 1030px;
-    height: 104px !important;
-    border: 1px solid #A0ACBC;
-    border-radius: 5px;
-    font-family: 'Karla-Regular';
-    font-size: 16px;
-    color: rgba(59, 72, 89, 0.7);
-    padding-left: 20px;
-    padding-top: 17px;
+.textAreaMemo {
+  width: 1030px;
+  height: 104px !important;
+  border: 1px solid #a0acbc;
+  border-radius: 5px;
+  font-family: "Karla-Regular";
+  font-size: 16px;
+  color: rgba(59, 72, 89, 0.7);
+  padding-left: 20px;
+  padding-top: 17px;
 }
-.adjustSaveButton{
-width: 140px;
-line-height: 30px;
-border-radius: 2px;
-background-image: linear-gradient(90deg, #76D5CE, #5FB2AE);
-font-family: 'Karla-Bold';
-font-size: 16px;
-color: #FFFFFF;
-border: none;
-position: relative;
-left: 27px;
+.adjustSaveButton {
+  width: 140px;
+  line-height: 30px;
+  border-radius: 2px;
+  background-image: linear-gradient(90deg, #76d5ce, #5fb2ae);
+  font-family: "Karla-Bold";
+  font-size: 16px;
+  color: #ffffff;
+  border: none;
+  position: relative;
+  left: 27px;
 }
 // @media (min-width: 992px) {
 //     .asideIndex{
