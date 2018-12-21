@@ -119,6 +119,31 @@ class Forms extends Component {
     }
   }
 
+  handleNewPass = (e) => {
+    if (e.target.value === this.state.confirmPassword) {
+      this.setState({
+        [e.target.name]: e.target.value,
+        confirmPassFeedback: validationForm.matchPass,
+        validConfirmPassword: true,
+        invalidConfirmPassword: false,
+      })
+    } else if (e.target.value.length > this.state.confirmPassword.length) {
+      this.setState({
+        [e.target.name]: e.target.value,
+        confirmPassFeedback: validationForm.shortMatchPass,
+        validConfirmPassword: false,
+        invalidConfirmPassword: true,
+      })
+    } else {
+      this.setState({
+        [e.target.name]: e.target.value,
+        confirmPassFeedback: validationForm.notMatchPass,
+        validConfirmPassword: false,
+        invalidConfirmPassword: true,
+      })
+    }
+  }
+
   handleConfirmPass = (e) => {
     if (e.target.value === this.state.newPassword) {
       this.setState({
@@ -254,8 +279,7 @@ class Forms extends Component {
                       type="password"
                       name="newPassword"
                       value={this.state.newPassword}
-                      onChange={(e) => this.handleInput(e)}
-                      invalid={this.state.validPassword}
+                      onChange={(e) => this.handleNewPass(e)}
                       required
                     />
                   </FormGroup>
