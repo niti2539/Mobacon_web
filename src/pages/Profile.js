@@ -69,8 +69,10 @@ class Forms extends Component {
     };
   }
 
-  componentDidUpdate() {
-    this.setUser(this.props.user_detail);
+  componentDidUpdate(prevProps) {
+    if (this.props.user_detail !== prevProps.user_detail) {
+      this.setUser(this.props.user_detail);
+    }
   }
 
   toggle() {
@@ -84,7 +86,6 @@ class Forms extends Component {
   }
 
   setUser = user => {
-    if (this.state.firstUpdate) {
       this.setState({
         name: user.fullName,
         email: user.email,
@@ -92,7 +93,6 @@ class Forms extends Component {
         imagePath: api.baseUrl + user.imagePath,
         firstUpdate: false
       });
-    }
   }
 
   handleInput = (e) => {
@@ -120,9 +120,7 @@ class Forms extends Component {
   }
 
   handleConfirmPass = (e) => {
-    console.log(this.state.newPassword, e.target.value)
     if (e.target.value === this.state.newPassword) {
-      console.log(1)
       this.setState({
         [e.target.name]: e.target.value,
         confirmPassFeedback: validationForm.matchPass,
@@ -130,7 +128,6 @@ class Forms extends Component {
         invalidConfirmPassword: false,
       })
     } else if (e.target.value.length < this.state.newPassword.length) {
-      console.log(2)
       this.setState({
         [e.target.name]: e.target.value,
         confirmPassFeedback: validationForm.shortMatchPass,
@@ -138,7 +135,6 @@ class Forms extends Component {
         invalidConfirmPassword: true,
       })
     } else {
-      console.log(3)
       this.setState({
         [e.target.name]: e.target.value,
         confirmPassFeedback: validationForm.notMatchPass,
@@ -149,6 +145,7 @@ class Forms extends Component {
   }
 
   render() {
+    console.log(this.props.user_detail)
     return (
       <div className="animated fadeIn">
         <Row>
@@ -165,11 +162,11 @@ class Forms extends Component {
                     object src={this.state.imagePath}
                   />
                 </Media>
-                <FormGroup>
-                  <Label for="exampleFile">File</Label>
-                  <Input type="file" name="file" id="exampleFile" />
-                </FormGroup>
                 <Form action="" method="post">
+                  <FormGroup>
+                    <Label for="exampleFile">File</Label>
+                    <Input type="file" name="file" id="exampleFile" />
+                  </FormGroup>
                   <FormGroup>
                     <Label htmlFor="full name">Full Name</Label>
                     <Input
