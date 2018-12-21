@@ -120,14 +120,17 @@ class Forms extends Component {
   }
 
   handleConfirmPass = (e) => {
+    console.log(this.state.newPassword, e.target.value)
     if (e.target.value === this.state.newPassword) {
+      console.log(1)
       this.setState({
         [e.target.name]: e.target.value,
         confirmPassFeedback: validationForm.matchPass,
         validConfirmPassword: true,
         invalidConfirmPassword: false,
       })
-    } else if (e.target.value < this.state.newPassword) {
+    } else if (e.target.value.length < this.state.newPassword.length) {
+      console.log(2)
       this.setState({
         [e.target.name]: e.target.value,
         confirmPassFeedback: validationForm.shortMatchPass,
@@ -135,6 +138,7 @@ class Forms extends Component {
         invalidConfirmPassword: true,
       })
     } else {
+      console.log(3)
       this.setState({
         [e.target.name]: e.target.value,
         confirmPassFeedback: validationForm.notMatchPass,
