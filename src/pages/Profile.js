@@ -16,7 +16,9 @@ import {
   FormText,
   Input,
   Label,
-  Button
+  Button,
+  CustomInput,
+  FormFeedback
 } from "reactstrap";
 import "react-datepicker/dist/react-datepicker.css";
 import { api } from "../Configs"
@@ -24,27 +26,46 @@ import { connect } from "react-redux";
 import classnames from "classnames";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "../scss/profile.scss";
+
+const validationForm = {
+  correctPass: "Password correct!",
+  wrongPass: "Wrong password!",
+  matchPass: "Password match",
+  shortMatchPass: "Match password too short",
+  notMatchPass: "Passwords do not match",
+}
+
 class Forms extends Component {
   constructor(props) {
     super(props);
 
     this.toggle = this.toggle.bind(this);
     this.toggleFade = this.toggleFade.bind(this);
-    this.handleName = this.handleName.bind(this);
-    this.handlePhoneNumber = this.handlePhoneNumber.bind(this);
-    this.handleEmail = this.handleEmail.bind(this);
-    this.handlePassword = this.handlePassword.bind(this);
+    // this.handleName = this.handleName.bind(this);
+    // this.handlePhoneNumber = this.handlePhoneNumber.bind(this);
+    // this.handleEmail = this.handleEmail.bind(this);
+    // this.handlePassword = this.handlePassword.bind(this);
+    // this.handleImagePath = this.handleImagePath.bind(this);
     this.setUser = this.setUser.bind(this);
     this.state = {
       collapse: true,
       fadeIn: true,
       firstUpdate: true,
+      validPassword: false,
+      invalidPassword: false,
+      validConfirmPassword: false,
+      invalidConfirmPassword: false,
       timeout: 300,
       name: "",
       email: "",
       password: "",
       phoneNumber: "",
       imagePath: "",
+      newPassword: "",
+      confirmPassword: "",
+      passFeedback: "",
+      newPassFeedback: "",
+      confirmPassFeedback: "",
     };
   }
 
@@ -70,70 +91,103 @@ class Forms extends Component {
         phoneNumber: user.phoneNumber,
         imagePath: api.baseUrl + user.imagePath,
         firstUpdate: false
+      });
+    }
+  }
+
+  handleInput = (e) => {
+    this.setState({
+      [e.target.name]: e.target.value
+    })
+  }
+
+  handlePassword = (e) => {
+    if (!this.state.validPassword) {
+      this.setState({
+        [e.target.name]: e.target.value,
+        passFeedback: validationForm.correctPass,
+        validPassword: true,
+        invalidPassword: false,
+      })
+    } else {
+      this.setState({
+        [e.target.name]: e.target.value,
+        passFeedback: validationForm.wrongPass,
+        validPassword: false,
+        invalidPassword: true,
       })
     }
   }
 
-  handleName = event => {
-    this.setState({
-      name: event.target.value
-    });
-  };
-
-  handleEmail = event => {
-    this.setState({
-      email: event.target.value
-    });
-  };
-
-  handlePhoneNumber = event => {
-    this.setState({
-      phoneNumber: event.target.value
-    });
-  };
-
-  handlePassword = event => {
-    this.setState({
-      password: event.target.value
-    });
-  };
+  handleConfirmPass = (e) => {
+    if (e.target.value === this.state.newPassword) {
+      this.setState({
+        [e.target.name]: e.target.value,
+        confirmPassFeedback: validationForm.matchPass,
+        validConfirmPassword: true,
+        invalidConfirmPassword: false,
+      })
+    } else if (e.target.value < this.state.newPassword) {
+      this.setState({
+        [e.target.name]: e.target.value,
+        confirmPassFeedback: validationForm.shortMatchPass,
+        validConfirmPassword: false,
+        invalidConfirmPassword: true,
+      })
+    } else {
+      this.setState({
+        [e.target.name]: e.target.value,
+        confirmPassFeedback: validationForm.notMatchPass,
+        validConfirmPassword: false,
+        invalidConfirmPassword: true,
+      })
+    }
+  }
 
   render() {
-    // console.log(this.state.imagePath)
     return (
       <div className="animated fadeIn">
         <Row>
           <p className="alignProfile">Your Profile</p>
         </Row>
         <Row>
-          {/* <Col xs="6" md="12" className="mb-4 ml-3"> */}
-          {/* <Col xs="6" md="5" className="mb-4 ml-3"> */}
           <Col className="mb-4 ml-3">
             <TabContent className="adjustBorderColor adjustTabWidth">
               <TabPane>
-                <Media>
-                    <Media object src={this.state.imagePath} />
+                <p className="alignHeader">Update Profile</p>
+                <Media href="">
+                  <Media
+                    className="inputGroup"
+                    object src={this.state.imagePath}
+                  />
                 </Media>
+                <FormGroup>
+                  <Label for="exampleFile">File</Label>
+                  <Input type="file" name="file" id="exampleFile" />
+                </FormGroup>
                 <Form action="" method="post">
                   <FormGroup>
                     <Label htmlFor="full name">Full Name</Label>
                     <Input
-                      className="changeSize"
+                      className="changeSize "
                       type="text"
                       id="full name"
-                      onChange={this.handleName}
+                      name="name"
+                      onChange={(e) => this.handleInput(e)}
                       placeholder="full name"
                       value={this.state.name}
                       required
                     />
+
                   </FormGroup>
                   <FormGroup>
                     <Label htmlFor="phoneNumber">Phone Number</Label>
                     <Input
-                      className="changeSize"
+                      className="changeSize "
                       type="text"
                       id="phoneNumber"
-                      onChange={this.handlePhoneNumber}
+                      name="phoneNumber"
+                      onChange={(e) => this.handleInput(e)}
                       placeholder="phone number"
                       value={this.state.phoneNumber}
                       required
@@ -144,10 +198,11 @@ class Forms extends Component {
                       Email
                     </Label>
                     <Input
-                      className="changeSize"
+                      className="changeSize "
                       type="email"
                       id="email"
-                      onChange={this.handleEmail}
+                      name="email"
+                      onChange={(e) => this.handleInput(e)}
                       placeholder="email"
                       value={this.state.email}
                       disabled
@@ -155,7 +210,7 @@ class Forms extends Component {
                     />
                   </FormGroup>
                   <div className="form-actions">
-                    <Button type="submit" className="adjustButtonUpdate">
+                    <Button type="submit" className="adjustButtonUpdate ">
                       UPDATE
                     </Button>
                   </div>
@@ -164,36 +219,62 @@ class Forms extends Component {
             </TabContent>
           </Col>
 
-          <Col xs="6" md="5.5" className="mb-4 ml-3" >
-            {/* <Col sm={{ size: 'auto', offset: 1 }} > */}
+          {/* <Col xs="6" md="5.5" className="mb-4 ml-3" > */}
+          <Col>
             <TabContent className="adjustBorderColor adjustTabWidth">
               <TabPane>
+                <p className="alignHeader">Change Password</p>
                 <Form action="" method="post">
                   <FormGroup>
                     <Label htmlFor="password" className="alignForPassword">
-                      password
+                      Current password
                     </Label>
                     <Input
-                      className="changeSize"
+                      className="changeSize inputGroup"
                       type="password"
                       id="password"
-                      onChange={this.handlePassword}
-                      placeholder="●●●●●●●"
+                      name="password"
+                      onChange={(e) => this.handlePassword(e)}
+                      value={this.state.password}
+                      valid={this.state.validPassword}
+                      invalid={this.state.invalidPassword}
+                      required
+                    />
+                    {this.state.password.length != 0 && (
+                      <FormFeedback valid={this.state.validPassword}>{this.state.passFeedback}</FormFeedback>
+                    )}
+                  </FormGroup>
+                  <FormGroup>
+                    <Label htmlFor="password" className="alignForPassword">
+                      New password
+                    </Label>
+                    <Input
+                      className="changeSize inputGroup"
+                      type="password"
+                      name="newPassword"
+                      value={this.state.newPassword}
+                      onChange={(e) => this.handleInput(e)}
+                      invalid={this.state.validPassword}
                       required
                     />
                   </FormGroup>
                   <FormGroup>
                     <Label htmlFor="password" className="alignForPassword">
-                      confirm password
+                      Confirm password
                     </Label>
                     <Input
-                      className="changeSize"
+                      className="changeSize inputGroup"
                       type="password"
-                      id="password"
-                      onChange={this.handlePassword}
-                      placeholder="●●●●●●●"
+                      name="confirmPassword"
+                      value={this.state.confirmPassword}
+                      onChange={(e) => this.handleConfirmPass(e)}
+                      valid={this.state.validConfirmPassword}
+                      invalid={this.state.invalidConfirmPassword}
                       required
                     />
+                    {this.state.confirmPassword.length != 0 && (
+                      <FormFeedback valid={this.state.validConfirmPassword}>{this.state.confirmPassFeedback}</FormFeedback>
+                    )}
                   </FormGroup>
                   <div className="form-actions">
                     <Button type="submit" className="adjustButtonUpdate">
