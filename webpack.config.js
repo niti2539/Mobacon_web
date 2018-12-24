@@ -2,6 +2,8 @@ const path = require("path");
 const webpack = require("webpack");
 const CleanWebpackPlugin = require("clean-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+var WebpackClearConsole = require("webpack-clear-console").WebpackClearConsole;
+
 const port = 3000;
 const publicPath = path.join(__dirname, "public");
 
@@ -15,12 +17,6 @@ module.exports = (env, argv) => {
     output: {
       filename: "[name].js",
       path: path.resolve(__dirname, "build")
-    },
-    resolve: {
-      extensions: [".js", ".json"]
-    },
-    optimization: {
-      minimize: !dev
     },
     devtool: dev ? "source-map" : false,
     mode: mode,
@@ -115,8 +111,12 @@ module.exports = (env, argv) => {
     },
     plugins: [
       new CleanWebpackPlugin(["build"]),
-      new HtmlWebpackPlugin(),
-      ...(dev ? [new webpack.HotModuleReplacementPlugin()] : [])
+      new HtmlWebpackPlugin({
+        template: "public/index.html"
+      }),
+      ...(dev
+        ? [new webpack.HotModuleReplacementPlugin()]
+        : [])
     ]
   };
 };
