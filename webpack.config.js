@@ -16,7 +16,7 @@ module.exports = (env, argv) => {
     ],
     output: {
       filename: "app.js",
-      path: path.resolve(__dirname, "dist")
+      path: path.resolve(__dirname, "build")
     },
     resolve: {
       extensions: [".js", ".json"]
