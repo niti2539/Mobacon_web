@@ -11,35 +11,45 @@ function ReqError(response) {
   this.response = {
     data: response
   };
-  return this.response;
+  return this;
 }
 
 async function handleError(response) {
   if (!response.ok) {
     if (response.status == 401) {
-      console.log("Status", response.status);
+      console.log("error response", response);
       window.location.replace("/login");
     }
-    const result = await response.json();
-
-    console.error("Response error", result.message);
+    try {
+      var result = await response.json();
+      handleToken(result);
+    } catch (err) {
+      return response;
+    }
     throw new ReqError(result);
+    // console.error("Response error", result.message);
   }
   return response;
 }
 
-async function handleResponse(response) {
-  const result = await response.json();
+function handleToken(result) {
   if (result.token) {
-    await localStorage.setItem("accessToken", result.token);
-    // console.log("Set new token", result.token);
+    localStorage.setItem("accessToken", result.token);
+    console.log("Set new token", result.token);
   }
+}
+
+async function handleResponse(response) {
+  console.log("response", response);
+  const result = await response.json();
+  console.log("json response", result);
+  handleToken(result);
   return result;
 }
 
 export const imageRequest = async (path = "") => {
   const token = localStorage.getItem("accessToken");
-  console.log("Path", path);
+  if (path.trim() === "") return null;
   let config = {
     method: "GET",
     headers: {
@@ -49,7 +59,9 @@ export const imageRequest = async (path = "") => {
   };
   return new Promise((resolve, reject) => {
     fetch(api.baseUrl + path, config)
-      .then(handleError)
+      // .then(function(res) {
+      //   return handleError(res, false);
+      // })
       .then(response => response.blob())
       .then(images => {
         // Then create a local URL for that image and print it
@@ -81,7 +93,7 @@ export const apiRequest = async (
       ...headers
     }
   };
-  if (!includes(["GET", "PATCH"], method)) {
+  if (body) {
     config.body = JSON.stringify(body);
   }
 

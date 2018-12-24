@@ -1,4 +1,4 @@
-import { actionType } from "../actions";
+import { actionType } from "../actions/index";
 const initialState = {
   user_detail: {
     id: null,

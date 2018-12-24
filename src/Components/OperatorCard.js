@@ -27,6 +27,7 @@ class OperatorCard extends Component {
   constructor(props) {
     super(props);
     this.state = { isDropdown: false, operatorImage: null };
+    this.setUser = this.setUser.bind(this);
   }
   toggle = () => {
     this.setState({ isDropdown: !this.state.isDropdown });
@@ -39,13 +40,25 @@ class OperatorCard extends Component {
 
   componentDidMount = async () => {
     const { data } = this.props;
+    await this.setUser(data);
+  };
+
+  async componentDidUpdate(prevProps) {
+    if (prevProps.data !== this.props.data) {
+      await this.setUser(this.props.data);
+    }
+  }
+
+  async setUser(data) {
+    if (!data.imagePath || data.imagePath.length < 1) return;
     const result = await imageRequest(data.imagePath);
     this.setState({ operatorImage: result });
-  };
+  }
 
   render() {
     const { data, setActivate, onSendVerify } = this.props;
     const { isDropdown, operatorImage } = this.state;
+    const id = localStorage.getItem("id");
     // activated: true
     // dislike: 4
     // email: "admin@mobacon.com"
@@ -60,18 +73,34 @@ class OperatorCard extends Component {
       <Col xs="12" md="4" lg="4" className="mb-4">
         <Card className="borderCard">
           <CardBody>
-            <div class="actionButton">
+            {id == data.id && (
+              <div
+                style={{
+                  fontFamily: "Rubik-Medium",
+                  position: "absolute",
+                  left: 10,
+                  top: 10,
+                  opacity: 0.4
+                }}
+              >
+                <strong style={{ color: "#fff" }}>YOU</strong>
+              </div>
+            )}
+            <div className="actionButton">
               <Dropdown isOpen={isDropdown} toggle={this.toggle}>
                 <DropdownToggle>
                   <Icon icon="bars" />
                 </DropdownToggle>
                 <DropdownMenu>
-                  <DropdownItem onClick={() => setActivate(data.id)}>
+                  <DropdownItem
+                    onClick={() => setActivate(data.id)}
+                    disabled={id == data.id}
+                  >
                     {data.activated ? "Deactivate" : "Activate"}
                   </DropdownItem>
                   {!data.verified && (
                     <DropdownItem onClick={() => onSendVerify(data.id)}>
-                      Send verify
+                      {!data.sendVerify ? "Send verify" : "Verify has sent"}
                     </DropdownItem>
                   )}
                 </DropdownMenu>

@@ -111,7 +111,20 @@ class Tabs extends Component {
       data: { offer }
     } = this.state;
     await this.setState({ submitting: true });
-    await createOffer(id, offer.review, offer.suggestion);
+    if (!offer) alert("Review or Suggestion cannot empty!!");
+    if (!offer.review || !offer.suggestion)
+      alert("Review and suggestion cannot empty!!");
+    if (offer.review && offer.suggesstion) {
+      try {
+        const result = await createOffer(id, offer.review, offer.suggestion);
+        alert(result.message);
+      } catch (err) {
+        if (err.response) {
+          alert(err.response.data.message);
+        }
+        console.log("submit offer error", err);
+      }
+    }
     await this.setState({ submitting: false });
   };
 

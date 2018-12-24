@@ -20,7 +20,8 @@ import {
   AppSidebarToggler,
   AppSidebarMinimizer
 } from "@coreui/react";
-import { api } from "../../Configs";
+import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
+import { api, imageRequest } from "../../Configs";
 import { Link } from "react-router-dom";
 
 const propTypes = {
@@ -30,10 +31,14 @@ const propTypes = {
 const defaultProps = {};
 
 class DefaultHeader extends Component {
-  state = {
-    notExpand: false,
-    user: {}
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      notExpand: false,
+      user: {}
+    };
+    this.componentDidMount = this.componentDidMount.bind(this);
+  }
 
   toggleHandler = () => {
     let doesshow = this.state.notExpand;
@@ -42,22 +47,41 @@ class DefaultHeader extends Component {
 
   handlePropsChange = prevProps => {
     if (prevProps.user.user_detail !== this.props.user.user_detail) {
-      this.setState({ user: this.props.user.user_detail });
+      this.setUser();
     }
-    // console.log("update user", currentState);
   };
 
   componentDidMount() {
-    this.setState({ user: this.props.user.user_detail });
+    this.setUser();
   }
 
+  setUser = async () => {
+    const {
+      user: { user_detail: user }
+    } = this.props;
+    try {
+      const result = await imageRequest(user.imagePath);
+      this.setState({
+        user: {
+          ...user,
+          imagePath: result
+        }
+      });
+    } catch (error) {
+      if (error.response) {
+        alert(error.response.data.message);
+      }
+      console.log(error);
+    }
+  };
+
   componentDidUpdate = prevProps => {
-    console.log("prev user", prevProps.user.user_detail);
-    console.log("new user", this.props.user.user_detail);
-    console.log(
-      "isEqual data",
-      prevProps.user.user_detail === this.props.user.user_detail
-    );
+    // console.log("prev user", prevProps.user.user_detail);
+    // console.log("new user", this.props.user.user_detail);
+    // console.log(
+    //   "isEqual data",
+    //   prevProps.user.user_detail === this.props.user.user_detail
+    // );
     this.handlePropsChange(prevProps);
   };
 
@@ -77,26 +101,27 @@ class DefaultHeader extends Component {
         </div>
 
         <Nav navbar>
-          <NavItem className="d-md-down-none">
-            <NavLink href="/chat">
-              <i className="icon-bubble" />
-            </NavLink>
-          </NavItem>
-
-          {/*
-          <NavItem className="d-md-down-none">
-            <NavLink href="#"><i className="icon-list"></i></NavLink>
-          </NavItem>
-          */}
+          <div className="navbarIcon">
+            <NavItem className="d-md-down-none">
+              <NavLink href="/chat">
+                <Icon icon="comments" />
+              </NavLink>
+            </NavItem>
+            <NavItem className="d-md-down-none">
+              <NavLink href="#">
+                <Icon icon="bell" />
+              </NavLink>
+            </NavItem>
+          </div>
           <NavItem className="d-md-down-none adminName" style={{ width: 100 }}>
             <p className="admin">{user.fullName}</p>
           </NavItem>
           <AppHeaderDropdown direction="down">
             <DropdownToggle nav>
-              <i className="icon-arrow-down" />
+              <Icon icon="chevron-down" />
               {user.imagePath && (
                 <img
-                  src={`${api.baseUrl + user.imagePath}`}
+                  src={user.imagePath}
                   className="img-avatar"
                   alt={user.email}
                 />

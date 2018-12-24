@@ -477,7 +477,6 @@ class Dashboard extends Component {
   }
 
   render() {
-    console.log('state', this.props.state)
     const w20per = {width: '20%', flex: '0 0 20%'};
     return (
       <DashStyle className="animated fadeIn">

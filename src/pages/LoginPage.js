@@ -38,7 +38,7 @@ var emailTimeOutValidate = setTimeout(() => {}, 1000);
 class Login extends Component {
   state = {
     email: "admin@mobacon.com",
-    password: "wiwiwi",
+    password: "1234",
     errorMsg: [],
     emailError: false,
     emailSuccess: false,
@@ -216,9 +216,7 @@ class Login extends Component {
       password
     };
     let result = await this.props.signIn(data);
-    if (result.token) {
-      localStorage.setItem("id", result.info.id);
-      localStorage.setItem("accessToken", result.token);
+    if (result) {
       this.props.history.push("/dashboard");
     } else {
       this.setState({

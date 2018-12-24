@@ -52,7 +52,11 @@ import {
   faTimes,
   faThumbsUp,
   faThumbsDown,
-  faBars
+  faBars,
+  faComments,
+  faChevronDown,
+  faBell,
+  faPaperPlane
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(faAngleDown);
@@ -65,6 +69,10 @@ library.add(faTimes);
 library.add(faThumbsDown);
 library.add(faThumbsUp);
 library.add(faBars);
+library.add(faComments);
+library.add(faBell);
+library.add(faChevronDown);
+library.add(faPaperPlane);
 
 class App extends Component {
   render() {

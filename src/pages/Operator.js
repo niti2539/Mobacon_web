@@ -31,7 +31,6 @@ class Tabs extends Component {
     activeTab: "1",
     modalSignupOpen: false,
     modalOperatorDetailShow: false,
-    dropdownOpen: false,
     name: "",
     email: "",
     phoneNumber: "",
@@ -181,9 +180,33 @@ class Tabs extends Component {
     //   .catch(error => this.setState({ error, isLoading: false }));
   }
 
-  setActiate = id => {};
+  setActivate = async (id = null) => {
+    if (!window.confirm("Are you sure to activate or deactivate this operator"))
+      return;
+    try {
+      const result = await apiRequest(`/operator/activation/${id}`, "PATCH");
+      alert(result.message);
+      this.getOperators();
+    } catch (err) {
+      alert(err.response.data.message);
+    }
+  };
 
-  onSendVerify = id => {};
+  onSendVerify = async id => {
+    try {
+      const result = await apiRequest("/verification", "POST", {
+        userId: id
+      });
+      if (result) {
+        alert(result.message);
+      }
+    } catch (err) {
+      if (err.response) {
+        alert(err.response.data.message);
+      }
+      console.log(err);
+    }
+  };
 
   componentDidMount() {
     this.getOperators();
@@ -203,6 +226,14 @@ class Tabs extends Component {
 
     return (
       <React.Fragment>
+        <Modal
+          open={modalSignupOpen}
+          onClose={this.closeModal}
+          center
+          className="modalBox"
+        >
+          <Register />
+        </Modal>
         <div className="animated fadeIn">
           <Row>
             <Col xs="6" md="6">
@@ -225,7 +256,7 @@ class Tabs extends Component {
               <OperatorCard
                 key={i}
                 data={data}
-                setActivate={this.setActiate}
+                setActivate={this.setActivate}
                 onSendVerify={this.onSendVerify}
               />
             ))}
@@ -271,112 +302,6 @@ class Tabs extends Component {
             </div>
           </div>
         </div>
-        <Modal
-          open={modalSignupOpen}
-          onClose={this.closeModal}
-          center
-          className="modalBox"
-        >
-          <Card className="mx-4 RegisterPage">
-            <CardBody className="p-4">
-              <h1 className="text-center color-main">Signup</h1>
-              <p className="text-center color-main">Create your account</p>
-              <FormGroup>
-                <Label htmlFor="RoleId">RoleId</Label>
-                <div>
-                  <ButtonDropdown
-                    isOpen={this.state.dropdownOpen}
-                    toggle={this.toggle}
-                  >
-                    <DropdownToggle
-                      caret
-                      size="lg"
-                      className="RoleId"
-                      id="dropdown"
-                    >
-                      {this.state.value}{" "}
-                      <FontAwesomeIcon
-                        icon="angle-down"
-                        className="angleDown"
-                      />
-                    </DropdownToggle>
-                    <DropdownMenu className="roleIdChoice">
-                      <DropdownItem onClick={this.nameChangeRoleId} value="1">
-                        ADMINISTRATOR
-                      </DropdownItem>
-                      <DropdownItem onClick={this.nameChangeRoleId} value="2">
-                        OPERATOR
-                      </DropdownItem>
-                    </DropdownMenu>
-                  </ButtonDropdown>
-                </div>
-              </FormGroup>
-              <FormGroup>
-                <Label htmlFor="fullName">Full Name</Label>
-                <Input
-                  type="text"
-                  id="fullName"
-                  onChange={this.handleName}
-                  placeholder="Mihai Petrea"
-                  required
-                />
-              </FormGroup>
-              <FormGroup>
-                <Label htmlFor="email">Email</Label>
-                <Input
-                  type="email"
-                  id="email"
-                  onChange={this.handleEmail}
-                  placeholder="user@domain.com"
-                  required
-                  className="form-control"
-                />
-              </FormGroup>
-              <FormGroup>
-                <Label htmlFor="phoneNumber">Phone Number</Label>
-                <Input
-                  type="phoneNumber"
-                  id="phoneNumber"
-                  onChange={this.phoneNumberHandleChange}
-                  placeholder="0832345476"
-                />
-              </FormGroup>
-
-              {/* <FontAwesomeIcon icon="upload"></FontAwesomeIcon>
-                <Input type="file" onChange={this.fileChangedHandler} id="image" /> */}
-              <form className="md-form">
-                <span className="alignImage">Image</span>
-                <div className="file-field">
-                  <div className="btn btn-sm fileInput">
-                    <Input
-                      type="file"
-                      id="file"
-                      style={divStyle}
-                      onChange={this.fileChangedHandler}
-                    />
-                    <Label for="file" style={cursor}>
-                      Choose a file
-                    </Label>
-                  </div>
-                  <span className="imageName">{this.state.imageName}</span>
-                </div>
-              </form>
-
-              <br />
-              <Row className="justify-content-center">
-                <Col md="auto">
-                  <Button
-                    color="primary"
-                    onClick={this.clickValidate}
-                    className="px-4"
-                  >
-                    SIGNUP
-                  </Button>
-                </Col>
-              </Row>
-            </CardBody>
-          </Card>
-        </Modal>
       </React.Fragment>
     );
   }
