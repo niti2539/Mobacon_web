@@ -1,5 +1,7 @@
 const path = require("path");
 const webpack = require("webpack");
+const CleanWebpackPlugin = require("clean-webpack-plugin");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 const port = 3000;
 const publicPath = path.join(__dirname, "public");
 
@@ -9,13 +11,9 @@ module.exports = (env, argv) => {
   console.log("Run webpack in", mode, "mode");
 
   return {
-    entry: [
-      "webpack-dev-server/client?http://localhost:" + port,
-      "webpack/hot/dev-server",
-      "./src/index.js"
-    ],
+    entry: { app: "./src/index.js" },
     output: {
-      filename: "app.js",
+      filename: "[name].js",
       path: path.resolve(__dirname, "build")
     },
     resolve: {
@@ -115,6 +113,10 @@ module.exports = (env, argv) => {
         index: "index.html"
       }
     },
-    plugins: [new webpack.HotModuleReplacementPlugin()]
+    plugins: [
+      new CleanWebpackPlugin(["build"]),
+      new HtmlWebpackPlugin(),
+      ...(dev ? [new webpack.HotModuleReplacementPlugin()] : [])
+    ]
   };
 };
