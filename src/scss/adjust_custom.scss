@@ -1,455 +1,452 @@
 div.app {
-	>div.container {
-		>div.row {
-			>div.col-md-6 {
-				max-width: 28.75rem;
-				height: 32.1875rem;
-			}
-		}
-	}
+  > div.container {
+    > div.row {
+      > div.col-md-6 {
+        max-width: 28.75rem;
+        height: 32.1875rem;
+      }
+    }
+  }
 }
 div.app > div.container > div.row > div.col-md-6 > div.card {
-    max-width: 28.75rem;
-    height: 32.1875rem;
-    border-color: white;
-    box-shadow: 0px 0px 10px #e1f1f2;
-    margin-top: -30px;
-    background-color: white;
+  max-width: 28.75rem;
+  height: 32.1875rem;
+  border-color: white;
+  box-shadow: 0px 0px 10px #e1f1f2;
+  margin-top: -30px;
+  background-color: white;
 }
 
 div.Login {
-    height: fit-content !important;
+  height: fit-content !important;
 }
 
-@font-face{
-    font-family: 'Karla-Bold';
-    src: local('Karla-Bold'),
-      url('../react-font/Karla-Bold.ttf') format('truetype')
+@font-face {
+  font-family: "Karla-Bold";
+  src: local("Karla-Bold"),
+    url("../react-font/Karla-Bold.ttf") format("truetype");
 }
-@font-face{
-    font-family: 'Karla-Regular';
-    src: local('Karla-Regular'),
-        url('../react-font/Karla-Regular.ttf') format('truetype')
+@font-face {
+  font-family: "Karla-Regular";
+  src: local("Karla-Regular"),
+    url("../react-font/Karla-Regular.ttf") format("truetype");
 }
-@font-face{
-    font-family: 'Rubik-Bold';
-    src: local('Rubik-Bold'),
-        url('../react-font/Rubik-Bold.ttf') format('truetype')
+@font-face {
+  font-family: "Rubik-Bold";
+  src: local("Rubik-Bold"),
+    url("../react-font/Rubik-Bold.ttf") format("truetype");
 }
-@font-face{
-    font-family: 'Rubik-Light';
-    src: local('Rubik-Light'),
-        url('../react-font/Rubik-Light.ttf') format('truetype')
+@font-face {
+  font-family: "Rubik-Light";
+  src: local("Rubik-Light"),
+    url("../react-font/Rubik-Light.ttf") format("truetype");
 }
-@font-face{
-    font-family: 'Rubik-Medium';
-    src: local('Rubik-Medium'),
-        url('../react-font/Rubik-Medium.ttf') format('truetype')
+@font-face {
+  font-family: "Rubik-Medium";
+  src: local("Rubik-Medium"),
+    url("../react-font/Rubik-Medium.ttf") format("truetype");
 }
-@font-face{
-    font-family: 'Rubik-Regular';
-    src: local('Rubik-Regular'),
-        url('../react-font/Rubik-Regular.ttf') format('truetype')
+@font-face {
+  font-family: "Rubik-Regular";
+  src: local("Rubik-Regular"),
+    url("../react-font/Rubik-Regular.ttf") format("truetype");
 }
-@font-face{
-    font-family: 'SourceSansPro-Bold';
-    src: local('SourceSansPro-Bold'),
-        url('../react-font/SourceSansPro-Bold.ttf') format('truetype')
+@font-face {
+  font-family: "SourceSansPro-Bold";
+  src: local("SourceSansPro-Bold"),
+    url("../react-font/SourceSansPro-Bold.ttf") format("truetype");
 }
-.Logo{
-    padding-left: 30px;
-    position: relative;
-    left: 32px;
+.Logo {
+  padding-left: 30px;
+  position: relative;
+  left: 32px;
 }
-.backgroundLogo{
-    background-color: #79BFBC;
-    line-height: 56px;
-    width: 246px;
+.backgroundLogo {
+  background-color: #79bfbc;
+  line-height: 56px;
+  width: 246px;
 }
-.cursorProfile{
-    cursor: pointer;
+.cursorProfile {
+  cursor: pointer;
 }
-h1.color-main{
-    font-family: 'Rubik-Light';
-    font-size: 2.25rem;
-    color: #3B4859;
-    // color: #79BFBC;
-    margin-top: 1.25rem;
+h1.color-main {
+  font-family: "Rubik-Light";
+  font-size: 2.25rem;
+  color: #3b4859;
+  // color: #79BFBC;
+  margin-top: 1.25rem;
 }
-p.color-main{
-    font-family: 'Karla-Regular';
-    font-size: 1rem;
-    color: #8392A7;
-    margin-top: 1rem;
-    margin-bottom: 1.5625rem;
+p.color-main {
+  font-family: "Karla-Regular";
+  font-size: 1rem;
+  color: #8392a7;
+  margin-top: 1rem;
+  margin-bottom: 1.5625rem;
 }
-div.app{
-    background-color: #F9FAFC !important;
+div.app {
+  background-color: #f9fafc !important;
 }
-div.container div.form-group > label{
-    font-family: 'Rubik-Medium';
-    font-size: 0.875rem;
-    color: #3B4859;
+div.container div.form-group > label {
+  font-family: "Rubik-Medium";
+  font-size: 0.875rem;
+  color: #3b4859;
 }
-div.container div.form-group > input{
-    height: 3.25rem;
-    font-family: 'Karla-Regular';
-    font-size: 1rem;
-    color: #3B4859;
-    width: 90% !important;
-    margin-bottom: 1.25rem;
-    // float: left;
+div.container div.form-group > input {
+  height: 3.25rem;
+  font-family: "Karla-Regular";
+  font-size: 1rem;
+  color: #3b4859;
+  width: 90% !important;
+  margin-bottom: 1.25rem;
+  // float: left;
 }
-.circle{
-    float: right;
-    font-size: 24px;
-    color: #3B4859;
-    bottom: 59px;
-    position: relative;
+.circle {
+  float: right;
+  font-size: 24px;
+  color: #3b4859;
+  bottom: 59px;
+  position: relative;
 }
 div.container div.row > div.text-right > button {
-   
-    font-family: 'Rubik-Medium';
-    font-size: 0.875rem;
-    color: #79BFBC;
-    margin-bottom: 0.875rem;
+  font-family: "Rubik-Medium";
+  font-size: 0.875rem;
+  color: #79bfbc;
+  margin-bottom: 0.875rem;
 }
 
-.ml-4, .mx-4{
-    margin-left: 0px !important;
-    margin-right: 0px !important;
+.ml-4,
+.mx-4 {
+  margin-left: 0px !important;
+  margin-right: 0px !important;
 }
-div > div.col-md-auto > button{
-    
-    font-family: 'Rubik-Regular';
-    font-size: 0.875rem;
-    color: #3B4859;
+div > div.col-md-auto > button {
+  font-family: "Rubik-Regular";
+  font-size: 0.875rem;
+  color: #3b4859;
 }
-div.justify-content-center > div.col-md-auto > button{
-    width: 11rem !important;
-    height: 3.125rem !important;
-    background-image: linear-gradient(90deg, #76D5CE, #5FB2AE) !important;
-    border-color: transparent;
-    background-color: transparent;
-    font-family: 'Karla-Bold';
-    font-size: 1rem;
-    color: #FFFFFF;
-    margin-top: 9px;
+div.justify-content-center > div.col-md-auto > button {
+  width: 11rem !important;
+  height: 3.125rem !important;
+  background-image: linear-gradient(90deg, #76d5ce, #5fb2ae) !important;
+  border-color: transparent;
+  background-color: transparent;
+  font-family: "Karla-Bold";
+  font-size: 1rem;
+  color: #ffffff;
+  margin-top: 9px;
 }
-.SignupButton{
-    margin-left: 13%;
+.SignupButton {
+  margin-left: 13%;
 }
 div.app > div.container > div.row > div.Register.col-md-6 {
-    height: 42.875rem;
-    margin-top: -30px;
+  height: 42.875rem;
+  margin-top: -30px;
 }
-div.app > div.container > div.row > div.Register.col-md-6 > div.card{
-    height: 42.875rem;
-    margin-top: -15px;
+div.app > div.container > div.row > div.Register.col-md-6 > div.card {
+  height: 42.875rem;
+  margin-top: -15px;
 }
-div.Link-to-signin > div.col-md-auto{
-    font-family: 'Rubik-Regular';
-    font-size: 0.875rem;
-    color: #3B4859;
+div.Link-to-signin > div.col-md-auto {
+  font-family: "Rubik-Regular";
+  font-size: 0.875rem;
+  color: #3b4859;
 }
-div.Link-to-signin > div.col-md-auto > a{
-    font-family: 'Rubik-Bold';
-    font-size: 0.875rem;
-    color: #3B4859;
-    text-decoration: underline;
-    padding-left: 5px;
+div.Link-to-signin > div.col-md-auto > a {
+  font-family: "Rubik-Bold";
+  font-size: 0.875rem;
+  color: #3b4859;
+  text-decoration: underline;
+  padding-left: 5px;
 }
-div.Link-to-signup > div.col-md-auto > a{
-    font-family: 'Rubik-Bold';
-    font-size: 0.875rem;
-    color: #3B4859;
-    text-decoration: underline;
-    padding-left: 5px;
+div.Link-to-signup > div.col-md-auto > a {
+  font-family: "Rubik-Bold";
+  font-size: 0.875rem;
+  color: #3b4859;
+  text-decoration: underline;
+  padding-left: 5px;
 }
-.RoleId{
-    background-color: #FFFFFF;
-    width: 23.75rem;
-    border: 1px solid #e4e7ea;
-    border-radius: 5px;
-    font-family: 'Karla-Regular';
-    font-size: 1rem;
-    color: rgba(59, 72, 89, 0.8) !important;
+.RoleId {
+  background-color: #ffffff;
+  width: 23.75rem;
+  border: 1px solid #e4e7ea;
+  border-radius: 5px;
+  font-family: "Karla-Regular";
+  font-size: 1rem;
+  color: rgba(59, 72, 89, 0.8) !important;
 }
-.RoleId:hover{
-    background-color: #FFFFFF;
-    border: 1px solid #e4e7ea;
+.RoleId:hover {
+  background-color: #ffffff;
+  border: 1px solid #e4e7ea;
 }
-.RoleId::after:hover{
-    background-color: #FFFFFF;
+.RoleId::after:hover {
+  background-color: #ffffff;
 }
-button.RoleId.dropdown-toggle.btn.btn-secondary.btn-lg{
-    text-align: left;
-    font-family: 'Karla-Regular';
-    font-size: 1rem;
-    color: #3B4859;
-    background-color: #FFFFFF;
-    box-shadow: none;
+button.RoleId.dropdown-toggle.btn.btn-secondary.btn-lg {
+  text-align: left;
+  font-family: "Karla-Regular";
+  font-size: 1rem;
+  color: #3b4859;
+  background-color: #ffffff;
+  box-shadow: none;
 }
-.dropdown-toggle::after{
-    display:none !important;
+.dropdown-toggle::after {
+  display: none !important;
 }
-.btn-group, .btn-group-vertical{
-    width: 100% !important;
+.btn-group,
+.btn-group-vertical {
+  width: 100% !important;
 }
-.angleDown{
-    position: relative;
-    top: 6px;
-    vertical-align: middle;
-    color: #3B4859;
-    float: right;
-    font-family: 'Karla-Regular';
+.angleDown {
+  position: relative;
+  top: 6px;
+  vertical-align: middle;
+  color: #3b4859;
+  float: right;
+  font-family: "Karla-Regular";
 }
-.roleIdChoice{
-    width: 343px !important;
-    font-family: 'Karla-Regular';
-    font-size: 1rem;
+.roleIdChoice {
+  width: 343px !important;
+  font-family: "Karla-Regular";
+  font-size: 1rem;
 }
-button.RoleId.dropdown-toggle.btn.btn-secondary.btn-lg, .btn-group-lg > button.Carrier.dropdown-toggle.btn.btn-secondary{
-    border: 1px solid #e4e7ea !important;
-  
+button.RoleId.dropdown-toggle.btn.btn-secondary.btn-lg,
+.btn-group-lg > button.Carrier.dropdown-toggle.btn.btn-secondary {
+  border: 1px solid #e4e7ea !important;
 }
-.RoleIdTooltip{
-    bottom: 40px;
+.RoleIdTooltip {
+  bottom: 40px;
 }
-.sidebar .nav-link.active{
-    background-color: #34404F !important;
-    color: #FFF;
-    opacity: 1.0;
+.sidebar .nav-link.active {
+  background-color: #34404f !important;
+  color: #fff;
+  opacity: 1;
 }
-.sidebar .nav-link{
-    color: #B1B6BD;
-    font-family: 'Karla-Bold';
-    font-size: 0.875rem;
+.sidebar .nav-link {
+  color: #b1b6bd;
+  font-family: "Karla-Bold";
+  font-size: 0.875rem;
 }
 :root {
-    --color-main: #3B4859;
-    --color-sub: #BCE0FD;
-    --color-bg: #F1F9FF;
-    --color-white: #FFFFFF; }
+  --color-main: #3b4859;
+  --color-sub: #bce0fd;
+  --color-bg: #f1f9ff;
+  --color-white: #ffffff;
+}
 .NotValid {
-    font-family: 'Karla-Regular';
-    font-size: 1rem;
-    color: #ff8a8e;
-    font-weight: 700;
-    margin-top: 5px;
-    text-align: center;
-    margin-bottom: 5px;
+  font-family: "Karla-Regular";
+  font-size: 1rem;
+  color: #ff8a8e;
+  font-weight: 700;
+  margin-top: 5px;
+  text-align: center;
+  margin-bottom: 5px;
 }
-.sidebar .nav-item{
-    margin-top: 5px;
-    color: #B1B6BD;
-}
-
-.sidebar-fixed .sidebar{
-    width: 246px;
-}
-.sidebar .sidebar-nav{
-    width: 246px;
-}
-.sidebar .nav{
-    width: 246px;
-}
-html:not([dir="rtl"]) .sidebar-lg-show.sidebar-fixed .main, html:not([dir="rtl"]) .sidebar-lg-show.sidebar-fixed .app-footer, html:not([dir="rtl"]) .sidebar-show.sidebar-fixed .main, html:not([dir="rtl"]) .sidebar-show.sidebar-fixed .app-footer{
-    margin-left: 240px;
+.sidebar .nav-item {
+  margin-top: 5px;
+  color: #b1b6bd;
 }
 
-
-.sidebar-minimized .sidebar .nav-link:hover{
-    width: 50px;
+.sidebar-fixed .sidebar {
+  width: 246px;
 }
-.sidebar-minimized .sidebar .nav-link{
-    width: 50px !important;
-    color: transparent;
+.sidebar .sidebar-nav {
+  width: 246px;
 }
-.sidebar-minimized .sidebar .nav > .nav-item > .nav-link > .Style:hover{
-    display: none;
+.sidebar .nav {
+  width: 246px;
 }
-i.nav-icon{
-    color: #B1B6BD !important;
-}
-.sidebar .nav-link.active{
-    border-left: 4px solid #79BFBC;
-}
-.sidebar .nav-link.active > i.nav-icon{
-    color: #79BFBC !important;
-}
-.headerName{
-    width: 246px;
-    background: #79BFBC; 
-    color: #FFFFFF;
-    text-align: center;
-    line-height: 49px;
-    font-family: 'SourceSansPro-Bold';
-    font-size: 0.9375rem;
-}
-.adminName{
-    vertical-align: middle;
-    
-}
-.admin{
-    margin: auto;
-    
-}
-.app-header .navbar-brand{
-    background-color: #79BFBC;
-    width: 246px;
-}
-.brand-minimized .app-header .navbar-brand{
-    background-color: #79BFBC;
-}
-.app-header .navbar-nav{
-    padding-right: 24px;
-}
-.icon-arrow-down{
-    padding-left: 10px;
-    padding-right: 10px;
-    vertical-align: middle;
-    font-weight: 900;
-    color: #8392A7;
-    font-size: 11px;
-}
-.alignPlan{
-   padding: 30px;
-   padding-bottom: 0px !important;
-   font-size: 28px;
-   font-family: 'Rubik-Light';
-   color:#3B4859;
-}
-.nav-tabs .nav-link.active{
-    border: none;
-    border-bottom: 4px solid #76D5CE;
-    background-color: transparent;
-    font-family: 'Rubik-Medium';
-    color: #76D5CE;
-    width: 150px;
-    text-align: center;
-}
-.nav-tabs .nav-link{
-    border: none;
-    width: 150px;
-    text-align: center;
-    font-family: 'Rubik-Regular';
-}
-.tab-content .tab-pane{
-    height: 270px;
-}
-.enableChat{
-    float: left;
-    padding: 20px;
-    padding-left: 11px;
-    padding-top: 14px;
-}
-.enableHis{
-    padding: 20px;
-    padding-left: 11px;
-    padding-top: 14px;
-}
-.form-check-input{
-    position: absolute;
-    font-size: .8em;
-    line-height: 0;
-   
+html:not([dir="rtl"]) .sidebar-lg-show.sidebar-fixed .main,
+html:not([dir="rtl"]) .sidebar-lg-show.sidebar-fixed .app-footer,
+html:not([dir="rtl"]) .sidebar-show.sidebar-fixed .main,
+html:not([dir="rtl"]) .sidebar-show.sidebar-fixed .app-footer {
+  margin-left: 240px;
 }
 
+.sidebar-minimized .sidebar .nav-link:hover {
+  width: 50px;
+}
+.sidebar-minimized .sidebar .nav-link {
+  width: 50px !important;
+  color: transparent;
+}
+.sidebar-minimized .sidebar .nav > .nav-item > .nav-link > .Style:hover {
+  display: none;
+}
+i.nav-icon {
+  color: #b1b6bd !important;
+}
+.sidebar .nav-link.active {
+  border-left: 4px solid #79bfbc;
+}
+.sidebar .nav-link.active > i.nav-icon {
+  color: #79bfbc !important;
+}
+.headerName {
+  width: 246px;
+  background: #79bfbc;
+  color: #ffffff;
+  text-align: center;
+  line-height: 49px;
+  font-family: "SourceSansPro-Bold";
+  font-size: 0.9375rem;
+}
+.adminName {
+  vertical-align: middle;
+}
+.admin {
+  margin: auto;
+}
+.app-header .navbar-brand {
+  background-color: #79bfbc;
+  width: 246px;
+}
+.brand-minimized .app-header .navbar-brand {
+  background-color: #79bfbc;
+}
+.app-header .navbar-nav {
+  padding-right: 24px;
+}
+.icon-arrow-down {
+  padding-left: 10px;
+  padding-right: 10px;
+  vertical-align: middle;
+  font-weight: 900;
+  color: #8392a7;
+  font-size: 11px;
+}
+.alignPlan {
+  padding: 30px;
+  padding-bottom: 0px !important;
+  font-size: 28px;
+  font-family: "Rubik-Light";
+  color: #3b4859;
+}
+.nav-tabs .nav-link.active {
+  border: none;
+  border-bottom: 4px solid #76d5ce;
+  background-color: transparent;
+  font-family: "Rubik-Medium";
+  color: #76d5ce;
+  width: 150px;
+  text-align: center;
+}
+.nav-tabs .nav-link {
+  border: none;
+  width: 150px;
+  text-align: center;
+  font-family: "Rubik-Regular";
+}
+.tab-content .tab-pane {
+  height: 270px;
+}
+.enableChat {
+  float: left;
+  padding: 20px;
+  padding-left: 11px;
+  padding-top: 14px;
+}
+.enableHis {
+  padding: 20px;
+  padding-left: 11px;
+  padding-top: 14px;
+}
+.form-check-input {
+  font-size: 0.8em;
+  display: none;
+}
 
 input:checked + label.enableChat > .facheck-1 {
-    // Firefox doesn't render svg's that is loading with the use tag if its been set to display: none and then toggled to display: block, so you have to use tricks like this to get it to render again:
-    height: 24px;
-    animation: draw-checkbox ease-in-out 0.2s forwards;
-    background-color: #76D5CE;
-    color: white;
+  // Firefox doesn't render svg's that is loading with the use tag if its been set to display: none and then toggled to display: block, so you have to use tricks like this to get it to render again:
+  height: 24px;
+  animation: draw-checkbox ease-in-out 0.2s forwards;
+  background-color: #76d5ce;
+  color: white;
 }
 
-  label.enableChat:active::after {
-    // background-color: #e6e6e6;
-    background-color: #76D5CE;
-  }
-  
-  
-  label.enableChat {
-    color: #3B4859;
-    font-family: 'Rubik-Regular';
-    font-size: 15px;
-    line-height: 29px;
-    cursor: pointer;
-    position: relative;
-    &:after {
-      content: "";
-      height: 30px;
-      width: 30px;
-      margin-right: 1rem;
-      float: left;
-      border: 1px solid #A0ACBC;
-      border-radius: 3px;
-      transition: 0.15s all ease-out;      
-    }
-  }
-  .facheck-1 {
-    color: transparent;
-    stroke-width: 2px;
-    height: 0; //Firefox fix
-    width: 30px;
-    height: 30px !important;
-    position: absolute;
-    left: 11px;
-    top: 14px;
-    border-radius: 3px;
-    padding: 5px;
-    stroke-dasharray: 33; //Firefox fix
-  }
-  
-  input:checked + label.enableHis > .facheck-2 {
-    // Firefox doesn't render svg's that is loading with the use tag if its been set to display: none and then toggled to display: block, so you have to use tricks like this to get it to render again:
-    height: 24px;
-    animation: draw-checkbox ease-in-out 0.2s forwards;
-    background-color: #76D5CE;
-    color: white;
+label.enableChat:active::after {
+  // background-color: #e6e6e6;
+  background-color: #76d5ce;
 }
 
-  label.enableHis:active::after {
-    background-color: #76D5CE;
-  }
-  
-  
-  label.enableHis {
-    color: #3B4859;
-    font-family: 'Rubik-Regular';
-    font-size: 15px;
-    line-height: 29px;
-    cursor: pointer;
-    position: relative;
-    &:after {
-        content: "";
-        height: 30px;
-        width: 30px;
-        margin-right: 1rem;
-        float: left;
-        border: 1px solid #A0ACBC;
-        border-radius: 3px;
-        transition: 0.15s all ease-out;          
-    }
-  }
-  .facheck-2 {
-    color: transparent;
-    stroke-width: 2px;
-    height: 0; //Firefox fix
+label.enableChat {
+  color: #3b4859;
+  font-family: "Rubik-Regular";
+  font-size: 15px;
+  line-height: 29px;
+  cursor: pointer;
+  position: relative;
+  &:after {
+    content: "";
+    height: 30px;
     width: 30px;
-    height: 30px !important;
-    position: absolute;
-    left: 11px;
-    top: 14px;
+    margin-right: 1rem;
+    float: left;
+    border: 1px solid #a0acbc;
     border-radius: 3px;
-    padding: 5px;
-    stroke-dasharray: 33; //Firefox fix
+    transition: 0.15s all ease-out;
   }
-  input[type="radio"], input[type="checkbox"]{
-      display: none;
+}
+.facheck-1 {
+  color: transparent;
+  stroke-width: 2px;
+  height: 0; //Firefox fix
+  width: 30px !important;
+  height: 30px !important;
+  position: absolute;
+  left: 11px;
+  top: 14px;
+  border-radius: 3px;
+  padding: 5px;
+  stroke-dasharray: 33; //Firefox fix
+}
+
+input:checked + label.enableHis > .facheck-2 {
+  // Firefox doesn't render svg's that is loading with the use tag if its been set to display: none and then toggled to display: block, so you have to use tricks like this to get it to render again:
+  height: 24px;
+  animation: draw-checkbox ease-in-out 0.2s forwards;
+  background-color: #76d5ce;
+  color: white;
+}
+
+label.enableHis:active::after {
+  background-color: #76d5ce;
+}
+
+label.enableHis {
+  color: #3b4859;
+  font-family: "Rubik-Regular";
+  font-size: 15px;
+  line-height: 29px;
+  cursor: pointer;
+  position: relative;
+  &:after {
+    content: "";
+    height: 30px;
+    width: 30px;
+    margin-right: 1rem;
+    float: left;
+    border: 1px solid #a0acbc;
+    border-radius: 3px;
+    transition: 0.15s all ease-out;
   }
+}
+.facheck-2 {
+  color: transparent;
+  stroke-width: 2px;
+  height: 0; //Firefox fix
+  width: 30px !important;
+  height: 30px !important;
+  position: absolute;
+  left: 11px;
+  top: 14px;
+  border-radius: 3px;
+  padding: 5px;
+  stroke-dasharray: 33; //Firefox fix
+}
+input[type="radio"],
+input[type="checkbox"] {
+  display: none;
+}
 @keyframes draw-checkbox {
   0% {
     stroke-dashoffset: 33;
@@ -458,106 +455,103 @@ input:checked + label.enableChat > .facheck-1 {
     stroke-dashoffset: 0;
   }
 }
-.fromChange{
-    line-height: 46px;
-    width: 200px;
-    border-radius: 5px;
-    border: 1px solid #A0ACBC;
-    padding-left: 20px;
-    font-family: 'Karla-Regular';
-    font-size: 16px;
-    color: #3B4859;
-    opacity: 0.7;
-    
+.fromChange {
+  line-height: 46px;
+  width: 200px;
+  border-radius: 5px;
+  border: 1px solid #a0acbc;
+  padding-left: 20px;
+  font-family: "Karla-Regular";
+  font-size: 16px;
+  color: #3b4859;
+  opacity: 0.7;
 }
-.text-muted{
-    font-family: 'Rubik-Medium';
-    color: #3B4859 !important;
-    margin-bottom: 5px;
-    font-size: 15px;
+.text-muted {
+  font-family: "Rubik-Medium";
+  color: #3b4859 !important;
+  margin-bottom: 5px;
+  font-size: 15px;
 }
-.alignForm{
-    padding-left: 26px;
+.alignForm {
+  padding-left: 26px;
 }
-.adjustPositionOfToElement{
-    position: relative;
-    right: 107px;
+.adjustPositionOfToElement {
+  position: relative;
+  right: 107px;
 }
-.alignBetweenFromtoTo{
-    position: relative;
-    right: 47px;
-    top: 40px;
-    color: #3B4859 !important;
-    opacity: 0.7;
-    font-weight: 900px;
-    font-size: 20px;
+.alignBetweenFromtoTo {
+  position: relative;
+  right: 47px;
+  top: 40px;
+  color: #3b4859 !important;
+  opacity: 0.7;
+  font-weight: 900px;
+  font-size: 20px;
 }
-.adjustBorderColor{
-    border-color: #ffffff !important;
-    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.04) !important;
-    
+.adjustBorderColor {
+  border-color: #ffffff !important;
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.04) !important;
 }
-.adjustButtonUpdate{
-    width: 140px;
-    line-height: 30px;
-    border-radius: 2px;
-    background-image: linear-gradient(90deg, #76D5CE, #5FB2AE);
-    font-family: 'Karla-Bold';
-    font-size: 16px;
-    color: #FFFFFF;
-    border: none;
+.adjustButtonUpdate {
+  width: 140px;
+  line-height: 30px;
+  border-radius: 2px;
+  background-image: linear-gradient(90deg, #76d5ce, #5fb2ae);
+  font-family: "Karla-Bold";
+  font-size: 16px;
+  color: #ffffff;
+  border: none;
 }
-.adjustFormAction{
-    padding-left: 10px;
+.adjustFormAction {
+  padding-left: 10px;
 }
-.alignOffer{
-   padding: 30px;
-   padding-bottom: 0px !important;
-   font-size: 28px;
-   font-family: 'Rubik-Light';
-   color:#3B4859;
+.alignOffer {
+  padding: 30px;
+  padding-bottom: 0px !important;
+  font-size: 28px;
+  font-family: "Rubik-Light";
+  color: #3b4859;
 }
-.adjustOfferButton{
-    padding-top: 15px;
+.adjustOfferButton {
+  padding-top: 15px;
 }
-.adjustWidth{
-    width: 98%;
+.adjustWidth {
+  width: 98%;
 }
 /*media section*/
-@media (min-width: 992px){
-    
+@media (min-width: 992px) {
 }
-@media (min-width: 768px) and (max-width: 991px){
-    div.app > div.container > div.row > div.col-md-6 > div.card {
-        width: 416px;
-    }  
-    div.app > div.container > div.row > div.col-md-6{
-        width: 430px;
-    }
+@media (min-width: 768px) and (max-width: 991px) {
+  div.app > div.container > div.row > div.col-md-6 > div.card {
+    width: 416px;
+  }
+  div.app > div.container > div.row > div.col-md-6 {
+    width: 430px;
+  }
 }
 
-@media (max-width: 991px){
-    html:not([dir="rtl"]) .sidebar-lg-show.sidebar-fixed .main{
-        margin-left: 46px;
-    }
-    .sidebar .nav-link .nav-icon{
-        float: right;
-        text-align: center;
-        margin-right: 0px;
-    }
-    button:focus{
-        outline: none;
-    }
-    html:not([dir="rtl"]) .sidebar-show.sidebar-fixed .main, {
-        margin-left: 247px;
-    }
-    .sidebar-minimized .sidebar .nav-link{
-        width: 50px !important;
-    }
-    .headerName{
-        display: none;
-    }
-    .Logo{
-        display: none;
-    }
+@media (max-width: 991px) {
+  html:not([dir="rtl"]) .sidebar-lg-show.sidebar-fixed .main {
+    margin-left: 46px;
+  }
+  .sidebar .nav-link .nav-icon {
+    float: right;
+    text-align: center;
+    margin-right: 0px;
+  }
+  button:focus {
+    outline: none;
+  }
+  html:not([dir="rtl"]) .sidebar-show.sidebar-fixed .main {
+    margin-left: 247px;
+  }
+  .sidebar-minimized .sidebar .nav-link {
+    width: 50px !important;
+  }
+  .headerName {
+    display: none;
+  }
+  .Logo {
+    display: none;
+  }
 }

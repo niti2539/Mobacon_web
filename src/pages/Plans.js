@@ -1,102 +1,118 @@
-import React, { Component } from 'react';
-import { Badge,
-  Col, 
-  Nav, 
-  NavItem, 
-  NavLink, 
-  Row, 
-  TabContent, 
+import React, { Component } from "react";
+import {
+  Badge,
+  Col,
+  Nav,
+  NavItem,
+  NavLink,
+  Row,
+  TabContent,
   TabPane,
   Form,
   FormGroup,
   FormText,
   Input,
   Label,
-  Button,
-} from 'reactstrap';
-import DatePicker from 'react-datepicker';
-import moment from 'moment';
-import 'react-datepicker/dist/react-datepicker.css';
-import classnames from 'classnames';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+  Button
+} from "reactstrap";
+import DatePicker from "react-datepicker";
+import moment from "moment";
+import "react-datepicker/dist/react-datepicker.css";
+import classnames from "classnames";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 class Tabs extends Component {
-
   constructor(props) {
     super(props);
 
     this.toggle = this.toggle.bind(this);
     this.state = {
-      activeTab: '1',
+      activeTab: "1"
     };
   }
 
   toggle(tab) {
     if (this.state.activeTab !== tab) {
       this.setState({
-        activeTab: tab,
+        activeTab: tab
       });
     }
-    if(tab === '2'){
+    if (tab === "2") {
       document.getElementById(tab).style.height = "175px";
-    }else if(tab === '1'){
+    } else if (tab === "1") {
       document.getElementById(tab).style.height = "289px";
     }
   }
   state = {
-    check : false,
-    startDate : moment(),
-    endDate : moment()
+    check: false,
+    startDate: moment(),
+    endDate: moment()
   };
-  handleChangeStart = (date) =>{
-    this.setState({startDate: date})
-  }
-  handleChangeEnd = (date) => {
-    this.setState({endDate: date})
-  }
-  
+  handleChangeStart = date => {
+    this.setState({ startDate: date });
+  };
+  handleChangeEnd = date => {
+    this.setState({ endDate: date });
+  };
+
   render() {
-    return(
+    return (
       <div className="animated fadeIn">
-      <Row>
-        <p className="alignPlan">Plans</p>
-      </Row>
+        <Row>
+          <p className="alignPlan">Plans</p>
+        </Row>
         <Row>
           <Col xs="12" md="12" className="mb-4 ml-3">
             <Nav tabs className="adjustWidth">
               <NavItem>
                 <NavLink
-                  className={classnames({ active: this.state.activeTab === '1' })}
-                  onClick={() => { this.toggle('1'); }}
+                  className={classnames({
+                    active: this.state.activeTab === "1"
+                  })}
+                  onClick={() => {
+                    this.toggle("1");
+                  }}
                 >
                   BASIC
                 </NavLink>
               </NavItem>
               <NavItem>
                 <NavLink
-                  className={classnames({ active: this.state.activeTab === '2' })}
-                  onClick={() => { this.toggle('2');}}
+                  className={classnames({
+                    active: this.state.activeTab === "2"
+                  })}
+                  onClick={() => {
+                    this.toggle("2");
+                  }}
                 >
                   PREMIUM
                 </NavLink>
               </NavItem>
             </Nav>
-            <TabContent activeTab={this.state.activeTab} className="adjustBorderColor ">
+            <TabContent
+              activeTab={this.state.activeTab}
+              className="adjustBorderColor "
+            >
               <TabPane tabId="1" id="1">
-                <Form action="" method="post" encType="multipart/form-data" className="form-horizontal">
+                <Form
+                  action=""
+                  method="post"
+                  encType="multipart/form-data"
+                  className="form-horizontal"
+                >
                   <FormGroup row>
                     <Col md="6">
-                     <input id="tmp1" type="checkbox" />
+                      <input id="tmp1" type="checkbox" />
                       <label for="tmp1" className="enableChat">
-                             <FontAwesomeIcon icon="check" className="facheck-1"></FontAwesomeIcon>
-                        Enable Chat    
+                        <FontAwesomeIcon icon="check" className="facheck-1" />
+                        Enable Chat
                       </label>
                     </Col>
                     <Col md="6">
-                    <input id="tmp2" type="checkbox" />
+                      <input id="tmp2" type="checkbox" />
                       <label for="tmp2" className="enableHis">
-                             <FontAwesomeIcon icon="check" className="facheck-2"></FontAwesomeIcon>
-                        Enable History   
+                        <FontAwesomeIcon icon="check" className="facheck-2" />
+                        Enable History
                       </label>
                     </Col>
                     <Col md="3">
@@ -104,29 +120,31 @@ class Tabs extends Component {
                         <Col xs="12 alignForm">
                           <FormText color="muted">From</FormText>
                           <DatePicker
-                            placeholderText='Select Date'
+                            placeholderText="Select Date"
                             selected={this.state.startDate}
-                            dateFormat="DD/MM/YYYY" 
+                            dateFormat="DD/MM/YYYY"
                             onChange={this.handleChangeStart}
                             className="fromChange"
                           />
-                          
                         </Col>
                       </FormGroup>
-                     
                     </Col>
                     <Col md="1" className="alignBetweenFromtoTo">
-                    <span className="FromtoTo">-</span>
+                      <span className="FromtoTo">-</span>
                     </Col>
                     <Col md="8">
                       <FormGroup row>
                         <Col xs="12">
-                        
-                          <FormText color="muted" className="adjustPositionOfToElement">To</FormText>
+                          <FormText
+                            color="muted"
+                            className="adjustPositionOfToElement"
+                          >
+                            To
+                          </FormText>
                           <DatePicker
-                            placeholderText='Select Date'
+                            placeholderText="Select Date"
                             selected={this.state.endDate}
-                            dateFormat="DD/MM/YYYY" 
+                            dateFormat="DD/MM/YYYY"
                             onChange={this.handleChangeEnd}
                             className="fromChange adjustPositionOfToElement"
                           />
@@ -135,35 +153,44 @@ class Tabs extends Component {
                     </Col>
                   </FormGroup>
                   <div className="form-actions adjustFormAction">
-                    <Button type="submit" className="adjustButtonUpdate">UPDATE</Button>
+                    <Button type="submit" className="adjustButtonUpdate">
+                      UPDATE
+                    </Button>
                   </div>
                 </Form>
               </TabPane>
               <TabPane tabId="2" className="tabpane-2" id="2">
-                <Form action="" method="post" encType="multipart/form-data" className="form-horizontal">
+                <Form
+                  action=""
+                  method="post"
+                  encType="multipart/form-data"
+                  className="form-horizontal"
+                >
                   <FormGroup row>
                     <Col md="6">
-                    <input id="tmp3" type="checkbox" />
+                      <input id="tmp3" type="checkbox" />
                       <label for="tmp3" className="enableChat">
-                             <FontAwesomeIcon icon="check" className="facheck-1"></FontAwesomeIcon>
-                        Enable Chat    
+                        <FontAwesomeIcon icon="check" className="facheck-1" />
+                        Enable Chat
                       </label>
                     </Col>
                     <Col md="6">
-                      <input id="tmp4" type="checkbox" />
-                        <label for="tmp4" className="enableHis">
-                              <FontAwesomeIcon icon="check" className="facheck-2"></FontAwesomeIcon>
-                          Enable History   
-                        </label>
-                      </Col>
+                      <input id="tmp4" type="checkbox" checked="checked" />
+                      <label for="tmp4" className="enableHis">
+                        <FontAwesomeIcon icon="check" className="facheck-2" />
+                        Enable History
+                      </label>
+                    </Col>
                   </FormGroup>
                   <div className="form-actions adjustFormAction">
-                    <Button type="submit" className="adjustButtonUpdate" >UPDATE</Button>
+                    <Button type="submit" className="adjustButtonUpdate">
+                      UPDATE
+                    </Button>
                   </div>
                 </Form>
               </TabPane>
             </TabContent>
-          </Col>          
+          </Col>
         </Row>
       </div>
     );

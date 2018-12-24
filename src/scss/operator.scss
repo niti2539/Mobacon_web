@@ -1,199 +1,223 @@
-.card-body{
-    padding: 0px;
-    border: none;
+.card-body {
+  padding: 0px;
+  border: none;
 }
-.imageSection{
-    height: 202px;
-    background-color: #3B4859;
+.imageSection {
+  min-height: 202px;
+  background-color: #3b4859;
 }
-.imgAvatar{
-    margin-top: 25px;
-    width: 110px !important;
-    height: 110px !important;
-    border: 1px solid #A0ACBC;
-    cursor: pointer;
+.imgAvatar {
+  margin-top: 25px;
+  border-radius: 100%;
+  width: 110px !important;
+  height: 110px !important;
+  border: 1px solid #a0acbc;
+  cursor: pointer;
 }
-.borderCard{
-    border-color: #ffffff !important;
-    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.04) !important;
-    border-radius: 0px;
+.borderCard {
+  border-color: #ffffff !important;
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.04) !important;
+  border-radius: 0px;
 }
-.bTKwuI{
-    width: 170px !important;
-    height: 170px !important;
+.bTKwuI {
+  width: 170px !important;
+  height: 170px !important;
 }
-.nameAvatar{
-    color: white;
-    font-family: 'Rubik-Medium';
-    font-size: 18px;
-    padding-top: 16px;
+.nameAvatar {
+  color: white;
+  font-family: "Rubik-Medium";
+  font-size: 18px;
+  padding-top: 16px;
 }
-.alignOperator{
-    padding: 30px;
-    padding-left: 8px !important;
-    padding-bottom: 15px !important;
-    font-size: 28px;
-    font-family: 'Rubik-Light';
-    color:#3B4859;
+.alignOperator {
+  padding: 30px;
+  padding-left: 8px !important;
+  padding-bottom: 15px !important;
+  font-size: 28px;
+  font-family: "Rubik-Light";
+  color: #3b4859;
 }
-.alignRow{
-    padding-left: 10px;
+.alignRow {
+  padding-left: 10px;
 }
-.emailSubText{
-    float: right;
-    font-family: 'Karla-Regular';
-    font-size: 14px;
-    color: #3B4859;
-    position: relative;
-    bottom: 3px;
+.emailSubText {
+  float: right;
+  font-family: "Karla-Regular";
+  font-size: 14px;
+  color: #3b4859;
+  position: relative;
+  bottom: 3px;
 }
-.emailText{
-    font-family: 'Rubik-Medium';
-    font-size: 12px;
-    color: #3B4859;
-    float: left;
+.emailText {
+  font-family: "Rubik-Medium";
+  font-size: 12px;
+  color: #3b4859;
+  float: left;
 }
-.emailForm{
-    padding-top: 28px;
-    padding-left: 32px;
-    padding-right: 32px;
+.emailForm {
+  padding-top: 28px;
+  padding-left: 32px;
+  padding-right: 32px;
 }
-.phoneSubText{
-    float: right;
-    font-family: 'Karla-Regular';
-    font-size: 14px;
-    color: #3B4859;
-    position: relative;
+.phoneSubText {
+  float: right;
+  font-family: "Karla-Regular";
+  font-size: 14px;
+  color: #3b4859;
+  position: relative;
 }
-.phoneText{
-    font-family: 'Rubik-Medium';
-    font-size: 12px;
-    color: #3B4859;
-    float: left;
+.phoneText {
+  font-family: "Rubik-Medium";
+  font-size: 12px;
+  color: #3b4859;
+  float: left;
 }
-.phoneForm{
-    padding-left: 32px;
-    padding-right: 32px;
-    margin-top: -6px;
-    margin-bottom: -7px;
+.phoneForm {
+  padding-left: 32px;
+  padding-right: 32px;
+  margin-top: -6px;
+  margin-bottom: -7px;
 }
-hr{
-    color: #8392A7;
+hr {
+  color: #8392a7;
 }
-.thumbUp{
-    float: left;
-    padding-left: 34px;
-    color: #76D5CE !important;
+.thumbUp {
+  float: left;
+  padding-left: 34px;
+  color: #76d5ce !important;
 }
-.goodThumb{
-    font-family: 'Rubik-Medium';
-    font-size: 12px;
-    color: #76D5CE;
-    padding-left: 20px;
-    padding-top: 10px;
-    font-weight: 700;
+.goodThumb {
+  @extend %thumb;
+  color: #76d5ce;
 }
-.fa-2x{
-    font-size: 1.625rem;
+.fa-2x {
+  font-size: 1.625rem;
 }
-.thumbDown{
-    
-    color: #E86D6D !important;
+%thumb {
+  font-weight: 700;
+  font-family: "Rubik-Medium";
+  font-size: 12px;
+  svg {
+    margin: 0 10px;
+  }
 }
-.badThumb{
-    font-family: 'Rubik-Medium';
-    font-size: 12px;
-    color: #E86D6D;
-    font-weight: 700;
-    float: left;
-    padding-top: 10px;
-    padding-left: 40px;
+.thumbDown {
+  color: #e86d6d !important;
 }
-.alignAfterHr{
-    margin-bottom: 10px;
+.badThumb {
+  @extend %thumb;
+  color: #e86d6d;
 }
-.onlyOperatorButton{
-    margin-top: 26px;
-}
-.exZCJh{
-    width: 345px;
-}
-.styles_modal__gNwvD{
-    position: relative;
-    height: 730px;
-    top: 54px;
-    left: 120px;
-}
-.styles_closeButton__20ID4{
-    cursor: pointer;
-}
-.form-control{
-    height: 42px;
-}
-.fileInput{
-    cursor: pointer;
-    background-color: white;
-    border-color: rgb(196, 196, 201);
-}
-.alignImage{
-    font-family: 'Rubik-Medium';
-    font-size: 0.875rem;
-    color: #3B4859;
-}
-.file-field{
-    padding-top: 15px;
-}
-.imageName{
-    position: relative;
-    left: 17px;
-}
-.imageCss{
-    width: 200px;
-    height: 200px;
-    border-radius: 100%;
-    border: 5px solid #76D5CE;
-    position: relative;
-    bottom: 84px;
-}
-.boxOperator{
-    height: 300px;
-}
-.timeCss{
-   left: 386px;
-   position: relative;
-   top:10px;
-   cursor: pointer;
-   font-size: 27px;
-}
-.modal-content{
-    left: 21px;
-    width:84%;
-    height: 516px;
-}
-.imageOperator{
-    border-radius: 100%;
-    border: 5px solid #76D5CE;
+.alignAfterHr {
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  .col {
     text-align: center;
-    width: 200px;
-    height: 200px;
-    position: relative;
-    left: 25px;
-    bottom: 25px;
+  }
 }
-.detail{
-    font-family: 'Rubik-Medium';
-    font-size: 20px;
-    margin-top: 10px;
+.actionButton {
+  position: absolute;
+  right: 0;
+  top: 0;
+  button {
+    svg {
+      color: #fff !important;
+    }
+    border: none;
+    background-color: transparent;
+    border-radius: 0 !important;
+  }
+  button:hover {
+    svg {
+      color: #444 !important;
+    }
+  }
 }
-.head{
-    margin-top: 5px;
+.onlyOperatorButton {
+  margin-top: 26px;
 }
-.imgProfile{
-    cursor: pointer;
+.exZCJh {
+  width: 345px;
 }
-.modal-dialog{
-    margin-top: 158px;
+.styles_modal__gNwvD {
+  position: relative;
+  height: 730px;
+  top: 54px;
+  left: 120px;
 }
-.zIndexImg{
-    position: absolute;
+.styles_closeButton__20ID4 {
+  cursor: pointer;
+}
+.form-control {
+  height: 42px;
+}
+.fileInput {
+  cursor: pointer;
+  background-color: white;
+  border-color: rgb(196, 196, 201);
+}
+.alignImage {
+  font-family: "Rubik-Medium";
+  font-size: 0.875rem;
+  color: #3b4859;
+}
+.file-field {
+  padding-top: 15px;
+}
+.imageName {
+  position: relative;
+  left: 17px;
+}
+.imageCss {
+  width: 200px;
+  height: 200px;
+  border-radius: 100%;
+  border: 5px solid #76d5ce;
+  position: relative;
+  bottom: 84px;
+}
+.boxOperator {
+  height: 300px;
+}
+.timeCss {
+  left: 386px;
+  position: relative;
+  top: 10px;
+  cursor: pointer;
+  font-size: 27px;
+}
+.modal-content {
+  left: 21px;
+  width: 84%;
+  height: 516px;
+}
+.imageOperator {
+  border-radius: 100%;
+  border: 5px solid #76d5ce;
+  text-align: center;
+  width: 200px;
+  height: 200px;
+  position: relative;
+  left: 25px;
+  bottom: 25px;
+}
+.detail {
+  font-family: "Rubik-Medium";
+  font-size: 20px;
+  margin-top: 10px;
+}
+.head {
+  margin-top: 5px;
+}
+.imgProfile {
+  cursor: pointer;
+}
+.modal-dialog {
+  margin-top: 158px;
+}
+.zIndexImg {
+  position: absolute;
 }

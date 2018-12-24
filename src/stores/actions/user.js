@@ -1,3 +1,4 @@
+import { Redirect } from "react-router-dom";
 import { apiRequest } from "../../Configs";
 import { actionType } from ".";
 
@@ -14,24 +15,20 @@ async function signUp(data) {
   return response;
 }
 
-const authorize = async (dispatch) => {
+const authorize = async dispatch => {
   try {
     const id = localStorage.getItem("id");
     var response = await apiRequest(`/operator/${id}`, "GET");
     dispatch({ type: actionType.USER_DETIAL, data: response.operator });
   } catch (err) {
     console.log("Error", err);
-    return alert("Cannot authorized!!");
+    // return alert("Cannot authorized!!");
   }
 };
 
 const signIn = dispatch => async data => {
   let response;
-  try {
-    response = await apiRequest("/login", "POST", data);
-  } catch (e) {
-    response = e.response.message;
-  }
+  response = await apiRequest("/login", "POST", data);
   dispatch({ type: actionType.USER_DETIAL, data: response.info });
   return response;
 };

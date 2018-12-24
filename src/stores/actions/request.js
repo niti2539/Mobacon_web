@@ -14,4 +14,22 @@ const getRequest = dispatch => (page, limit, filter) => {
   });
 };
 
-export { getRequest };
+const getRequestById = async id => {
+  return await apiRequest(`/request/${id}`, "GET");
+};
+
+const acceptanceById = async id => {
+  console.log(`Acceptance ${id}`);
+  return await apiRequest(`/request/${id}/acceptance`, "PATCH").catch(err =>
+    alert(err.response.data.message)
+  );
+};
+
+const createOffer = async (id = null, review = "", suggestion = "") => {
+  if (!id) return alert("Error can't update offer");
+  return await apiRequest(`/request/${id}/review`, "POST", {
+    review,
+    suggestion
+  });
+};
+export { getRequest, getRequestById, acceptanceById, createOffer };

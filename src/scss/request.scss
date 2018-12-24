@@ -110,8 +110,7 @@ a {
   font-size: x-large;
 }
 %actionButton {
-  flex-grow: 1;
-  flex: 1;
+  width: 100%;
   color: $textContrastColor;
   border: none;
 }

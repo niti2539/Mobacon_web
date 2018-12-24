@@ -8,9 +8,8 @@ import App from "./App";
 render(App);
 
 if (module.hot) {
-  module.hot.accept("./App", () => {
-    const NextApp = require("./App").default;
-    console.log("Accepting the updated app module!");
+  module.hot.accept("./App.js", NextApp => {
+    console.log("HMR Render Next APP module!");
     render(NextApp);
   });
 }

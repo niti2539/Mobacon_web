@@ -1,18 +1,12 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 import {
   Button,
   Card,
   CardBody,
-  CardGroup,
   Col,
-  Container,
   FormGroup,
   Label,
   Input,
-  InputGroup,
-  InputGroupAddon,
-  InputGroupText,
   Row,
   ButtonDropdown,
   DropdownToggle,
@@ -24,13 +18,13 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { user } from "../stores/actions";
+import { apiRequest } from "../Configs";
 import Modal from "react-responsive-modal";
 import "../scss/operator.scss";
-import styled from "styled-components";
 import _ from "lodash";
 import Register from "./Register.js";
 import ReactTooltip from "react-tooltip";
-import $ from "jquery";
+import OperatorCard from "../Components/OperatorCard";
 import FormData from "form-data";
 class Tabs extends Component {
   state = {
@@ -162,39 +156,40 @@ class Tabs extends Component {
   //       return isError;
   //     };
   //   }
-  // getOperators() {
-  //   let auth = localStorage.getItem('accessToken');
-  //   fetch("http://mobacon-api.pieros.site/mobacon/api/web/operators", {
-  //     method: "GET",
-  //     headers: {
-  //       Authorization: `Bearer ${auth}`
-  //     }
-  //   })
-  //   .then(res => res.json())
-  //   .then(res => {
-  //     this.setState({ operators: res.operators})
-  //   })
-  //   // Where we're fetching data from
-  //   // fetch('http://mobacon-api.pieros.site/mobacon/api/web/operator')
-  //   //   // We get the API response and receive data in JSON format...
-  //   //   .then(response => response.json())
-  //   //   // ...then we update the users state
-  //   //   .then(data =>
-  //   //     this.setState({
-  //   //       users: data,
-  //   //       isLoading: false,
-  //   //     })
-  //   //   )
-  //   //   // Catch any errors we hit and update the app
-  //   //   .catch(error => this.setState({ error, isLoading: false }));
-  // }
+  async getOperators() {
+    try {
+      var result = await apiRequest("/operators");
+    } catch (err) {
+      return alert(err.response.data.message);
+    }
+    console.log("Operators", result);
+    this.setState({
+      operators: result.operators
+    });
+    // Where we're fetching data from
+    // fetch('http://mobacon-api.pieros.site/mobacon/api/web/operator')
+    //   // We get the API response and receive data in JSON format...
+    //   .then(response => response.json())
+    //   // ...then we update the users state
+    //   .then(data =>
+    //     this.setState({
+    //       users: data,
+    //       isLoading: false,
+    //     })
+    //   )
+    //   // Catch any errors we hit and update the app
+    //   .catch(error => this.setState({ error, isLoading: false }));
+  }
+
+  setActiate = id => {};
+
+  onSendVerify = id => {};
 
   componentDidMount() {
-    // this.getOperators()
+    this.getOperators();
   }
   render() {
-    console.log(this.state.operators);
-    const { isLoading, users, error } = this.state;
+    const { isLoading, users, error, operators } = this.state;
     const { modalSignupOpen } = this.state;
     const { modalOperatorDetailShow } = this.state;
     const divStyle = {
@@ -205,9 +200,6 @@ class Tabs extends Component {
       position: "relative",
       top: "2px"
     };
-
-    console.log("Object : ", this.state.operators);
-    console.log("Array : ", this.state.operators.operators);
 
     return (
       <React.Fragment>
@@ -229,49 +221,13 @@ class Tabs extends Component {
             </Col>
           </Row>
           <Row className="alignRow">
-            {_.range(12).map(i => (
-              <Col xs="12" md="4" lg="4" className="mb-4">
-                <Card className="borderCard">
-                  <CardBody>
-                    <div row className="imageSection">
-                      <Avartar>
-                        {/* <img  data-toggle="modal" data-target="#exampleModalLong" className="imgAvatar" src={`${config.apiHost}${operator.imagePath}`}/> */}
-
-                        <img
-                          className="imgAvatar"
-                          src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260"
-                        />
-                        <p className="nameAvatar">Chuck Norris</p>
-                      </Avartar>
-                    </div>
-
-                    <FormGroup row>
-                      <Col md="12" className="emailForm">
-                        <p className="emailText">EMAIL</p>
-                        <p className="emailSubText">chuck@norris.com</p>
-                      </Col>
-                    </FormGroup>
-                    <FormGroup row>
-                      <Col md="12" className="phoneForm">
-                        <p className="phoneText">PHONE</p>
-                        <p className="phoneSubText">+40 0744 222 111</p>
-                      </Col>
-                    </FormGroup>
-                    <hr />
-                    <Row className="alignAfterHr">
-                      <Button style={thumbsStyle} className="icon thumbUp">
-                        <i className="fa fa-thumbs-o-up fa-2x" />
-                      </Button>
-                      <p className="goodThumb">45 GOOD REVIEWS</p>
-
-                      <p className="badThumb">12 BAD REVIEWS</p>
-                      <Button style={thumbsStyle} className="icon thumbDown">
-                        <i className="fa fa-thumbs-o-down fa-2x fa-flip-horizontal " />
-                      </Button>
-                    </Row>
-                  </CardBody>
-                </Card>
-              </Col>
+            {operators.map((data, i) => (
+              <OperatorCard
+                key={i}
+                data={data}
+                setActivate={this.setActiate}
+                onSendVerify={this.onSendVerify}
+              />
             ))}
           </Row>
         </div>
@@ -479,27 +435,6 @@ class Tabs extends Component {
     return isError;
   };
 }
-
-const thumbsStyle = { background: "none", boxShadow: "none", border: "none" };
-const Thumbs = styled.div`
-  text-align: center;
-  p {
-    font-size: 10px;
-  }
-`;
-const Avartar = styled.div`
-  text-align: center;
-  margin: 0 auto;
-  width: 100px;
-  height: 100px;
-  border-radius: 100%;
-  img {
-    width: 100%;
-    height: 100%;
-    border-radius: 100%;
-    object-fit: cover;
-  }
-`;
 
 const mapStateToProps = ({ user_detail }) => ({
   user_detail

@@ -4,7 +4,8 @@ import {
   Route,
   Link,
   Redirect,
-  Switch
+  Switch,
+  withRouter
 } from "react-router-dom";
 import "./App.css";
 // Styles
@@ -19,6 +20,9 @@ import "simple-line-icons/css/simple-line-icons.css";
 
 import "react-datepicker/dist/react-datepicker-cssmodules.css";
 import "react-chat-elements/dist/main.css";
+
+//semantic ui
+// import 'semantic-ui-css/semantic.min.css'
 
 import { connect } from "react-redux";
 import { user } from "./stores/actions";
@@ -45,8 +49,12 @@ import {
   faCircle,
   faCaretDown,
   faUpload,
-  faTimes
+  faTimes,
+  faThumbsUp,
+  faThumbsDown,
+  faBars
 } from "@fortawesome/free-solid-svg-icons";
+
 library.add(faAngleDown);
 library.add(faInfoCircle);
 library.add(faCheck);
@@ -54,6 +62,10 @@ library.add(faCircle);
 library.add(faCaretDown);
 library.add(faUpload);
 library.add(faTimes);
+library.add(faThumbsDown);
+library.add(faThumbsUp);
+library.add(faBars);
+
 class App extends Component {
   render() {
     return (

@@ -8,6 +8,7 @@ import {
   NavItem,
   NavLink
 } from "reactstrap";
+import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import logo from "../../assets/img/logo.png";
 import svgnet from "../../assets/img/mobaconsvgnet.png";
@@ -21,7 +22,6 @@ import {
 } from "@coreui/react";
 import { api } from "../../Configs";
 import { Link } from "react-router-dom";
-import { store } from "../../stores";
 
 const propTypes = {
   children: PropTypes.node
@@ -34,30 +34,31 @@ class DefaultHeader extends Component {
     notExpand: false,
     user: {}
   };
+
   toggleHandler = () => {
     let doesshow = this.state.notExpand;
     this.setState({ notExpand: !doesshow });
   };
 
+  handlePropsChange = prevProps => {
+    if (prevProps.user.user_detail !== this.props.user.user_detail) {
+      this.setState({ user: this.props.user.user_detail });
+    }
+    // console.log("update user", currentState);
+  };
+
   componentDidMount() {
-    const {
-      user: { user_detail: user }
-    } = store.getState();
-    store.subscribe(this.handlePropsChange);
-    this.setState({ user });
-    // console.log("user", user);
+    this.setState({ user: this.props.user.user_detail });
   }
 
-  handlePropsChange = () => {
-    let prevState = this.state;
-    let {
-      user: { user_detail: currentState }
-    } = store.getState();
-
-    if (prevState.user !== currentState) {
-      this.setState({ user: currentState });
-    }
-    console.log("update user", currentState);
+  componentDidUpdate = prevProps => {
+    console.log("prev user", prevProps.user.user_detail);
+    console.log("new user", this.props.user.user_detail);
+    console.log(
+      "isEqual data",
+      prevProps.user.user_detail === this.props.user.user_detail
+    );
+    this.handlePropsChange(prevProps);
   };
 
   render() {
@@ -118,4 +119,6 @@ class DefaultHeader extends Component {
 DefaultHeader.propTypes = propTypes;
 DefaultHeader.defaultProps = defaultProps;
 
-export default DefaultHeader;
+const mapStateToProps = ({ user }) => ({ user });
+
+export default connect(mapStateToProps)(DefaultHeader);

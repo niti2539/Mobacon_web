@@ -166,7 +166,7 @@ class Login extends Component {
                         <Button
                           type="submit"
                           className="px-4 Button-Login"
-                          onClick={e => this.onSubmit(e)}
+                          onClick={this.onSubmit}
                         >
                           LOGIN
                         </Button>

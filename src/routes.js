@@ -11,7 +11,7 @@ function Loading() {
         height: "100%",
         display: "flex",
         flex: 1,
-        justifyContent: "center",
+        justifyContent: "center"
       }}
     >
       <span>Loading...</span>
@@ -40,8 +40,8 @@ const Requests = Loadable({
 });
 
 const Request = Loadable({
-  loader: () => import("./pages/Request/index"),
-  loading: Loading
+  loader: () => import("./pages/Request/index")
+  ,loading: Loading
 });
 
 const Operator = Loadable({

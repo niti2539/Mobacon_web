@@ -46,7 +46,16 @@ module.exports = (env, argv) => {
         },
         {
           test: /\.css$/,
-          use: ["style-loader", "css-loader"]
+          use: [
+            { loader: "style-loader" },
+            {
+              loader: "css-loader",
+              options: {
+                modules: true,
+                localIdentName: "[path][name]__[local]--[hash:base64:5]"
+              }
+            }
+          ]
         },
         {
           test: /\.(scss)$/,
@@ -100,6 +109,7 @@ module.exports = (env, argv) => {
     devServer: {
       port,
       hot: true,
+      inline: false,
       contentBase: publicPath,
       historyApiFallback: {
         index: "index.html"

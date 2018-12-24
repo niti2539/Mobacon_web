@@ -6,37 +6,39 @@
 }
 .alignHeader {
   align-items: center;
+  display: flex;
+}
+.right {
+  justify-content: flex-end;
+}
+.requestHeader {
+  margin: 14px 0;
 }
 .adjustButtonHistory {
-  width: 140px;
-  line-height: 30px;
+  width: fit-content;
   border-radius: 2px;
   border: 2px solid #79bfbc;
   font-family: "Karla-Bold";
   font-size: 16px;
   color: #79bfbc;
   background-color: #f9fafc;
-  bottom: 2px;
-  position: relative;
 }
 .statusLabel {
   border: 1px solid #79bfbc;
-  padding: 4;
+  padding: 2px 15px;
   align-items: center;
   justify-content: center;
   border-radius: 15px;
-  width: 82px;
   background-color: #ffffff;
   color: #79bfbc;
 }
 .requestFormIndex {
-  height: 415px;
+  padding: 20px;
   background-color: #ffffff;
   border-color: #ffffff !important;
   box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.04) !important;
 }
 .asideIndex {
-  height: 417px;
   background-color: white;
   box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.04) !important;
   border-color: white;
@@ -59,114 +61,65 @@
   padding-top: 17px;
 }
 .alignFormGroup {
-  padding: 20px;
 }
 .alignFormGroupStatus {
-  padding-left: 26px;
-  padding-right: 20px;
-}
-.enableAccept {
-  float: left;
-  padding: 20px;
-  padding-left: 0px;
-  padding-top: 14px;
-}
-.enableDecline {
-  padding: 20px;
-  padding-left: 0px;
-  padding-top: 14px;
-}
-input:checked + label.enableAccept > .faCircle-1 {
-  // Firefox doesn't render svg's that is loading with the use tag if its been set to display: none and then toggled to display: block, so you have to use tricks like this to get it to render again:
-  height: 24px;
-  animation: draw-checkbox ease-in-out 0.2s forwards;
-  background-color: #76d5ce;
-  color: white;
-  width: 2em;
 }
 
-label.enableAccept:active::after {
-  // background-color: #e6e6e6;
-  background-color: #76d5ce;
-}
-
-label.enableAccept {
-  color: #3b4859;
-  font-family: "Rubik-Regular";
-  font-size: 14px;
-  line-height: 22px;
-  cursor: pointer;
+/* Create a custom checkbox */
+.radioContainer {
+  display: inline;
+  margin-right: 80px;
   position: relative;
-  bottom: 42px;
-  &:after {
-    content: "";
-    height: 22px;
-    width: 22px;
-    margin-right: 1rem;
-    float: left;
-    border: 1px solid #a0acbc;
-    border-radius: 100%;
-    transition: 0.15s all ease-out;
-  }
-}
-.faCircle-1 {
-  color: transparent;
-  stroke-width: 2px;
-  height: 0; //Firefox fix
-  width: 22px !important;
-  height: 22px !important;
-  font-size: 14px;
-  position: absolute;
-  right: 82px;
-  border-radius: 100%;
-  padding: 8px;
-  stroke-dasharray: 33; //Firefox fix
-}
-input:checked + label.enableDecline > .faCircle-2 {
-  // Firefox doesn't render svg's that is loading with the use tag if its been set to display: none and then toggled to display: block, so you have to use tricks like this to get it to render again:
-  height: 24px;
-  animation: draw-checkbox ease-in-out 0.2s forwards;
-  background-color: #76d5ce;
-  color: white;
-  width: 2em;
-}
-
-label.enableDecline:active::after {
-  // background-color: #e6e6e6;
-  background-color: #76d5ce;
-}
-
-label.enableDecline {
-  color: #3b4859;
-  font-family: "Rubik-Regular";
-  font-size: 15px;
-  line-height: 22px;
+  bottom: 18px;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  line-height: 25px;
   cursor: pointer;
-  position: relative;
-  bottom: 42px;
-  &:after {
-    content: "";
-    height: 22px;
-    width: 22px;
-    margin-right: 1rem;
-    float: left;
-    border: 1px solid #a0acbc;
-    border-radius: 100%;
-    transition: 0.15s all ease-out;
+  font-size: 22px;
+  user-select: none input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
   }
-}
-.faCircle-2 {
-  color: transparent;
-  stroke-width: 2px;
-  height: 0; //Firefox fix
-  width: 22px !important;
-  height: 22px !important;
-  position: absolute;
-  top: 14px;
-  border-radius: 100%;
-  padding: 8px;
-  right: 88px;
-  stroke-dasharray: 33; //Firefox fix
+  .checkmark {
+    position: absolute;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    background-color: transparent;
+    border: 1px solid #79bfbb;
+    border-radius: 25px;
+  }
+  .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+  input:checked ~ .checkmark {
+    background-color: #79bfbb;
+  }
+  input:checked ~ & {
+    border: 1px solid #79bfbb;
+  }
+  &:hover input ~ .checkmark {
+    background-color: #79bfbb7a;
+  }
+  input:checked ~ .checkmark:after {
+    display: block;
+  }
+  .checkmark:after {
+    left: 9px;
+    top: 5px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }
 }
 .adjustSubmitButton {
   width: 140px;
@@ -177,12 +130,6 @@ label.enableDecline {
   font-size: 16px;
   color: #ffffff;
   border: none;
-  position: relative;
-  bottom: 60px;
-  left: 27px;
-}
-.increaseHeight {
-  height: 415px;
 }
 .adjustListgroup {
   line-height: 37px;
@@ -211,10 +158,6 @@ label.enableDecline {
   position: relative;
 }
 .billText {
-  position: relative;
-  left: 17px;
-  bottom: 10px;
-  width: 1083px;
   border-bottom: none;
   box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.04) !important;
   border-right-color: white;
@@ -227,10 +170,6 @@ label.enableDecline {
   padding-top: 26px;
 }
 .cardBodyBill {
-  position: relative;
-  bottom: 10px;
-  width: 1083px;
-  left: 17px;
   background-color: white;
 }
 .alignTable {
@@ -255,17 +194,14 @@ label.enableDecline {
   left: 9px;
   cursor: pointer;
 }
-.memoFromIndex {
+.memoFormIndex {
   height: 253px;
-  width: 1083px;
+  padding: 20px;
   background-color: #ffffff;
   border-color: #ffffff !important;
   box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.04) !important;
-  position: relative;
-  left: 17px;
 }
 .textAreaMemo {
-  width: 1030px;
   height: 104px !important;
   border: 1px solid #a0acbc;
   border-radius: 5px;
@@ -284,8 +220,6 @@ label.enableDecline {
   font-size: 16px;
   color: #ffffff;
   border: none;
-  position: relative;
-  left: 27px;
 }
 // @media (min-width: 992px) {
 //     .asideIndex{
