@@ -232,7 +232,7 @@ class Tabs extends Component {
           center
           className="modalBox"
         >
-          <Register />
+          <Register closeModal={this.closeModal} />
         </Modal>
         <div className="animated fadeIn">
           <Row>
@@ -364,6 +364,8 @@ class Tabs extends Component {
 const mapStateToProps = ({ user_detail }) => ({
   user_detail
 });
+
+console.log(mapStateToProps)
 const mapDispatchToProps = dispatch => {
   return {
     signUp: data => bindActionCreators(user.signUp)

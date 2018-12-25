@@ -13,14 +13,19 @@ import {
   ButtonDropdown,
   DropdownToggle,
   DropdownMenu,
-  DropdownItem
+  DropdownItem,
+  FormFeedback,
+  Media,
 } from "reactstrap";
 
+import { api, imageRequest, apiRequest } from "../Configs";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { connect } from "react-redux";
 import Select from "react-select";
 import ReactTooltip from "react-tooltip";
 import $ from "jquery";
 import FormData from "form-data";
+import { invalid } from "moment";
 
 class Register extends React.Component {
   state = {
@@ -30,7 +35,38 @@ class Register extends React.Component {
     phoneNumber: "",
     selectedOption: null,
     selectedFile: "",
-    value: "Please Select"
+    value: "Please Select",
+    valid: {
+      value: false,
+      name: false,
+      email: false,
+    },
+    invalid: {
+      value: false,
+      name: false,
+      email: false,
+    },
+    imagePath: null,
+    imageFile: null,
+
+  };
+
+  componentDidMount() {
+      this.setImage(this.props.imagePath);
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.imagePath !== prevProps.imagePath) {
+      this.setImage(this.props.imagePath);
+    }
+  }
+
+  setImage = async (imagePath ) => {
+    console.log(imagePath)
+    const photo = await imageRequest(imagePath);
+    this.setState({
+      imagePath: photo,
+    });
   };
 
   handleName = e => {
@@ -69,13 +105,58 @@ class Register extends React.Component {
       value: event.target.innerText
     });
   };
+  onFileChange = async e => {
+    const file = e.target.files[0];
+    if (!file || !file.type.match(/.(jpe?g|png)$/))
+      return alert("Support jpeg, jpg, png only");
+    const reader = new FileReader();
+    reader.onload = e => {
+      this.setState({ imagePath: e.target.result, isImageEdit: true });
+    };
+    await this.setState({ imageFile: file });
+    reader.readAsDataURL(file);
+  };
 
   render() {
+    const { imagePath, } = this.state;
+    console.log(this.props.imagePath,this.state.imagePath, imagePath, typeof imagePath)
+    const divStyle = {
+      display: "none"
+    };
+    const cursor = {
+      cursor: "pointer",
+      position: "relative",
+      top: "2px"
+    };
+
     return (
       <Card className="mx-4 RegisterPage">
         <CardBody className="p-4">
           <h1 className="text-center color-main">Signup</h1>
           <p className="text-center color-main">Create your account</p>
+          {/* {imagePath && (
+                  <Media href="">
+                    <Media className="imagePhoto" object src={imagePath} />
+                  </Media>
+                )} */}
+                <Media href="">
+                    <Media className="imagePhoto" object src={imagePath} />
+                  </Media>
+          <FormGroup>
+            <Label for="exampleFile">
+              Image size 500x500 (1:1 ratio) recommanded
+                    </Label>
+
+            <Label for="exampleFile">File</Label>
+            <Input
+              type="file"
+              accept="image/*"
+              name="file"
+              id="exampleFile"
+              onChange={this.onFileChange}
+            />
+          </FormGroup>
+
           <FormGroup>
             <Label htmlFor="RoleId">RoleId</Label>
             <div>
@@ -110,8 +191,17 @@ class Register extends React.Component {
               id="fullName"
               onChange={this.handleName}
               placeholder="Mihai Petrea"
+              valid={this.state.valid.name}
+              invalid={this.state.invalid.name}
               required
             />
+            {/* {this.state.name.length != 0 && (
+              <FormFeedback valid={this.state.valid.fullName}>
+                {this.state.confirmPassFeedback}
+              </FormFeedback>
+            )} */}
+            <FormFeedback valid={this.state.valid.name}>
+            </FormFeedback>
           </FormGroup>
           <FormGroup>
             <Label htmlFor="email">Email</Label>
@@ -120,6 +210,8 @@ class Register extends React.Component {
               id="email"
               onChange={this.handleEmail}
               placeholder="user@domain.com"
+              valid={this.state.valid.email}
+              invalid={this.state.invalid.email}
               required
               className="form-control"
             />
@@ -133,9 +225,6 @@ class Register extends React.Component {
               placeholder="0832345476"
             />
           </FormGroup>
-
-          {/* <FontAwesomeIcon icon="upload"></FontAwesomeIcon>
-                <Input type="file" onChange={this.fileChangedHandler} id="image" /> */}
           <form className="md-form">
             <span className="alignImage">Image</span>
             <div className="file-field">
@@ -199,6 +288,16 @@ class Register extends React.Component {
   };
   clickValidate = () => {
     let isError = false;
+    let valid = {
+      value: true,
+      email: true,
+      name: true,
+    };
+    let invalid = {
+      value: false,
+      email: false,
+      name: false,
+    };
     const errors = {
       fulNameError: "",
       emailError: "",
@@ -206,22 +305,49 @@ class Register extends React.Component {
       valueError: ""
     };
     var emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+
+    if (this.state.value == "Please Select") {
+      invalid.value = true;
+      valid.value = false;
+    };
+
+    if (!emailRegex.test(this.state.email)) {
+      invalid.email = true;
+      valid.email = false;
+    };
+    if (this.state.name == "") {
+      invalid.name = true;
+      valid.name = false;
+    };
+
     if (
       this.state.value !== "Please Select" &&
       emailRegex.test(this.state.email) &&
-      this.state.fullName !== ""
+      this.state.name !== ""
     ) {
       isError = true;
+      this.props.closeModal();
       this.signup();
     } else {
       isError = false;
     }
+
     this.setState({
       ...this.state,
-      ...errors
+      ...errors,
+      valid: valid,
+      invalid: invalid,
     });
     return isError;
   };
 }
 
-export default Register;
+const mapStateToProps = state => {
+  return {
+    imagePath: state.user.user_detail.imagePath
+  };
+};
+
+export default connect(
+  mapStateToProps,
+)(Register);
