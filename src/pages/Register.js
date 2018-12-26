@@ -247,22 +247,13 @@ class Register extends React.Component {
     formData.append("fullName", this.state.name);
     formData.append("email", this.state.email);
     formData.append("phoneNumber", this.state.phoneNumber);
-    console.log(typeof this.state.selectedFile);
-    if (this.state.selectedFile !== "") {
-      formData.append(
-        "image",
-        this.state.selectedFile,
-        this.state.selectedFile.name
-      );
-    }
-    // console.log( formData);
-    for (let key of formData.values()) {
-      console.log(key);
-    }
-    let result = await apiRequest("/operator", "POST", formData, {
-      "Content-Type": "application/x-www-form-urlencoded"
-    });
-    console.log(result)   
+    formData.append("image", this.state.imageFile, this.state.imageFile.name);
+  
+    console.log(...formData)
+    // let result = await apiRequest("/operator", "POST", formData, {
+    //   "Content-Type": "application/x-www-form-urlencoded"
+    // });
+    // console.log(result)   
     // let result = await mobaconApi.signUp(formData);
     // if (result.message === "created") {
     //   this.props.history.push("/");
