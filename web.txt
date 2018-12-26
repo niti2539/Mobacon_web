@@ -1,0 +1,113 @@
+// For web
+
+// on
+// web-self-chat
+// checked
+{
+    ok: BOOLEAN,
+    data: {
+        _id: ObjectId,
+        message: STRING,
+        user: {
+            id: NUMBER,
+            fullName: STRING,
+            imagePath: STRING,
+        },
+        request: {
+            id: NUMBER,
+            carrier: {
+                id: NUMBER,
+                name: STRING,
+            },
+        },
+        createdAt: DATE,
+    },
+}
+
+// emitt
+// web-old-chat
+// checked
+{
+    ok: BOOLEAN,    
+    data: [{
+        _id: ObjectId,
+        message: STRING,
+        sender: {
+            role: {
+                id: NUMBER,
+            },
+        },
+        user: {
+            id: NUMBER,
+            name: STRING,
+        },
+        request: {
+            id: NUMBER,
+            carrier: {
+                id: NUMBER,
+                name: STRING,
+            },
+        },
+        createdAt: DATE,
+    }],
+}
+
+// on
+// mobile-chat
+// checked
+{
+    ok: BOOLEAN,
+    data: {
+        _id: ObjectId,
+        message: STRING,
+        user: {
+            id: NUMBER,
+            name: STRING,
+            imagePath: STRING,
+        },
+        request: {
+            id: NUMBER,
+            carrier: {
+                id: NUMBER,
+                name: STRING,
+            },
+        },
+        createdAt: DATE,
+    },
+}
+
+// emit
+// web-chat-list
+// checked
+{
+    ok: BOOLEAN,
+    data: [{
+        request: {
+            id: NUMBER,
+            carrier: {
+                id: NUMBER,
+                name: STRING,
+            },
+        },
+        chat: {
+            _id: ObjectId,
+            message: STRING,
+            read: {
+                user: BOOLEAN,
+                operator: BOOLEAN,
+            },
+            user: {
+                id: NUMBER,
+                fullName: STRING,
+                imagePath: STRING,
+            },
+            operator: {
+                id: NUMBER,
+                fullName: STRING,
+                imagePath: STRING,
+            },
+            senderRoleId: NUMBER, //1: admin, 2: operator, 3: user
+            createdAt: DATE,
+        },
+    }],
+}

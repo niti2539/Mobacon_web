@@ -15,11 +15,20 @@ async function signUp(data) {
   return response;
 }
 
-const authorize = async dispatch => {
+const authorize = async (dispatch, cb = null) => {
+  const id = localStorage.getItem("id");
+  if (!id) {
+    if (cb) {
+      cb(false);
+    }
+    return;
+  }
   try {
-    const id = localStorage.getItem("id");
     var response = await apiRequest(`/operator/${id}`, "GET");
     dispatch({ type: actionType.USER_DETIAL, data: response.operator });
+    if (cb) {
+      cb(true);
+    }
   } catch (err) {
     if (err.response) {
       alert(err.response.data.message);

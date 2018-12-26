@@ -107,11 +107,11 @@ class DefaultHeader extends Component {
                 <Icon icon="comments" />
               </NavLink>
             </NavItem>
-            <NavItem className="d-md-down-none">
+            {/* <NavItem className="d-md-down-none">
               <NavLink href="#">
                 <Icon icon="bell" />
               </NavLink>
-            </NavItem>
+            </NavItem> */}
           </div>
           <NavItem className="d-md-down-none adminName" style={{ width: 100 }}>
             <p className="admin">{user.fullName}</p>

@@ -29,8 +29,8 @@ class NoChatComponent extends Component {
     return (
       <NoChat>
         <strong>Start chat to someone now</strong>
+        <h3>Mock up tip!!</h3>
         <p>
-          <h3>Mock up tip!!</h3>
           Type @ before text to play a other chat side
           <br />
           Type a normal text to play your chat side

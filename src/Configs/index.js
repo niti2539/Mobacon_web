@@ -51,11 +51,11 @@ export const imageRequest = async (path = "") => {
   const token = localStorage.getItem("accessToken");
   if (path.trim() === "") return null;
   let config = {
-    method: "GET",
-    headers: {
-      Authorization: `Bearer ${token}`,
-      mode: "no-cors"
-    }
+    method: "GET"
+    // headers: {
+    //   Authorization: `Bearer ${token}`,
+    //   mode: "no-cors"
+    // }
   };
   return new Promise((resolve, reject) => {
     fetch(api.baseUrl + path, config)

@@ -30,7 +30,7 @@ class DefaultLayout extends Component {
           <DefaultHeader />
         </AppHeader>
         <div className="app-body">
-          <div style={{ display: "relative", minWidth: 246 }}>
+          <div className="side-bar-wrapper">
             <AppSidebar fixed display="lg">
               <AppSidebarHeader />
               <AppSidebarForm />

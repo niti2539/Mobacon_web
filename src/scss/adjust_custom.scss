@@ -534,11 +534,20 @@ input[type="checkbox"] {
 #mainContainer {
   display: flex;
   flex: 1;
+  overflow: auto;
   flex-grow: 1;
   position: relative;
 }
 /*media section*/
-@media (min-width: 992px) {
+.side-bar-wrapper {
+  position: relative;
+  // width: 246px;
+  width: 246px;
+}
+@media only screen and (max-width: 992px) {
+  .side-bar-wrapper {
+    width: 46px;
+  }
 }
 @media (min-width: 768px) and (max-width: 991px) {
   div.app > div.container > div.row > div.col-md-6 > div.card {

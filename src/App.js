@@ -7,6 +7,9 @@ import {
   Switch,
   withRouter
 } from "react-router-dom";
+import { hot } from "react-hot-loader";
+import io from "socket.io-client";
+
 import "./App.css";
 // Styles
 // CoreUI Icons Set
@@ -23,7 +26,7 @@ import "react-chat-elements/dist/main.css";
 
 //semantic ui
 // import 'semantic-ui-css/semantic.min.css'
-
+import { api } from "../src/Configs";
 import { connect } from "react-redux";
 import { user } from "./stores/actions";
 
@@ -56,7 +59,13 @@ import {
   faComments,
   faChevronDown,
   faBell,
-  faPaperPlane
+  faPaperPlane,
+  faChartBar,
+  faServer,
+  faFileAlt,
+  faEnvelope,
+  faUser,
+  faCog
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(faAngleDown);
@@ -73,6 +82,13 @@ library.add(faComments);
 library.add(faBell);
 library.add(faChevronDown);
 library.add(faPaperPlane);
+
+library.add(faChartBar);
+library.add(faServer);
+library.add(faFileAlt);
+library.add(faEnvelope);
+library.add(faUser);
+library.add(faCog);
 
 class App extends Component {
   render() {
@@ -100,6 +116,21 @@ class MainRoute extends React.Component {
   componentDidMount() {
     console.log("Authorization");
     user.authorize(store.dispatch);
+    const token = localStorage.getItem("accessToken");
+    window.socket = io(api.baseUrl, {
+      query: { token }
+    });
+
+    //set new token after token expire
+    window.socket.on("authorized", payload => {
+      if (!payload.ok) {
+        const newToken = payload.token;
+        if (newToken) {
+          localStorage.setItem("accessToken", newToken);
+        }
+      }
+      console.log("Authorized ok", payload.ok)
+    });
   }
 
   render() {
@@ -137,4 +168,4 @@ class CustomRoute extends React.Component {
   }
 }
 
-export default AppWrapper;
+export default hot(module)(AppWrapper);

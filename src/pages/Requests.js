@@ -112,6 +112,7 @@ class Requests extends Component {
     if (user) {
       operatorId = user.id;
     }
+    const isMy = accepterId === operatorId;
     // console.log("Rowid", data.value);
     console.log(
       "accept op",
@@ -137,9 +138,11 @@ class Requests extends Component {
           >
             Accept
           </Button>
-        ) : accepterId === operatorId && data.value.status === "Accepted" ? (
-          <Link to={`request/${requestId}`} style={{ width: "100%" }}>
-            <Button className="openRequestButton">Open</Button>
+        ) : isMy ? (
+          <Link to={`request/${requestId}`} className="linkButton">
+            <Button className="openRequestButton">
+              {data.value.status === "Accepted" ? "Open" : data.value.status}
+            </Button>
           </Link>
         ) : (
           <Button disabled className="acceptedRequestButton">

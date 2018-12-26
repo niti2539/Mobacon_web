@@ -109,8 +109,19 @@ a {
   font-weight: 900;
   font-size: x-large;
 }
+.linkButton {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
 %actionButton {
   width: 100%;
+  max-width: 100px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  text-align: center;
   color: $textContrastColor;
   border: none;
 }

@@ -47,10 +47,26 @@ const Sender = styled.div`
   }
 `;
 
+const ReadMessage = styled.span`
+  margin-right: 10px;
+`;
+
 class ChatMessage extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = { read: false };
+  }
+
+  componentDidMount() {
+    setTimeout(() => {
+      this.setState({ read: true });
+    }, 2000);
+  }
+
+  componentDidUpdate(prevProps){
+    if(prevProps !== this.props){
+      console.log("image y", this.message.offsetTop)
+    }
   }
 
   render() {
@@ -60,9 +76,12 @@ class ChatMessage extends Component {
       type,
       user: { fullName, imagePath, id }
     } = this.props;
+    const { read } = this.state;
     const name = fullName.trim().split(/\s/)[0];
+    const isMyMessage = id == localStorage.getItem("id");
     return (
-      <MessageWrapper isMyMessage={id == localStorage.getItem("id")}>
+      <MessageWrapper isMyMessage={isMyMessage} ref={(r => this.message = r)}>
+        {read && isMyMessage && <ReadMessage>read</ReadMessage>}
         <Message>{message}</Message>
         {imagePath && (
           <Sender>

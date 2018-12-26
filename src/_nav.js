@@ -2,9 +2,9 @@
 export default {
   items: [
     {
-      icon: 'icon-chart',
-      name: 'DASHBOARD',
-      url: '/dashboard',
+      icon: "fas fa-chart-bar",
+      name: "DASHBOARD",
+      url: "/dashboard"
       // icon: 'icon-speedometer',
       // badge: {
       //   variant: 'info',
@@ -12,47 +12,46 @@ export default {
       // },
     },
     {
-      name: 'PLANS',
-      url: '/plans',
-      icon: 'icon-list',
-      // icon: 'icon-speedometer',
-    },
-    
-    {
-      name: 'REQUESTS',
-      url: '/requests',
-      icon: 'icon-envelope'
-      // icon: 'icon-speedometer',
-    },
-    {
-      name: 'ACCEPTED',
-      url: '/accepted',
-      icon: 'icon-check'
-    },
-    {
-      name: 'OPERATOR (CONTRACT)',
-      url: '/operator',
-      icon: 'icon-user'
-      // icon: 'icon-speedometer',
-    },
-    {
-      name: 'CHAT',
-      url: '/chat',
-      icon: 'icon-bubble'
-      // icon: 'icon-speedometer',
-    },
-    {
-      name: 'YOUR PROFILES',
-      url: '/profile',
-      icon: 'icon-settings'
-      // icon: 'icon-speedometer',
-    },
-    {
-      name: 'LOGOUT',
-      url: '/logout',
-      icon: 'icon-logout'
+      name: "PLANS",
+      url: "/plans",
+      icon: "fas fa-server"
       // icon: 'icon-speedometer',
     },
 
-  ],
+    {
+      name: "REQUESTS",
+      url: "/requests",
+      icon: "fas fa-envelope"
+      // icon: 'icon-speedometer',
+    },
+    {
+      name: "ACCEPTED",
+      url: "/accepted",
+      icon: "fas fa-vote-yea"
+    },
+    {
+      name: "OPERATOR (CONTRACT)",
+      url: "/operator",
+      icon: "fas fa-user"
+      // icon: 'icon-speedometer',
+    },
+    {
+      name: "CHAT",
+      url: "/chat",
+      icon: "fas fa-comments"
+      // icon: 'icon-speedometer',
+    },
+    {
+      name: "YOUR PROFILES",
+      url: "/profile",
+      icon: "fas fa-cog"
+      // icon: 'icon-speedometer',
+    },
+    {
+      name: "LOGOUT",
+      url: "/logout",
+      icon: "fas fa-sign-out-alt"
+      // icon: 'icon-speedometer',
+    }
+  ]
 };

@@ -1,99 +1,26 @@
 import React, { Component } from "react";
+import ReactTable from "react-table";
+import { getAccepted, acceptanceById } from "../stores/actions/request";
+import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import {
-  Badge,
-  Card,
-  CardBody,
-  CardHeader,
-  Col,
-  Row,
-  Table,
-  Pagination,
-  PaginationItem,
-  PaginationLink,
-  ButtonDropdown,
-  DropdownItem,
-  DropdownToggle,
-  DropdownMenu,
-  Button
-} from "reactstrap";
+import { Card, CardBody, Col, Row, Button } from "reactstrap";
 import _ from "lodash";
-import $ from "jquery";
-const actionStyle = {
-  background: "none",
-  border: "none",
-  boxShadow: "none",
-  lineHeight: 0,
-  marginTop: -10
+import moment from "moment";
+
+const Header = (value, align) => {
+  return (
+    <div
+      style={{
+        textAlign:
+          align === "left" ? "left" : align === "right" ? "right" : "center",
+        fontWeight: "bold",
+        whiteSpace: "unset"
+      }}
+    >
+      {value}
+    </div>
+  );
 };
-const index = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-
-var clickcount = 0;
-var products = [
-  {
-    name: "Mihai Petrea",
-    clientdate: "01.03.2014",
-    plan: "Basic Plan",
-    daterequest: "28.08.2018",
-    status: "Reviewed",
-    operator: "Nantapat Tian",
-    action: "Reviewed"
-  },
-  {
-    name: "Mihai Petrea",
-    clientdate: "01.03.2014",
-    plan: "Basic Plan",
-    daterequest: "28.08.2018",
-    status: "Accepted",
-    operator: "Nantapat Tian",
-    action: "Accepted"
-  }
-];
-
-function pendingFormatter(cell, row) {
-  for (var i = 0; i < products.length; i++) {
-    if (products[i].status == "Pending" && cell == "Pending") {
-      return (
-        '<div className="divColumn"><span className="spanColumn">' +
-        cell +
-        "</span></div>"
-      );
-    } else if (products[i].status == "Reviewed" && cell == "Reviewed") {
-      return (
-        '<div className="reviewColumn"><span className="reviewedColumn">' +
-        cell +
-        "</span></div>"
-      );
-    } else if (products[i].status == "Accepted" && cell == "Accepted") {
-      return (
-        '<div className="acceptColumn"><span className="acceptedColumn">' +
-        cell +
-        "</span></div>"
-      );
-    }
-  }
-}
-
-function operatorFormatter(cell, row) {
-  return '<span className="AlignOperator">' + cell + "</span>";
-}
-function actionFormatter(cell, row) {
-  for (var i = 0; i < products.length; i++) {
-    if (products[i].action == "Accepted" && cell == "Accepted") {
-      return (
-        '<a href="/request/1" className="clickOnce"> <Button className="colorAcceptedButtonAcceptedPage">' +
-        cell +
-        "</Button> </a>"
-      );
-    } else if (products[i].action == "Reviewed" && cell == "Reviewed") {
-      return (
-        '<a href="/request/1" className="clickOnce"> <Button className="colorReviewedButtonAcceptedPage">' +
-        cell +
-        "</Button> </a>"
-      );
-    }
-  }
-}
 
 class Accepted extends Component {
   constructor(props) {
@@ -102,156 +29,225 @@ class Accepted extends Component {
       defaultSortName: "name", // default sort column name
       defaultSortOrder: "desc" // default sort order
     };
-  }
-  componentWillUpdate = () => {};
-  componentDidMount = () => {
-    $("table").removeClass("table-bordered");
-    $("table").addClass("requestMain");
-    $(".table-hover.requestMain").css({
-      borderSpacing: "0px 0px"
-    });
-    $("tbody").addClass("requestMainTbody");
-    $(".table-hover").css({
-      position: "relative",
-      top: "11px"
-    });
-    $("td:nth-child(1)").css({
-      width: "198px"
-    });
-    $("td:nth-child(2)").css({
-      width: "182px"
-    });
-    $("td:nth-child(3)").css({
-      width: "200px"
-    });
-    $("td:nth-child(4)").css({
-      width: "175px"
-    });
-    $("td:nth-child(6)").css({
-      width: "145px"
-    });
-    $("th:nth-child(3)").css({
-      position: "relative",
-      left: "20px"
-    });
-    $("th:nth-child(4)").css({
-      position: "relative",
-      left: "32px"
-    });
-    $("th:nth-child(5)").css({
-      position: "relative",
-      left: "16px"
-    });
-    $("th:nth-child(6)").css({
-      position: "relative",
-      left: "20px"
-    });
-    $("th:nth-child(7)").css({
-      position: "relative",
-      left: "20px"
-    });
-    $(".caret").addClass("fas fa-caret-down");
-    $("span.dropdown").css({
-      paddingLeft: "10px"
-    });
-    $("#pageDropDown").css({
-      backgroundColor: "#ffffff"
-    });
+    // console.log("props", props);
+    this.state = {
+      defaultPageSize: 10,
+      data: [], //raw data
+      pages: null, // max page
+      pageSize: null // limit data show in page
+    };
 
-    $(".colorAcceptButton").one("click", function(e) {
-      e.preventDefault();
-      var index = $(".colorAcceptButton").index(this);
-      $(this).html("Open");
-      $(this).css({
-        width: "74.8px",
-        backgroundColor: "#29572a",
-        color: "#ffffff",
-        outline: "none"
-      });
-      $(".textOperator")
-        .eq(index)
-        .text("Nannapas");
-    });
-    console.log($('td:contains("")'));
+    this.columns = [
+      {
+        Header: Header("CUSTOMER NAME", "left"),
+        accessor: "user.fullName"
+      },
+      {
+        Header: Header("CARRIER", "left"),
+        accessor: "carrier.name"
+      },
+      {
+        Header: Header("ACTIVE PLAN", "left"),
+        accessor: "user.plan.name"
+      },
+      {
+        Header: Header("CLIENT SINCE", "left"),
+        accessor: "user.createdAt",
+        Cell: data => moment(data.value).format("DD.MM.YYYY")
+      },
+      {
+        Header: Header("DATE REQUESTED", "left"),
+        accessor: "createdAt",
+        Cell: data => moment(data.value).format("DD.MM.YYYY")
+      },
+      {
+        Header: Header("OPERATOR", "left"),
+        accessor: "operator.fullName"
+        // accessor: obj => obj.operator.fullName
+      },
+      {
+        Header: Header("ACTIONS"),
+        id: "action",
+        accessor: obj => obj,
+        Cell: this.actionFormatter // Custom cell components!
+      }
+    ];
+  }
+
+  acceptRequest = (id /*request id*/, user /*operator*/) => async () => {
+    if (!window.confirm("Are you sure to accept this request?")) return;
+    const data = this.state.data;
+    console.log("accept id", id, "user data", user);
+    const findIndex = data.findIndex(d => d.id == id);
+    await acceptanceById(id);
+    console.log("Old state", data[findIndex]);
+    let selectData = data.find(d => d.id == id);
+    console.log("Select data", selectData);
+    let newData = {
+      ...selectData,
+      status: "Accepted",
+      operator: {
+        id: user.id,
+        fullName: user.fullName
+      }
+    };
+    console.log("new Data", newData);
+    console.log("Find index", data[findIndex]);
+    if (findIndex < 0) return window.location.reload();
+    let newState = [...data];
+    newState[findIndex] = newData;
+    console.log("new State", newState);
+    await this.setState({ data: newState });
   };
 
+  actionFormatter = data => {
+    console.log("Action formatter has called");
+    console.log("Data row", data.value);
+    const { operator, id: requestId } = data.value;
+    var accepterId = operator ? operator.id : null;
+    var accepterName = accepterId ? operator.fullName : null;
+    // console.log("data", data);
+    let { user_detail: user } = this.props.user,
+      operatorId = null;
+    if (user) {
+      operatorId = user.id;
+    }
+    const isMy = accepterId === operatorId;
+    // console.log("Rowid", data.value);
+    console.log(
+      "accept op",
+      accepterId,
+      "Accpeter name",
+      accepterName,
+      "operatorId",
+      operatorId
+    );
+    return (
+      <div
+        style={{
+          display: "flex",
+          width: "100%",
+          justifyContent: "center",
+          alignItems: "center"
+        }}
+      >
+        {!operator || typeof operator !== "object" ? (
+          <Button
+            className="acceptRequestButton"
+            onClick={this.acceptRequest(requestId, user)}
+          >
+            Accept
+          </Button>
+        ) : isMy ? (
+          <Link
+            to={`request/${requestId}`}
+            className="linkButton"
+          >
+            <Button className="openRequestButton">
+              {data.value.status === "Accepted" ? "Open" : data.value.status}
+            </Button>
+          </Link>
+        ) : (
+          <Button disabled className="acceptedRequestButton">
+            {data.value.status}
+          </Button>
+        )}
+      </div>
+    );
+  };
+
+  setDataTable = async (data, page, pageSize, sorted = null) => {
+    const sortedData = _.orderBy(
+      data.data,
+      sorted.map(sort => {
+        return row => {
+          const id = _.get(row, sort.id);
+          if (id === null || id === undefined) {
+            return -Infinity;
+          }
+          return typeof id === "string" ? id.toLowerCase() : id;
+        };
+      }),
+      sorted.map(d => (d.desc ? "desc" : "asc"))
+    );
+    await this.setState({
+      page,
+      loading: false,
+      data: sortedData,
+      pages: Math.ceil(data.recordsTotal / pageSize),
+      pageSize: pageSize
+    });
+  };
+
+  fetchData = state => {
+    this.setState({ loading: true }, () => {
+      const { pageSize, page, sorted } = state;
+      console.log("Page", page);
+      this.props.getAccepted(page + 1, pageSize /* limit */).then(res => {
+        this.setDataTable(res.data, page, res.pageSize, sorted);
+      });
+    });
+  };
   render() {
-    const options = {
-      page: 1, // which page you want to show as default
-      sizePerPageList: [
-        {
-          text: "5",
-          value: 5
-        },
-        {
-          text: "10",
-          value: 10
-        },
-        {
-          text: "All",
-          value: products.length
-        }
-      ],
-      sizePerPage: 5, // which size per page you want to locate as default
-      pageStartIndex: 1, // where to start counting the pages
-      paginationSize: 3, // the pagination bar size.
-      prePage: "Prev", // Previous page button text
-      nextPage: "Next", // Next page button text
-      firstPage: "First", // First page button text
-      lastPage: "Last", // Last page button text
-      paginationShowsTotal: this.renderShowsTotal, // Accept bool or function
-      paginationPosition: "bottom" // default is bottom, top and both is all available
-    };
+    const { defaultPageSize, pages, data, loading } = this.state;
     return (
       <div className="animated fadeIn">
-        <Row>
+        <Row className="textHeader">
           <Col md="12" xs="12">
-            <p className="alignRequest">Requests</p>
+            <p className="alignRequest">Accepted</p>
           </Col>
         </Row>
         <Row>
           <Col xs="12" lg="12">
             <Card>
               <CardBody>
-                {/* <BootstrapTable
-                  data={products}
-                  version="4"
-                  className="requestMain"
-                  pagination={true}
-                  options={options}
-                  id="myTable"
+                {/* <Button
+                  onClick={() => {
+                    this.setState({
+                      data: data.slice(0, data.length - 1)
+                    });
+                  }}
                 >
-                  <TableHeaderColumn dataField="name" isKey={true}>
-                    CUSTOMER NAME
-                  </TableHeaderColumn>
-                  <TableHeaderColumn dataField="clientdate">
-                    CLIENT SINCE
-                  </TableHeaderColumn>
-                  <TableHeaderColumn dataField="plan" dataSort={true}>
-                    ACTIVE PLAN
-                  </TableHeaderColumn>
-                  <TableHeaderColumn dataField="daterequest" dataSort={true}>
-                    DATE REQUESTED
-                  </TableHeaderColumn>
-                  <TableHeaderColumn
-                    dataField="status"
-                    dataFormat={pendingFormatter}
-                  >
-                    STATUS
-                  </TableHeaderColumn>
-                  <TableHeaderColumn
-                    dataField="operator"
-                    dataFormat={operatorFormatter}
-                  >
-                    OPERATOR
-                  </TableHeaderColumn>
-                  <TableHeaderColumn
-                    dataField="action"
-                    dataFormat={actionFormatter}
-                  >
-                    ACTIONS
-                  </TableHeaderColumn>
-                </BootstrapTable> */}
+                  Delete Row at {data.length - 1}
+                </Button> */}
+                <ReactTable
+                  ref={r => (this.table = r)}
+                  onFetchData={this.fetchData}
+                  defaultPageSize={defaultPageSize}
+                  pages={pages}
+                  manual
+                  data={data}
+                  loading={loading}
+                  columns={this.columns}
+                  getPaginationProps={() => ({
+                    style: {
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center"
+                    }
+                  })}
+                  getProps={() => ({ style: { border: "none" } })}
+                  getTheadProps={() => ({
+                    style: { boxShadow: "none", marginBottom: 10 }
+                  })}
+                  getTheadThProps={() => ({
+                    style: {
+                      border: "none",
+                      whiteSpace: "unset",
+                      wordBreak: "break-word"
+                    }
+                  })}
+                  getTdProps={() => ({
+                    style: {
+                      border: "none",
+                      padding: "0 10px",
+                      display: "flex",
+                      alignItems: "center",
+                      whiteSpace: "unset"
+                    }
+                  })}
+                  getTrGroupProps={() => ({ style: tableStyles.trGroup })}
+                />
               </CardBody>
             </Card>
           </Col>
@@ -260,4 +256,24 @@ class Accepted extends Component {
     );
   }
 }
-export default Accepted;
+
+const tableStyles = {
+  trGroup: {
+    border: "none",
+    backgroundColor: "#fff",
+    marginBottom: 15,
+    minHeight: 60,
+    boxShadow: "0 1px 5px 1px rgba(0,0,0, .05)"
+  }
+};
+
+const mapDispatchToProps = dispatch => ({
+  getAccepted: getAccepted(dispatch) // this will return function
+});
+
+const mapStateToProps = state => state;
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Accepted);

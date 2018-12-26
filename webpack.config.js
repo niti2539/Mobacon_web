@@ -31,6 +31,7 @@ module.exports = (env, argv) => {
               cacheDirectory: true,
               presets: ["@babel/preset-react", "@babel/preset-env"],
               plugins: [
+                "react-hot-loader/babel",
                 "@babel/plugin-transform-runtime",
                 ["@babel/plugin-proposal-class-properties", { loose: true }],
                 "@babel/plugin-syntax-dynamic-import"
@@ -75,7 +76,7 @@ module.exports = (env, argv) => {
           ]
         },
         {
-          test: /\.(png|jpe?g|svg)$/,
+          test: /\.(png|jpe?g)$/,
           use: [
             {
               loader: "url-loader"
@@ -103,10 +104,10 @@ module.exports = (env, argv) => {
     devServer: {
       port,
       hot: true,
-      inline: false,
-      contentBase: publicPath,
+      inline: true,
+      contentBase: "/",
       historyApiFallback: {
-        index: "index.html"
+        rewrites: [{ from: /\/$/, to: "/" }]
       }
     },
     plugins: [
@@ -116,7 +117,7 @@ module.exports = (env, argv) => {
       }),
       ...(dev
         ? [new webpack.HotModuleReplacementPlugin()]
-        : [])
+        : [new WebpackClearConsole()])
     ]
   };
 };

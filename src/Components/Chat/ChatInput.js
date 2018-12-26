@@ -18,7 +18,7 @@ const spawnInput = keyframes`
 const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
-  padding: 10px 10px 20px 10px;
+  padding: 10px;
   transform: translateY(100%);
   animation: ${spawnInput} 0.5s cubic-bezier(0.215, 0.61, 0.355, 1) forwards;
 `;
@@ -29,9 +29,10 @@ const Send = styled(Button)`
   height: 50px;
   cursor: pointer;
   border-radius: 25px;
-  margin-right: 20px;
+  margin: 0 15px;
   color: #7abfbb;
   outline: none;
+  transform: scale(1);
   box-shadow: 0 0 10px 1px 0 rgba(44, 44, 44, 0.3);
   transition: all 0.45s cubic-bezier(0.075, 0.82, 0.165, 1);
   &:hover {
@@ -40,12 +41,11 @@ const Send = styled(Button)`
   }
 `;
 
-const Input = styled.input`
+export const Input = styled.input`
   border: 0 solid transparent;
-  font-szie: 1em;
+  font-size: 1em;
   height: 50px;
   border-radius: 25px;
-  margin: 0 15px;
   background-color: #fff;
   flex-grow: 1;
   resize: none;
@@ -55,9 +55,11 @@ const Input = styled.input`
     0 3px 20px 1px rgba(44, 44, 44, 0.1);
   transition: all 0.45s cubic-bezier(0.65, -0.28, 0.41, 1.24);
   &:focus {
-    border: 2px solid rgba(100, 100, 100, 0.3);
+    border: 2px solid rgba(100, 100, 100, 1);
     box-shadow: 0 0 10px 0px rgba(44, 44, 44, 0.08);
-    transform: scale(1.01);
+  }
+  &::placeholder {
+    color: #aaa;
   }
 `;
 
@@ -89,6 +91,7 @@ class ChatInput extends Component {
     return (
       <Wrapper>
         <Input
+          placeholder="Say something..."
           type="text"
           ref={r => (this.chatBox = r)}
           onKeyDown={this.onKeyDown}

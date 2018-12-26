@@ -36,14 +36,19 @@ import { connect } from "react-redux";
 var emailTimeOutValidate = setTimeout(() => {}, 1000);
 
 class Login extends Component {
-  state = {
-    email: "admin@mobacon.com",
-    password: "1234",
-    errorMsg: [],
-    emailError: false,
-    emailSuccess: false,
-    passwordError: false
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      email: "admin@mobacon.com",
+      password: "1234",
+      errorMsg: [],
+      emailError: false,
+      emailSuccess: false,
+      passwordError: false,
+      authorize: false
+    };
+  }
+
   handleEmailChange = async event => {
     const email = event.target.value;
     await this.setState({
@@ -54,6 +59,17 @@ class Login extends Component {
     await this.setState({ password: event.target.value, passwordError: false });
   };
 
+  componentDidMount() {
+    this.props.authorize(auth => {
+      if (!auth) {
+        // console.log("No auth!!!");
+        return this.setState({ authorize: true });
+      }
+      console.log("Authorization!!!");
+      window.location.replace("/dashboard");
+    });
+  }
+
   render() {
     const {
       errorMsg,
@@ -61,124 +77,127 @@ class Login extends Component {
       passwordError,
       email,
       password,
-      emailSuccess
+      emailSuccess,
+      authorize
     } = this.state;
     return (
-      <div className="app flex-row align-items-center">
-        <Container>
-          <Row className="justify-content-center">
-            <Col md="6" className="LoginPage">
-              <Card className="mx-4 Login">
-                <CardBody className="p-4">
-                  <h1 className="text-center color-main">Login</h1>
-                  <p className="text-center color-main">
-                    Sign In to your account
-                  </p>
-                  {errorMsg.map((err, i) => (
-                    <p key={i} className="NotValid">
-                      {err}
+      authorize && (
+        <div className="app flex-row align-items-center">
+          <Container>
+            <Row className="justify-content-center">
+              <Col md="6" className="LoginPage">
+                <Card className="mx-4 Login">
+                  <CardBody className="p-4">
+                    <h1 className="text-center color-main">Login</h1>
+                    <p className="text-center color-main">
+                      Sign In to your account
                     </p>
-                  ))}
-                  <Form onSubmit={this.onSubmit}>
-                    <FormGroup>
-                      <Label htmlFor="email">Email</Label>
-                      <Input
-                        style={
-                          emailError
-                            ? styles.fieldError
-                            : emailSuccess
-                            ? styles.fieldSuccess
-                            : {}
-                        }
-                        type="email"
-                        name="email"
-                        value={email}
-                        onKeyDown={() => {
-                          clearTimeout(emailTimeOutValidate);
-                        }}
-                        onKeyUp={() => {
-                          clearTimeout(emailTimeOutValidate);
-                          emailTimeOutValidate = setTimeout(() => {
-                            this.setState({
-                              emailError: !this.validateEmail(email),
-                              emailSuccess:
-                                email.length > 0 && this.validateEmail(email)
-                            });
-                          }, 500);
-                        }}
-                        id="email"
-                        placeholder="petreamihaic@gmail.com"
-                        required
-                        onChange={this.handleEmailChange}
-                      />
-                      <a data-tip="Required valid email ex: abc@gmail.com">
-                        <FontAwesomeIcon
+                    {errorMsg.map((err, i) => (
+                      <p key={i} className="NotValid">
+                        {err}
+                      </p>
+                    ))}
+                    <Form onSubmit={this.onSubmit}>
+                      <FormGroup>
+                        <Label htmlFor="email">Email</Label>
+                        <Input
                           style={
                             emailError
-                              ? styles.iconError
+                              ? styles.fieldError
                               : emailSuccess
                               ? styles.fieldSuccess
                               : {}
                           }
-                          icon={"info-circle"}
-                          className="circle"
-                          tool-tip-toggle="tooltip-demo"
-                          data-original-title="Required valid email"
+                          type="email"
+                          name="email"
+                          value={email}
+                          onKeyDown={() => {
+                            clearTimeout(emailTimeOutValidate);
+                          }}
+                          onKeyUp={() => {
+                            clearTimeout(emailTimeOutValidate);
+                            emailTimeOutValidate = setTimeout(() => {
+                              this.setState({
+                                emailError: !this.validateEmail(email),
+                                emailSuccess:
+                                  email.length > 0 && this.validateEmail(email)
+                              });
+                            }, 500);
+                          }}
+                          id="email"
+                          placeholder="petreamihaic@gmail.com"
+                          required
+                          onChange={this.handleEmailChange}
                         />
-                      </a>
-                      <ReactTooltip />
-                    </FormGroup>
-                    <FormGroup>
-                      <Label htmlFor="password">Password</Label>
-                      <Input
-                        style={passwordError ? styles.fieldError : {}}
-                        type="password"
-                        id="password"
-                        name="password"
-                        value={password}
-                        placeholder="●●●●●●●"
-                        required
-                        onChange={this.handlePasswordChange}
-                      />
-
-                      <a data-tip="Password can't be null">
-                        <FontAwesomeIcon
-                          style={passwordError ? styles.iconError : {}}
-                          icon="info-circle"
-                          className="circle"
-                          tool-tip-toggle="tooltip-demo"
-                          data-original-title="Required valid email"
+                        <a data-tip="Required valid email ex: abc@gmail.com">
+                          <FontAwesomeIcon
+                            style={
+                              emailError
+                                ? styles.iconError
+                                : emailSuccess
+                                ? styles.fieldSuccess
+                                : {}
+                            }
+                            icon={"info-circle"}
+                            className="circle"
+                            tool-tip-toggle="tooltip-demo"
+                            data-original-title="Required valid email"
+                          />
+                        </a>
+                        <ReactTooltip />
+                      </FormGroup>
+                      <FormGroup>
+                        <Label htmlFor="password">Password</Label>
+                        <Input
+                          style={passwordError ? styles.fieldError : {}}
+                          type="password"
+                          id="password"
+                          name="password"
+                          value={password}
+                          placeholder="●●●●●●●"
+                          required
+                          onChange={this.handlePasswordChange}
                         />
-                      </a>
-                      <ReactTooltip />
-                    </FormGroup>
 
-                    <Row style={{ marginTop: -20 }}>
-                      <Col className="text-right">
-                        <Button color="link" className="px-0">
-                          Forgot password?
-                        </Button>
-                      </Col>
-                    </Row>
-                    <br />
-                    <Row className="justify-content-center">
-                      <Col md="auto">
-                        <Button
-                          type="submit"
-                          className="px-4 Button-Login"
-                          onClick={this.onSubmit}
-                        >
-                          LOGIN
-                        </Button>
-                      </Col>
-                    </Row>
-                  </Form>
-                </CardBody>
-              </Card>
-            </Col>
-          </Row>
-        </Container>
-      </div>
+                        <a data-tip="Password can't be null">
+                          <FontAwesomeIcon
+                            style={passwordError ? styles.iconError : {}}
+                            icon="info-circle"
+                            className="circle"
+                            tool-tip-toggle="tooltip-demo"
+                            data-original-title="Required valid email"
+                          />
+                        </a>
+                        <ReactTooltip />
+                      </FormGroup>
+
+                      <Row style={{ marginTop: -20 }}>
+                        <Col className="text-right">
+                          <Button color="link" className="px-0">
+                            Forgot password?
+                          </Button>
+                        </Col>
+                      </Row>
+                      <br />
+                      <Row className="justify-content-center">
+                        <Col md="auto">
+                          <Button
+                            type="submit"
+                            className="px-4 Button-Login"
+                            onClick={this.onSubmit}
+                          >
+                            LOGIN
+                          </Button>
+                        </Col>
+                      </Row>
+                    </Form>
+                  </CardBody>
+                </Card>
+              </Col>
+            </Row>
+          </Container>
+        </div>
+      )
     );
   }
 
@@ -232,6 +251,7 @@ const mapStateToProps = state => ({
 });
 const mapDispatchToProps = dispatch => {
   return {
+    authorize: cb => user.authorize(dispatch, cb),
     signIn: user.signIn(dispatch)
   };
 };
