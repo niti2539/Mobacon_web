@@ -48,11 +48,11 @@ class Register extends React.Component {
     },
     imagePath: null,
     imageFile: null,
-
+    operators: [],
   };
 
   componentDidMount() {
-      this.setImage(this.props.imagePath);
+    this.setImage(this.props.imagePath);
   }
 
   componentDidUpdate(prevProps) {
@@ -61,8 +61,7 @@ class Register extends React.Component {
     }
   }
 
-  setImage = async (imagePath ) => {
-    console.log(imagePath)
+  setImage = async (imagePath) => {
     const photo = await imageRequest(imagePath);
     this.setState({
       imagePath: photo,
@@ -119,7 +118,6 @@ class Register extends React.Component {
 
   render() {
     const { imagePath, } = this.state;
-    console.log(this.props.imagePath,this.state.imagePath, imagePath, typeof imagePath)
     const divStyle = {
       display: "none"
     };
@@ -139,23 +137,30 @@ class Register extends React.Component {
                     <Media className="imagePhoto" object src={imagePath} />
                   </Media>
                 )} */}
-                <Media href="">
-                    <Media className="imagePhoto" object src={imagePath} />
-                  </Media>
-          <FormGroup>
-            <Label for="exampleFile">
-              Image size 500x500 (1:1 ratio) recommanded
-                    </Label>
-
-            <Label for="exampleFile">File</Label>
-            <Input
-              type="file"
-              accept="image/*"
-              name="file"
-              id="exampleFile"
-              onChange={this.onFileChange}
-            />
-          </FormGroup>
+          <Media href="">
+            <Media className="imagePhoto" object src={imagePath} />
+          </Media>
+           
+          <form className="md-form">
+            <span className="alignImage">Image size 500x500 (1:1 ratio) recommanded</span>
+            <div className="file-field">
+              <div className="btn btn-sm fileInput">
+                <Input
+                  type="file"
+                  accept="image/*"
+                  name="file"
+                  id="file"
+                  style={divStyle}
+                  onChange={this.onFileChange}
+                />
+                <Label for="file" style={cursor}>
+                  Choose a file
+                </Label>
+              </div>
+              <span className="imageName">{this.state.imageName}</span>
+            </div>
+          </form>
+          <br />
 
           <FormGroup>
             <Label htmlFor="RoleId">RoleId</Label>
@@ -195,11 +200,6 @@ class Register extends React.Component {
               invalid={this.state.invalid.name}
               required
             />
-            {/* {this.state.name.length != 0 && (
-              <FormFeedback valid={this.state.valid.fullName}>
-                {this.state.confirmPassFeedback}
-              </FormFeedback>
-            )} */}
             <FormFeedback valid={this.state.valid.name}>
             </FormFeedback>
           </FormGroup>
@@ -225,25 +225,6 @@ class Register extends React.Component {
               placeholder="0832345476"
             />
           </FormGroup>
-          <form className="md-form">
-            <span className="alignImage">Image</span>
-            <div className="file-field">
-              <div className="btn btn-sm fileInput">
-                <Input
-                  type="file"
-                  id="file"
-                  style={divStyle}
-                  onChange={this.fileChangedHandler}
-                />
-                <Label for="file" style={cursor}>
-                  Choose a file
-                </Label>
-              </div>
-              <span className="imageName">{this.state.imageName}</span>
-            </div>
-          </form>
-
-          <br />
           <Row className="justify-content-center">
             <Col md="auto">
               <Button
@@ -265,7 +246,6 @@ class Register extends React.Component {
     formData.append("roleId", `${roleId}`);
     formData.append("fullName", this.state.name);
     formData.append("email", this.state.email);
-    // if(this.)
     formData.append("phoneNumber", this.state.phoneNumber);
     console.log(typeof this.state.selectedFile);
     if (this.state.selectedFile !== "") {
@@ -275,16 +255,20 @@ class Register extends React.Component {
         this.state.selectedFile.name
       );
     }
-    console.log(formData);
+    // console.log( formData);
     for (let key of formData.values()) {
       console.log(key);
     }
-    let result = await mobaconApi.signUp(formData);
-    if (result.message === "created") {
-      this.props.history.push("/");
-    } else {
-      console.log(result);
-    }
+    let result = await apiRequest("/operator", "POST", formData, {
+      "Content-Type": "application/x-www-form-urlencoded"
+    });
+    console.log(result)   
+    // let result = await mobaconApi.signUp(formData);
+    // if (result.message === "created") {
+    //   this.props.history.push("/");
+    // } else {
+    //   console.log(result);
+    // }
   };
   clickValidate = () => {
     let isError = false;
