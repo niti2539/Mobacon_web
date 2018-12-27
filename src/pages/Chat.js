@@ -42,6 +42,7 @@ class Chat extends Component {
         fullName: "",
         imagePath: null
       },
+      currentChat: null,
       chatMessage: [],
       chatHistory: [
         {
@@ -177,12 +178,19 @@ class Chat extends Component {
     this.setState({ chat });
   };
 
+  onChangeChat = id => {
+    this.setState({
+      currentChat: id
+    });
+  };
+
   render() {
     const { chatMessage, me, chatHistory } = this.state;
     console.log("User", me);
+    // const message = ChatMessage.find((m) => m.) << -- tobe continue
     return (
       <ChatWrapper>
-        <ChatHistory history={chatHistory} />
+        <ChatHistory history={chatHistory} onChange={this.onChangeChat} />
         <ChatBody>
           {chatMessage.length < 1 ? (
             <NoChat />

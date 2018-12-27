@@ -45,7 +45,7 @@ const authorize = async (dispatch, cb = null) => {
 };
 
 const signIn = dispatch => async data => {
-  let response;
+  var response;
   try {
     response = await apiRequest("/login", "POST", data);
     if (response.info) {
@@ -55,6 +55,21 @@ const signIn = dispatch => async data => {
     return true;
   } catch (err) {
     return false;
+  }
+};
+
+const register = async (data, cb = null) => {
+  var response;
+  try {
+    response = await apiRequest("/operator", "POST", data);
+    if (response && cb) {
+      cb();
+    }
+  } catch (err) {
+    if (err.response) {
+      alert(err.response.data.message);
+    }
+    console.log("err", err);
   }
 };
 
@@ -103,5 +118,6 @@ export {
   authorize,
   getOperators,
   changePassword,
-  updateProfile
+  updateProfile,
+  register
 };

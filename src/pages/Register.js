@@ -15,10 +15,10 @@ import {
   DropdownMenu,
   DropdownItem,
   FormFeedback,
-  Media,
+  Media
 } from "reactstrap";
 
-import { api, imageRequest, apiRequest } from "../Configs";
+import { imageRequest } from "../Configs";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { connect } from "react-redux";
 import Select from "react-select";
@@ -26,8 +26,14 @@ import ReactTooltip from "react-tooltip";
 import $ from "jquery";
 import FormData from "form-data";
 import { invalid } from "moment";
+import PropTypes from "prop-types";
+import { user } from "../stores/actions";
 
 class Register extends React.Component {
+  static propTypes = {
+    onComplete: PropTypes.func
+  };
+
   state = {
     dropdownOpen: false,
     name: "",
@@ -39,16 +45,16 @@ class Register extends React.Component {
     valid: {
       value: false,
       name: false,
-      email: false,
+      email: false
     },
     invalid: {
       value: false,
       name: false,
-      email: false,
+      email: false
     },
     imagePath: null,
     imageFile: null,
-    operators: [],
+    operators: []
   };
 
   componentDidMount() {
@@ -61,10 +67,10 @@ class Register extends React.Component {
     }
   }
 
-  setImage = async (imagePath) => {
+  setImage = async imagePath => {
     const photo = await imageRequest(imagePath);
     this.setState({
-      imagePath: photo,
+      imagePath: photo
     });
   };
 
@@ -117,7 +123,7 @@ class Register extends React.Component {
   };
 
   render() {
-    const { imagePath, } = this.state;
+    const { imagePath } = this.state;
     const divStyle = {
       display: "none"
     };
@@ -140,9 +146,11 @@ class Register extends React.Component {
           <Media href="">
             <Media className="imagePhoto" object src={imagePath} />
           </Media>
-           
+
           <form className="md-form">
-            <span className="alignImage">Image size 500x500 (1:1 ratio) recommanded</span>
+            <span className="alignImage">
+              Image size 500x500 (1:1 ratio) recommanded
+            </span>
             <div className="file-field">
               <div className="btn btn-sm fileInput">
                 <Input
@@ -200,8 +208,7 @@ class Register extends React.Component {
               invalid={this.state.invalid.name}
               required
             />
-            <FormFeedback valid={this.state.valid.name}>
-            </FormFeedback>
+            <FormFeedback valid={this.state.valid.name} />
           </FormGroup>
           <FormGroup>
             <Label htmlFor="email">Email</Label>
@@ -248,30 +255,24 @@ class Register extends React.Component {
     formData.append("email", this.state.email);
     formData.append("phoneNumber", this.state.phoneNumber);
     formData.append("image", this.state.imageFile, this.state.imageFile.name);
-  
-    console.log(...formData)
-    // let result = await apiRequest("/operator", "POST", formData, {
-    //   "Content-Type": "application/x-www-form-urlencoded"
-    // });
-    // console.log(result)   
-    // let result = await mobaconApi.signUp(formData);
-    // if (result.message === "created") {
-    //   this.props.history.push("/");
-    // } else {
-    //   console.log(result);
-    // }
+    this.props.register(formData, () => {
+      const { onComplete } = this.props;
+      if (onComplete) {
+        onComplete();
+      }
+    });
   };
   clickValidate = () => {
     let isError = false;
     let valid = {
       value: true,
       email: true,
-      name: true,
+      name: true
     };
     let invalid = {
       value: false,
       email: false,
-      name: false,
+      name: false
     };
     const errors = {
       fulNameError: "",
@@ -284,16 +285,16 @@ class Register extends React.Component {
     if (this.state.value == "Please Select") {
       invalid.value = true;
       valid.value = false;
-    };
+    }
 
     if (!emailRegex.test(this.state.email)) {
       invalid.email = true;
       valid.email = false;
-    };
+    }
     if (this.state.name == "") {
       invalid.name = true;
       valid.name = false;
-    };
+    }
 
     if (
       this.state.value !== "Please Select" &&
@@ -311,7 +312,7 @@ class Register extends React.Component {
       ...this.state,
       ...errors,
       valid: valid,
-      invalid: invalid,
+      invalid: invalid
     });
     return isError;
   };
@@ -323,6 +324,13 @@ const mapStateToProps = state => {
   };
 };
 
+const mapDispatchToProps = dispatch => {
+  return {
+    register: user.register
+  };
+};
+
 export default connect(
   mapStateToProps,
+  mapDispatchToProps
 )(Register);

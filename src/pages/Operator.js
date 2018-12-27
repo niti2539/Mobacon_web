@@ -224,15 +224,9 @@ class Tabs extends Component {
       top: "2px"
     };
 
-    return (
-      <React.Fragment>
-        <Modal
-          open={modalSignupOpen}
-          onClose={this.closeModal}
-          center
-          className="modalBox"
-        >
-          <Register closeModal={this.closeModal} />
+    return <React.Fragment>
+        <Modal open={modalSignupOpen} onClose={this.closeModal} center className="modalBox">
+          <Register closeModal={this.closeModal} onComplete={this.getOperators} />
         </Modal>
         <div className="animated fadeIn">
           <Row>
@@ -241,11 +235,7 @@ class Tabs extends Component {
             </Col>
             <Col xs="6" md="6" className="mb-4">
               <div style={{ float: "right" }}>
-                <Button
-                  type="submit"
-                  className="adjustButtonUpdate onlyOperatorButton"
-                  onClick={this.openModal}
-                >
+                <Button type="submit" className="adjustButtonUpdate onlyOperatorButton" onClick={this.openModal}>
                   ADD NEW
                 </Button>
               </div>
@@ -263,28 +253,13 @@ class Tabs extends Component {
           </Row>
         </div>
 
-        <div
-          className="modal fade"
-          id="exampleModalLong"
-          tabindex="-1"
-          role="dialog"
-          aria-labelledby="exampleModalLongTitle"
-          aria-hidden="true"
-        >
+        <div className="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
           <div className="modal-dialog" role="document">
             <div className="modal-content">
-              <FontAwesomeIcon
-                icon="times"
-                className="timeCss close"
-                data-dismiss="modal"
-                aria-label="Close"
-              />
+              <FontAwesomeIcon icon="times" className="timeCss close" data-dismiss="modal" aria-label="Close" />
 
               <div className="modal-body">
-                <img
-                  className="imageOperator"
-                  src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260"
-                />
+                <img className="imageOperator" src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260" />
 
                 {/* <div className="detail head">
                 FULL NAME:  CHUCK NORRIS
@@ -302,8 +277,7 @@ class Tabs extends Component {
             </div>
           </div>
         </div>
-      </React.Fragment>
-    );
+      </React.Fragment>;
   }
 
   signup = async () => {
@@ -365,7 +339,7 @@ const mapStateToProps = ({ user_detail }) => ({
   user_detail
 });
 
-console.log(mapStateToProps)
+console.log(mapStateToProps);
 const mapDispatchToProps = dispatch => {
   return {
     signUp: data => bindActionCreators(user.signUp)

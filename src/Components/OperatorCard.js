@@ -70,7 +70,7 @@ class OperatorCard extends Component {
     // role: {id: 1, name: "Administrator"}
     // verified: true
     return (
-      <Col xs="12" md="4" lg="4" className="mb-4">
+      <Col xs="12" sm="6" md="4" lg="4" xl="3" className="mb-4">
         <Card className="borderCard">
           <CardBody>
             {id == data.id && (
@@ -135,17 +135,15 @@ class OperatorCard extends Component {
             </FormGroup>
             <hr />
             <Row className="alignAfterHr">
-              <Col>
-                <span className="goodThumb">
-                  <Icon icon="thumbs-up" />
-                  {`${data.like} GOOD REVIEWS`}
-                </span>
+              <Col className="goodThumb">
+                <Icon icon="thumbs-up" />
+                <span className="thumbCount">{data.like}</span>
+                <span className="thumbLabel">GOOD REVIEWS</span>
               </Col>
-              <Col>
-                <span className="badThumb">
-                  {`${data.dislike} BAD REVIEWS`}
-                  <Icon icon="thumbs-down" />
-                </span>
+              <Col className="badThumb">
+                <span className="thumbCount">{data.dislike}</span>
+                <span className="thumbLabel">BAD REVIEWS</span>
+                <Icon icon="thumbs-down" />
               </Col>
             </Row>
           </CardBody>
