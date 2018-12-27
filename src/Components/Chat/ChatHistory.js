@@ -107,15 +107,17 @@ const ImageContainer = styled.div`
   justify-content: center;
   margin-right: 10px;
   div {
-    display: flex;
+    width: 40px;
+    height: 40px;
+    img {
     background-color: #fff;
     height: 40px;
     width: 40px;
-    overflow: hidden;
     border-radius: 20px;
-    justify-content: center;
-    align-items: center;
+    object-fit: cover;
   }
+  }
+ 
 `;
 
 class ChatHistoryComponent extends Component {
@@ -124,25 +126,48 @@ class ChatHistoryComponent extends Component {
     this.state = {
       currentRequest: 0,
       ok: true,
-      data: props.history
-    }
+      data: props.history,
+      search: ""
+    };
   }
 
   setCurrentRequest = id => {
     this.setState({ currentRequest: id });
   };
 
+  onSearch = e => {
+    const text = e.target.value;
+    this.setState({ search: text });
+  };
+
+  _filter = (searchText, data = []) => {
+    return data.filter(d =>
+      String(d.chat.user.fullName)
+        .toLowerCase()
+        .trim()
+        .startsWith(
+          String(searchText)
+            .trim()
+            .toLowerCase()
+        )
+    );
+  };
+
   render() {
-    const { ok, data, currentRequest } = this.state;
+    const { ok, data, currentRequest, search } = this.state;
     return (
       <ChatHistoryWrapper>
         <Text>Recent chats</Text>
         <ChatSearchBoxWrapper>
-          <Input placeholder="Search contact" />
+          <Input
+            placeholder="Search contact"
+            value={search}
+            onChange={this.onSearch}
+          />
         </ChatSearchBoxWrapper>
         <ChatHistoryList>
           {ok &&
-            data.map(list => {
+            this._filter(search, data).map(list => {
               return (
                 <ChatHistoryItem
                   active={currentRequest === list.request.id}
@@ -162,17 +187,16 @@ const ChatPeople = ({
   chat: {
     message,
     createdAt,
-    user: { fullName }
+    user: {
+      fullName,
+      imagePath = "http://mobacon-api.pieros.site//mobacon/api/image/profile/default/default_profile.png"
+    }
   }
 }) => (
   <ChatPeopleContainer>
     <ImageContainer>
       <div>
-        <img
-          src={
-            "https://vignette.wikia.nocookie.net/vsbattles/images/d/d0/Doraemon_render.png/revision/latest?cb=20171108000852"
-          }
-        />
+        <img src={imagePath} />
       </div>
     </ImageContainer>
     <div className="chatDetail">

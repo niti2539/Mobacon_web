@@ -63,7 +63,9 @@ class Chat extends Component {
             },
             user: {
               id: 0,
-              fullName: "User"
+              fullName: "Tony Stark",
+              imagePath:
+                "https://amp.businessinsider.com/images/556740766bb3f76e630b4887-750-441.jpg"
             },
             operator: {
               id: 1,
@@ -92,7 +94,9 @@ class Chat extends Component {
             },
             user: {
               id: 0,
-              fullName: "User"
+              fullName: "Peter Parker",
+              imagePath:
+                "https://d13ezvd6yrslxm.cloudfront.net/wp/wp-content/images/Tobey-Maguire-in-Spider-Man-e1544020096372-700x295.jpg"
             },
             operator: {
               id: 1,
@@ -121,7 +125,9 @@ class Chat extends Component {
             },
             user: {
               id: 0,
-              fullName: "User"
+              fullName: "Captain America",
+              imagePath:
+                "https://static1.srcdn.com/wordpress/wp-content/uploads/2018/01/Chris-Evans-as-Captain-America-MCU.jpg"
             },
             operator: {
               id: 1,
