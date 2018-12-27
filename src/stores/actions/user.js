@@ -1,5 +1,5 @@
 import { Redirect } from "react-router-dom";
-import { apiRequest } from "../../Configs";
+import { apiRequest, api } from "../../Configs";
 import { actionType } from "./index";
 
 async function signUp(data) {
@@ -31,7 +31,13 @@ const authorize = async (dispatch, cb = null) => {
     }
   } catch (err) {
     if (err.response) {
-      alert(err.response.data.message);
+      // if token has invalid delete all storage
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("id");
+      if (cb) {
+        cb(false);
+      }
+      // alert(err.response.data.message);
     }
     console.log("Error", err);
     // return alert("Cannot authorized!!");
@@ -81,14 +87,13 @@ async function getOperators(data) {
 }
 
 const updateProfile = dispatch => formData => {
+  const token = localStorage.getItem("accessToken");
   return new Promise(async (resolve, reject) => {
     try {
-      const result = await apiRequest("/operator", "PATCH", formData, {
-        "Content-Type": "application/x-www-form-urlencoded"
-      });
+      const result = await apiRequest("/operator", "PATCH", formData);
       return resolve(result);
     } catch (err) {
-      return reject(err.response.data);
+      return reject(err);
     }
   });
 };

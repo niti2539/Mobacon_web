@@ -93,10 +93,15 @@ export const apiRequest = async (
       ...headers
     }
   };
-  if (body) {
-    config.body = JSON.stringify(body);
-  }
 
+  if (body) {
+    if (body instanceof FormData) {
+      config.body = body;
+      delete config.headers["Content-Type"];
+    } else {
+      config.body = JSON.stringify(body);
+    }
+  }
   return new Promise((resolve, reject) => {
     fetch(api.baseApi + path, config)
       .then(handleError)

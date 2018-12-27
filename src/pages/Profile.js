@@ -210,6 +210,11 @@ class Forms extends Component {
       console.log("Update profile", data.info);
       this.props.fetchProfile(); // update all user detail in web app
       alert(data.message);
+    }).catch((err) => {
+      if(err.response){
+        alert(err.response.data.message)
+      }
+      console.log(err);
     });
   };
 
