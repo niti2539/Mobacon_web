@@ -219,8 +219,9 @@ class Forms extends Component {
   };
 
   render() {
+    console.log(this.state.imagePath)
     const { imagePath, email, fullName, phoneNumber } = this.state;
-    console.log(this.props.user_detail);
+    console.log(imagePath)
     return (
       <div className="animated fadeIn">
         <Row>
@@ -370,8 +371,6 @@ class Forms extends Component {
     );
   }
 }
-
-// const mapStateToProps = state => state;
 
 const mapStateToProps = state => {
   return {
