@@ -37,12 +37,15 @@ const MessageWrapper = styled.div`
 `;
 
 const Sender = styled.div`
-  width: fit-content;
+  width: 30px;
+  height: 30px;
   margin: 0 10px;
   img {
     box-shadow: 0 5px 10px 3px rgba(150, 150, 150, 0.05),
       0 2px 10px 1.5px rgba(150, 150, 150, 0.2);
-
+    width: 30px;
+    height: 30px;
+    object-fit: cover;
     border-radius: 100%;
   }
 `;
@@ -63,9 +66,9 @@ class ChatMessage extends Component {
     }, 2000);
   }
 
-  componentDidUpdate(prevProps){
-    if(prevProps !== this.props){
-      console.log("image y", this.message.offsetTop)
+  componentDidUpdate(prevProps) {
+    if (prevProps !== this.props) {
+      console.log("image y", this.message.offsetTop);
     }
   }
 
@@ -80,12 +83,12 @@ class ChatMessage extends Component {
     const name = fullName.trim().split(/\s/)[0];
     const isMyMessage = id == localStorage.getItem("id");
     return (
-      <MessageWrapper isMyMessage={isMyMessage} ref={(r => this.message = r)}>
+      <MessageWrapper isMyMessage={isMyMessage} ref={r => (this.message = r)}>
         {read && isMyMessage && <ReadMessage>read</ReadMessage>}
         <Message>{message}</Message>
         {imagePath && (
           <Sender>
-            <img src={imagePath} width="25" />
+            <img src={imagePath} width="30" height="30" />
           </Sender>
         )}
       </MessageWrapper>

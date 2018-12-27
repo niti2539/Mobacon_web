@@ -115,9 +115,7 @@ module.exports = (env, argv) => {
       new HtmlWebpackPlugin({
         template: "public/index.html"
       }),
-      ...(dev
-        ? [new webpack.HotModuleReplacementPlugin()]
-        : [new WebpackClearConsole()])
+      ...(dev ? [new webpack.HotModuleReplacementPlugin()] : [])
     ]
   };
 };

@@ -27,12 +27,11 @@ class Tabs extends Component {
     super(props);
 
     this.toggle = this.toggle.bind(this);
-    const now = moment();
     this.state = {
       activeTab: "1",
       check: false,
-      startDate: now,
-      endDate: now.days(now.days + 3),
+      startDate: moment(),
+      endDate: moment(),
       plans: [],
       fromAtError: false,
       toAtError: false
@@ -60,7 +59,8 @@ class Tabs extends Component {
 
   componentDidMount = async () => {
     try {
-      const { plans } = await apiRequest("/plans");
+      const {plans} = await apiRequest("/plans");
+      console.log("plans", plans);
       this.setState({
         plans,
         startDate: moment(plans[0].startAt),
@@ -96,8 +96,8 @@ class Tabs extends Component {
     }
     console.log("Start date", startDate.utc(), " endDate", endDate.utc());
 
-    const startAt = startDate ? startDate.utc() : null;
-    const endAt = endDate ? endDate.utc() : null;
+    const startAt = startDate ? startDate.toUTCString() : null;
+    const endAt = endDate ? endDate.toUTCString() : null;
     try {
       const result = await apiRequest("/plan/basic", "PATCH", {
         chatEnabled,
@@ -116,7 +116,9 @@ class Tabs extends Component {
 
   render() {
     const { plans, startDate, endDate, fromAtError, toAtError } = this.state;
-    return (
+    console.log("Start at", startDate);
+    console.log("End at", endDate);
+    return plans.length > 0 ? (
       <div className="animated fadeIn">
         <Row>
           <p className="alignPlan">Plans</p>
@@ -142,105 +144,123 @@ class Tabs extends Component {
               })}
             </Nav>
             <TabContent activeTab={this.state.activeTab} className="tabWrapper">
-              {plans.map((plan, i) => {
-                const isPremium = plan.id == 2;
-                return (
-                  <TabPane
-                    tabId={String(plan.id)}
-                    id={String(plan.id)}
-                    key={i}
-                    style={{ height: "auto !important" }}
-                  >
-                    <Form>
-                      <FormGroup>
-                        <Row>
-                          <Col md="6">
-                            <input
-                              id="tmp1"
-                              type="checkbox"
-                              name="chatEnabled"
-                              disabled={isPremium}
-                              checked={plan.chatEnabled}
-                              onChange={this.onFeatureChange(plan.id)}
-                            />
-                            <label for="tmp1" className="enableChat">
-                              <FontAwesomeIcon
-                                icon="check"
-                                className="facheck-1"
-                              />
-                              Enable Chat
-                            </label>
-                          </Col>
-                          <Col md="6">
-                            <input
-                              id="tmp2"
-                              type="checkbox"
-                              disabled={isPremium}
-                              name="historyEnabled"
-                              checked={plan.historyEnabled}
-                              onChange={this.onFeatureChange(plan.id)}
-                            />
-                            <label for="tmp2" className="enableHis">
-                              <FontAwesomeIcon
-                                icon="check"
-                                className="facheck-2"
-                              />
-                              Enable History
-                            </label>
-                          </Col>
-                        </Row>
-
-                        {!isPremium && (
-                          <Row>
-                            <Col md="12" className="selectDateRangeWrapper">
-                              <FormGroup>
-                                {" "}
-                                <FormText color="muted">From</FormText>
-                                <DatePicker
-                                  placeholderText="Select Date"
-                                  selected={startDate}
-                                  dateFormat="DD/MM/YYYY"
-                                  onChange={this.handleChangeStart}
-                                  className={`fromChange ${
-                                    fromAtError ? "error" : ""
-                                  }`}
-                                />
-                              </FormGroup>
-                              <FormGroup>
-                                <FormText color="muted">To</FormText>
-                                <DatePicker
-                                  value={endDate}
-                                  placeholderText="Select Date"
-                                  selected={endDate}
-                                  dateFormat="DD/MM/YYYY"
-                                  onChange={this.handleChangeEnd}
-                                  className={`fromChange ${
-                                    toAtError ? "error" : ""
-                                  }`}
-                                />
-                              </FormGroup>
-                            </Col>
-                          </Row>
-                        )}
-                      </FormGroup>
-                      <div className="form-actions">
-                        <Button
-                          disabled={plan.id == 2}
-                          type="button"
-                          onClick={this.onUpdatePlan}
-                          className="adjustButtonUpdate"
-                        >
-                          UPDATE
-                        </Button>
-                      </div>
-                    </Form>
-                  </TabPane>
-                );
-              })}
+              <TabPane tabId={String(plans[0].id)} id={String(plans[0].id)}>
+                <Form>
+                  <FormGroup>
+                    <Row>
+                      <Col md="6">
+                        <input
+                          id="tmp1"
+                          type="checkbox"
+                          name="chatEnabled"
+                          checked={plans[0].chatEnabled}
+                          onChange={this.onFeatureChange(plans[0].id)}
+                        />
+                        <label for="tmp1" className="enableChat">
+                          <FontAwesomeIcon icon="check" className="facheck-1" />
+                          Enable Chat
+                        </label>
+                      </Col>
+                      <Col md="6">
+                        <input
+                          id="tmp2"
+                          type="checkbox"
+                          name="historyEnabled"
+                          checked={plans[0].historyEnabled}
+                          onChange={this.onFeatureChange(plans[0].id)}
+                        />
+                        <label for="tmp2" className="enableHis">
+                          <FontAwesomeIcon icon="check" className="facheck-2" />
+                          Enable History
+                        </label>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col md="12" className="selectDateRangeWrapper">
+                        <FormGroup>
+                          <FormText color="muted">From</FormText>
+                          <DatePicker
+                            placeholderText="Select Date"
+                            selected={startDate}
+                            dateFormat="DD-MM-YYYY"
+                            onChange={this.handleChangeStart}
+                            className={`fromChange ${
+                              fromAtError ? "error" : ""
+                              }`}
+                          />
+                        </FormGroup>
+                        <FormGroup>
+                          <FormText color="muted">To</FormText>
+                          <DatePicker
+                            placeholderText="Select Date"
+                            selected={endDate}
+                            dateFormat="DD-MM-YYYY"
+                            onChange={this.handleChangeEnd}
+                            className={`fromChange ${toAtError ? "error" : ""}`}
+                          />
+                        </FormGroup>
+                      </Col>
+                    </Row>
+                  </FormGroup>
+                  <div className="form-actions">
+                    <Button
+                      type="button"
+                      onClick={this.onUpdatePlan}
+                      className="adjustButtonUpdate"
+                    >
+                      UPDATE
+                    </Button>
+                  </div>
+                </Form>
+              </TabPane>
+              <TabPane tabId={String(plans[1].id)} id={String(plans[1].id)}>
+                <Form>
+                  <FormGroup>
+                    <Row>
+                      <Col md="6">
+                        <input
+                          id="tmp1"
+                          type="checkbox"
+                          name="chatEnabled"
+                          checked={plans[1].chatEnabled}
+                        />
+                        <label for="tmp1" className="enableChat">
+                          <FontAwesomeIcon icon="check" className="facheck-1" />
+                          Enable Chat
+                        </label>
+                      </Col>
+                      <Col md="6">
+                        <input
+                          id="tmp2"
+                          type="checkbox"
+                          disabled
+                          name="historyEnabled"
+                          checked={plans[1].historyEnabled}
+                        />
+                        <label for="tmp2" className="enableHis">
+                          <FontAwesomeIcon icon="check" className="facheck-2" />
+                          Enable History
+                        </label>
+                      </Col>
+                    </Row>
+                  </FormGroup>
+                  <div className="form-actions">
+                    <Button
+                      disabled
+                      type="button"
+                      className="adjustButtonUpdate"
+                    >
+                      UPDATE
+                    </Button>
+                  </div>
+                </Form>
+              </TabPane>
             </TabContent>
           </Col>
         </Row>
       </div>
+    ) : (
+      <></>
     );
   }
 }

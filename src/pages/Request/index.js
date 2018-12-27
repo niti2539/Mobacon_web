@@ -106,14 +106,10 @@ class Tabs extends Component {
 
   onSubmitOffer = async e => {
     e.preventDefault();
-    const {
-      data: { id },
-      data: { offer }
-    } = this.state;
+    const { data: { id }, data: { offer } } = this.state;
     await this.setState({ submitting: true });
     if (!offer) alert("Review or Suggestion cannot empty!!");
-    if (!offer.review || !offer.suggestion)
-      alert("Review and suggestion cannot empty!!");
+    if (!offer.review || !offer.suggestion) alert("Review and suggestion cannot empty!!");
     if (offer.review && offer.suggesstion) {
       try {
         const result = await createOffer(id, offer.review, offer.suggestion);
@@ -130,8 +126,9 @@ class Tabs extends Component {
 
   render() {
     const { loading, data, submitting } = this.state;
+    const canEdit = data.status === "Accepted";
     return loading ? (
-      <h3>Loading...</h3>
+      <></>
     ) : (
       <React.Fragment>
         <div className="animated fadeIn">
@@ -164,13 +161,14 @@ class Tabs extends Component {
                   <CardBody>
                     <Form
                       className="requestFormIndex"
-                      onSubmit={this.onSubmitOffer}
+                      // onSubmit={this.onSubmitOffer}
                     >
                       <FormGroup className="alignFormGroup">
                         <Label htmlFor="SMS" className="label">
                           Your Review
                         </Label>
                         <Input
+                          readOnly={!canEdit}
                           type="textarea"
                           name="review"
                           id="textarea-input"
@@ -186,6 +184,7 @@ class Tabs extends Component {
                           Your Suggestion
                         </Label>
                         <Input
+                          readOnly={!canEdit}
                           type="textarea"
                           name="suggestion"
                           id="textarea-input"
@@ -212,9 +211,15 @@ class Tabs extends Component {
                             <span className="checkmark" />
                           </label>
                         </FormGroup> */}
-                      <Button type="submit" className="adjustSubmitButton">
-                        {submitting ? "SUBMITTING..." : "SUBMIT"}
-                      </Button>
+                      {canEdit && (
+                        <Button
+                          // type="submit"
+                          className="adjustSubmitButton"
+                          onClick={this.onSubmitOffer}
+                        >
+                          {submitting ? "SUBMITTING..." : "SUBMIT"}
+                        </Button>
+                      )}
                     </Form>
                   </CardBody>
                 </Card>
