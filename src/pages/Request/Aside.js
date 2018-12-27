@@ -8,6 +8,8 @@ const AsideStyle = styled.div`
   position: fixed;
   z-index: 1000000000;
   width: 300px;
+  background-color: #fff;
+  box-shadow: 5px 0 20px 2 rgba(40,40,40, .1);
   right: 0;
   top: 0;
   height: 100vh;
@@ -40,7 +42,7 @@ class RequestAside extends Component {
   }
 
   componentWillReceiveProps(nextProps){
-    console.log('visible',nextProps)
+    // console.log('visible',nextProps)
     this.setState({
       visible: this.props.visible
     })

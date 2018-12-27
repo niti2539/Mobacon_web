@@ -1,19 +1,19 @@
 // Here you can add other styles
-:root{
-  --color-main: #2699FB;
-  --color-sub: #BCE0FD;
-  --color-bg: #F1F9FF;
-  --color-white: #FFFFFF;
+:root {
+  --color-main: #2699fb;
+  --color-sub: #bce0fd;
+  --color-bg: #f1f9ff;
+  --color-white: #ffffff;
 }
-body{
+body {
   background: var(--color-bg);
 }
-.color-main{
+.color-main {
   color: var(--color-main);
 }
-.sidebar{
+.sidebar {
   background: var(--color-main);
-  .nav-link.active{
+  .nav-link.active {
     background: black;
     opacity: 0.5;
   }
@@ -23,10 +23,16 @@ table,
 .card,
 .tab-content,
 .nav-tabs .nav-link.active,
-.card-header{
+.card-header {
   border-color: var(--color-sub);
 }
 
-.card-header{
+.card-header {
   background: var(--color-white);
+}
+
+.img-avatar {
+  width: 35px !important;
+  height: 35px !important;
+  object-fit: cover;
 }

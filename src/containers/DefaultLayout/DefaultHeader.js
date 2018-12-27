@@ -45,15 +45,11 @@ class DefaultHeader extends Component {
     var elem = document.getElementsByClassName("navbar-brand-minimized");
     console.log(elem.values);
 
-    return (
-      <React.Fragment>
+    return <React.Fragment>
         <AppSidebarToggler className="d-lg-none" display="md" mobile />
 
         <AppSidebarMinimizer className="headerName navbar-brand-minimized navbar-brand">
-          <span
-            onClick={() => this.toggleHandler()}
-            onChange={this.toggleHandler}
-          >
+          <span onClick={() => this.toggleHandler()} onChange={this.toggleHandler}>
             {this.state.name}
           </span>
         </AppSidebarMinimizer>
@@ -98,11 +94,7 @@ class DefaultHeader extends Component {
           <AppHeaderDropdown direction="down">
             <DropdownToggle nav>
               <i className="icon-arrow-down" />
-              {/* <img
-                src={avatars6}
-                className="img-avatar"
-                alt="admin@bootstrapmaster.com"
-              /> */}
+              <img src={avatars6} className="img-avatar" alt="admin@bootstrapmaster.com" />
             </DropdownToggle>
             <DropdownMenu right style={{ right: "auto" }}>
               <DropdownItem header tag="div" className="text-center">
@@ -153,8 +145,7 @@ class DefaultHeader extends Component {
         </Nav>
         {/*<AppAsideToggler className="d-md-down-none" />*/}
         {/*<AppAsideToggler className="d-lg-none" mobile />*/}
-      </React.Fragment>
-    );
+      </React.Fragment>;
   }
 }
 

@@ -2,6 +2,18 @@ import React, { Component } from "react";
 import styled, { keyframes } from "styled-components";
 import { Input as ChatInput } from "./ChatInput";
 import moment from "moment";
+
+const peopleAnimation = keyframes`
+  from{
+    opacity: 0;
+    transform: translateY(100vh);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
+
 const ChatHistoryWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -28,6 +40,9 @@ const ChatHistoryItem = styled.div`
   border-bottom-style: solid;
   flex-shrink: 0;
   flex-direction: row;
+  opacity: 0;
+  transform: translateY(100vh);
+  animation: ${peopleAnimation} 1s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
   * {
     color: ${props => (props.active ? "inherith" : "#fff")} !important;
   }
@@ -110,14 +125,13 @@ const ImageContainer = styled.div`
     width: 40px;
     height: 40px;
     img {
-    background-color: #fff;
-    height: 40px;
-    width: 40px;
-    border-radius: 20px;
-    object-fit: cover;
+      background-color: #fff;
+      height: 40px;
+      width: 40px;
+      border-radius: 20px;
+      object-fit: cover;
+    }
   }
-  }
- 
 `;
 
 class ChatHistoryComponent extends Component {

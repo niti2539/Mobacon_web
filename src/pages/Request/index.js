@@ -19,7 +19,11 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import RequestAside from "./Aside";
 import _ from "lodash";
-import { getRequestById, createOffer } from "../../stores/actions/request";
+import {
+  getRequestById,
+  createOffer,
+  updateMemo
+} from "../../stores/actions/request";
 import {
   AppAside,
   AppBreadcrumb,
@@ -66,9 +70,26 @@ class Tabs extends Component {
     return moment(date).format("DD.MM.YYYY");
   };
 
+  onMemoSave = async e => {
+    e.preventDefault();
+    const {
+      data: { id, memo }
+    } = this.state;
+    try {
+      const result = await updateMemo(id, memo);
+      alert(result.message);
+    } catch (err) {
+      if (err.response) {
+        alert(err.response.data.message);
+      }
+      console.log("Memo error", err);
+    }
+  };
+
   onMemoChange = e => {
-    const { data } = this.state;
-    this.setState({ data: Object.assign(data, { memo: e.target.value }) });
+    const memo = e.target.value;
+    // console.log("memo", memo)
+    this.setState({ data: { ...this.state.data, memo: { message: memo } } });
   };
 
   onOfferChange = e => {
@@ -106,11 +127,15 @@ class Tabs extends Component {
 
   onSubmitOffer = async e => {
     e.preventDefault();
-    const { data: { id }, data: { offer } } = this.state;
+    // alert("Form request");
+    const {
+      data: { id, offer }
+    } = this.state;
     await this.setState({ submitting: true });
     if (!offer) alert("Review or Suggestion cannot empty!!");
-    if (!offer.review || !offer.suggestion) alert("Review and suggestion cannot empty!!");
-    if (offer.review && offer.suggesstion) {
+    if (!offer.review || !offer.suggestion)
+      alert("Review and suggestion cannot empty!!");
+    if (offer.review && offer.suggestion) {
       try {
         const result = await createOffer(id, offer.review, offer.suggestion);
         alert(result.message);
@@ -121,11 +146,16 @@ class Tabs extends Component {
         console.log("submit offer error", err);
       }
     }
-    await this.setState({ submitting: false });
+    this.setState({ submitting: false });
   };
 
   render() {
-    const { loading, data, submitting } = this.state;
+    const {
+      loading,
+      data,
+      data: { memo },
+      submitting
+    } = this.state;
     const canEdit = data.status === "Accepted";
     return loading ? (
       <></>
@@ -161,7 +191,7 @@ class Tabs extends Component {
                   <CardBody>
                     <Form
                       className="requestFormIndex"
-                      // onSubmit={this.onSubmitOffer}
+                      onSubmit={this.onSubmitOffer}
                     >
                       <FormGroup className="alignFormGroup">
                         <Label htmlFor="SMS" className="label">
@@ -213,9 +243,9 @@ class Tabs extends Component {
                         </FormGroup> */}
                       {canEdit && (
                         <Button
-                          // type="submit"
+                          type="submit"
                           className="adjustSubmitButton"
-                          onClick={this.onSubmitOffer}
+                          // onClick={this.onSubmitOffer}
                         >
                           {submitting ? "SUBMITTING..." : "SUBMIT"}
                         </Button>
@@ -349,7 +379,7 @@ class Tabs extends Component {
               <Col md="12">
                 <Card>
                   <CardBody>
-                    <Form className="memoFormIndex">
+                    <Form className="memoFormIndex" onSubmit={this.onMemoSave}>
                       <FormGroup className="alignFormGroup">
                         <Label htmlFor="memos" className="label">
                           Memos (for internal use only)
@@ -359,7 +389,7 @@ class Tabs extends Component {
                           name="textarea-input"
                           id="textarea-input"
                           rows="8"
-                          value={data.memo || ""}
+                          value={memo.message || ""}
                           onChange={this.onMemoChange}
                           placeholder="Write your memo"
                           className="textAreaMemo"

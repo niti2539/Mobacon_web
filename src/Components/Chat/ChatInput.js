@@ -20,7 +20,7 @@ const Wrapper = styled.div`
   flex-direction: row;
   padding: 10px;
   transform: translateY(100%);
-  animation: ${spawnInput} 0.5s cubic-bezier(0.215, 0.61, 0.355, 1) forwards;
+  animation: ${spawnInput} 1.5s cubic-bezier(0.215, 0.61, 0.355, 1) forwards;
 `;
 
 const Send = styled(Button)`

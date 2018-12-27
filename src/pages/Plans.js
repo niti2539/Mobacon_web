@@ -15,13 +15,13 @@ import {
   Label,
   Button
 } from "reactstrap";
-import DatePicker from "react-datepicker";
+import "react-dates/initialize";
+
 import moment from "moment";
-import "react-datepicker/dist/react-datepicker.css";
 import classnames from "classnames";
 import { apiRequest } from "../Configs";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
+import { DateRangePicker } from "react-dates";
 class Tabs extends Component {
   constructor(props) {
     super(props);
@@ -34,7 +34,8 @@ class Tabs extends Component {
       endDate: moment(),
       plans: [],
       fromAtError: false,
-      toAtError: false
+      toAtError: false,
+      focusDate: null
     };
   }
 
@@ -59,12 +60,12 @@ class Tabs extends Component {
 
   componentDidMount = async () => {
     try {
-      const {plans} = await apiRequest("/plans");
+      const { plans } = await apiRequest("/plans");
       console.log("plans", plans);
       this.setState({
         plans,
-        startDate: moment(plans[0].startAt),
-        endDate: moment(plans[0].endAt)
+        startDate: plans[0].startAt ? moment(plans[0].startAt) : null,
+        endDate: plans[0].endAt ? moment(plans[0].endAt) : null
       });
     } catch (err) {
       alert("Error to get plans infomation");
@@ -96,8 +97,8 @@ class Tabs extends Component {
     }
     console.log("Start date", startDate.utc(), " endDate", endDate.utc());
 
-    const startAt = startDate ? startDate.toUTCString() : null;
-    const endAt = endDate ? endDate.toUTCString() : null;
+    const startAt = startDate ? startDate.utc() : null;
+    const endAt = endDate ? endDate.utc() : null;
     try {
       const result = await apiRequest("/plan/basic", "PATCH", {
         chatEnabled,
@@ -115,7 +116,14 @@ class Tabs extends Component {
   };
 
   render() {
-    const { plans, startDate, endDate, fromAtError, toAtError } = this.state;
+    const {
+      plans,
+      startDate,
+      endDate,
+      fromAtError,
+      toAtError,
+      focusDate
+    } = this.state;
     console.log("Start at", startDate);
     console.log("End at", endDate);
     return plans.length > 0 ? (
@@ -176,27 +184,23 @@ class Tabs extends Component {
                       </Col>
                     </Row>
                     <Row>
-                      <Col md="12" className="selectDateRangeWrapper">
+                      <Col md="12">
                         <FormGroup>
-                          <FormText color="muted">From</FormText>
-                          <DatePicker
-                            placeholderText="Select Date"
-                            selected={startDate}
-                            dateFormat="DD-MM-YYYY"
-                            onChange={this.handleChangeStart}
-                            className={`fromChange ${
-                              fromAtError ? "error" : ""
-                              }`}
-                          />
-                        </FormGroup>
-                        <FormGroup>
-                          <FormText color="muted">To</FormText>
-                          <DatePicker
-                            placeholderText="Select Date"
-                            selected={endDate}
-                            dateFormat="DD-MM-YYYY"
-                            onChange={this.handleChangeEnd}
-                            className={`fromChange ${toAtError ? "error" : ""}`}
+                          <FormText color="muted">Start at - End at</FormText>
+                          <DateRangePicker
+                            required
+                            startDate={startDate} // momentPropTypes.momentObj or null,
+                            startDateId="startAtPlan" // PropTypes.string.isRequired,
+                            endDate={endDate} // momentPropTypes.momentObj or null,
+                            endDateId="endAtPlan" // PropTypes.string.isRequired,
+                            displayFormat="DD/MM/YYYY"
+                            onDatesChange={({ startDate, endDate }) =>
+                              this.setState({ startDate, endDate })
+                            } // PropTypes.func.isRequired,
+                            focusedInput={focusDate} // PropTypes.oneOf([START_DATE, END_DATE]) or null,
+                            onFocusChange={focus =>
+                              this.setState({ focusDate: focus })
+                            } // PropTypes.func.isRequired,
                           />
                         </FormGroup>
                       </Col>

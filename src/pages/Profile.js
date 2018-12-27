@@ -233,8 +233,9 @@ class Forms extends Component {
               <TabPane>
                 <p className="alignHeader divider">Update Profile</p>
                 {imagePath && (
-                  <Media href="">
+                  <Media href="" className="imageWrapper">
                     <Media className="imagePhoto" object src={imagePath} />
+                    <Media className="imagePhotoOpacity" object src={imagePath} />
                   </Media>
                 )}
                 <Form onSubmit={this.onUpdateProfile}>
