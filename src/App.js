@@ -65,7 +65,8 @@ import {
   faFileAlt,
   faEnvelope,
   faUser,
-  faCog
+  faCog,
+  faChevronCircleLeft
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(faAngleDown);
@@ -82,6 +83,7 @@ library.add(faComments);
 library.add(faBell);
 library.add(faChevronDown);
 library.add(faPaperPlane);
+library.add(faChevronCircleLeft);
 
 library.add(faChartBar);
 library.add(faServer);
@@ -129,7 +131,7 @@ class MainRoute extends React.Component {
           localStorage.setItem("accessToken", newToken);
         }
       }
-      console.log("Authorized ok", payload.ok)
+      console.log("Authorized ok", payload.ok);
     });
   }
 

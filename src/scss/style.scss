@@ -4,7 +4,7 @@
 // Import styles
 @import "@coreui/coreui/scss/coreui.scss";
 // Temp fix for reactstrap
-@import '@coreui/coreui/scss/_dropdown-menu-right.scss';
+@import "@coreui/coreui/scss/_dropdown-menu-right.scss";
 
 // If you want to add something do it here
 @import "custom";
@@ -19,5 +19,18 @@
 @import "request.scss";
 @import "request_index.scss";
 @import "adjust_custom.scss";
-@import "plans.scss"
+@import "plans.scss";
 
+span,
+p,
+a,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+input,
+button {
+  font-family: "Rubik-Medium" !important;
+}
