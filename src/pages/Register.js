@@ -143,8 +143,9 @@ class Register extends React.Component {
                     <Media className="imagePhoto" object src={imagePath} />
                   </Media>
                 )} */}
-          <Media href="">
+          <Media href="" className="imageWrapper">
             <Media className="imagePhoto" object src={imagePath} />
+            <Media className="imagePhotoOpacity" object src={imagePath} />
           </Media>
 
           <form className="md-form">
