@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
-import ChangePassword from "../Components/ChangePassword";
+import ChangePassword from "../../Components/ChangePassword";
 import { Container, Card, CardBody } from "reactstrap";
-import { emailVerification } from "../stores/actions/email";
+import { userResetPassword } from "../../stores/actions/email";
 
-import "../scss/verification.scss";
+import "../../scss/resetPassword.scss";
 
-class VErification extends Component {
+class UserResetPassword extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -15,7 +15,7 @@ class VErification extends Component {
   }
   onSubmit = async password => {
     const { token } = this.state;
-    await emailVerification(password, token);
+    await userResetPassword(password, token);
     window.location.replace("/");
   };
   componentDidMount = () => {
@@ -44,7 +44,7 @@ class VErification extends Component {
           <CardBody>
             <ChangePassword
               onSubmit={this.onSubmit}
-              buttonMessage="VERIFY YOUR ACCOUNT"
+              buttonMessage="RESET PASSWORD"
             />
           </CardBody>
         </Card>
@@ -53,4 +53,4 @@ class VErification extends Component {
   }
 }
 
-export default withRouter(VErification);
+export default withRouter(UserResetPassword);

@@ -38,6 +38,8 @@ import DefaultLayout from "./pages/Layouts";
 // Pages
 import Login from "./pages/LoginPage";
 import Verification from "./pages/Verification";
+import ResetPassword from "./pages/ResetPassword";
+import UserResetPassword from "./pages/User/ResetPassword";
 import Register from "./pages/Register";
 import Page404 from "./pages/Page404";
 import Page500 from "./pages/Page500";
@@ -101,6 +103,8 @@ class App extends Component {
         <Route exact path="/login" name="Login" component={Login} />
         {/* Start email callback path */}
         <Route exact path="/verification" component={Verification} />
+        <Route exact path="/resetPassword" component={ResetPassword} />
+        <Route exact path="/user/resetPassword" component={UserResetPassword} />
         {/* End email callback path */}
         <MainRoute />
         <Route name="Page 404" component={Page404} />
