@@ -257,9 +257,10 @@ class Register extends React.Component {
     formData.append("phoneNumber", this.state.phoneNumber);
     formData.append("image", this.state.imageFile, this.state.imageFile.name);
     this.props.register(formData, () => {
-      const { onComplete } = this.props;
-      if (onComplete) {
-        onComplete();
+      const { onCompleted } = this.props;
+      if (onCompleted) {
+        console.log("refresh operators")
+        onCompleted();
       }
     });
   };

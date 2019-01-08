@@ -37,6 +37,7 @@ import "./scss/style.scss";
 import DefaultLayout from "./pages/Layouts";
 // Pages
 import Login from "./pages/LoginPage";
+import Verification from "./pages/Verification";
 import Register from "./pages/Register";
 import Page404 from "./pages/Page404";
 import Page500 from "./pages/Page500";
@@ -98,6 +99,9 @@ class App extends Component {
       <Switch>
         <Route exact path="/" name="Login" component={Login} />
         <Route exact path="/login" name="Login" component={Login} />
+        {/* Start email callback path */}
+        <Route exact path="/verification" component={Verification} />
+        {/* End email callback path */}
         <MainRoute />
         <Route name="Page 404" component={Page404} />
         <Route name="Page 500" component={Page500} />

@@ -118,7 +118,7 @@ class ForgotPassword extends Component {
             style={{ margin: "10px 0 0 0", width: "100%" }}
           >
             <Col md="auto">
-              <Button type="submit" className="px-4 Button-Login">
+              <Button type="submit" className="mobacon-btn">
                 {isSent ? "RESENT EMAIL" : "SEND EMAIL"}
               </Button>
             </Col>

@@ -113,7 +113,7 @@ class OperatorCard extends Component {
                 {operatorImage && (
                   <img
                     className="imgAvatar"
-                    src={operatorImage}
+                    src={operatorImage || ""}
                     alt={`${data.fullName}`}
                   />
                 )}

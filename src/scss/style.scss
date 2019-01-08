@@ -34,3 +34,31 @@ input,
 button {
   font-family: "Rubik-Medium" !important;
 }
+
+.mobacon-btn {
+  padding: 11px 16px;
+  background-image: linear-gradient(90deg, #76d5ce, #5fb2ae) !important;
+  border-color: transparent;
+  background-color: transparent;
+  font-family: "Karla-Bold";
+  font-size: 1rem;
+  color: #ffffff;
+  margin-top: 9px;
+}
+
+.white-card {
+  max-width: 400px;
+  margin: auto;
+  background-color: #fff;
+  padding: 20px;
+  box-shadow: 0 0 14px 2px rgba(100, 100, 100, 0.1);
+  input {
+    width: 100%;
+  }
+  h1 {
+    border-bottom: #60b3ae;
+    border-bottom-width: 4px;
+    border-bottom-style: solid;
+    border-bottom-right-radius: 20px;
+  }
+}
