@@ -169,7 +169,15 @@ class Chat extends Component {
       user: { user_detail: user }
     } = this.props;
     this.setUser(user);
+    this.getChat();
     // window.socket.emit("chat", "hello backend");
+  }
+
+  getChat = () => {
+    // console.log("Get chat list");
+    window.socket.emit("web-chat-list", (payload) => {
+      console.log("Chat list", payload);
+    })
   }
 
   componentDidUpdate(prevProps) {
