@@ -83,25 +83,28 @@ class ChatInput extends Component {
     if (message.trim() === "") return;
     const { onPushChat } = this.props;
     this.setState({ message: "" });
-    onPushChat(null, message);
+    onPushChat(message);
   };
 
   render() {
     const { message } = this.state;
+    const { visible } = this.props;
     return (
-      <Wrapper>
-        <Input
-          placeholder="Say something..."
-          type="text"
-          ref={r => (this.chatBox = r)}
-          onKeyDown={this.onKeyDown}
-          value={message}
-          onChange={this.onChange}
-        />
-        <Send onClick={() => this.onPushChat(message)}>
-          <Icon icon="paper-plane" size="2x" />
-        </Send>
-      </Wrapper>
+      visible && (
+        <Wrapper>
+          <Input
+            placeholder="Say something..."
+            type="text"
+            ref={r => (this.chatBox = r)}
+            onKeyDown={this.onKeyDown}
+            value={message}
+            onChange={this.onChange}
+          />
+          <Send onClick={() => this.onPushChat(message)}>
+            <Icon icon="paper-plane" size="2x" />
+          </Send>
+        </Wrapper>
+      )
     );
   }
 }

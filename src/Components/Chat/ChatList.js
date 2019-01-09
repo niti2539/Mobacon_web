@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import PropTypes from "prop-types";
 
 const ChatListWrapper = styled.div`
@@ -12,6 +12,47 @@ const ChatListWrapper = styled.div`
   overflow-x: hidden;
   justify-content: flex-start;
 `;
+
+const Collapse = keyframes`
+  from{
+    top: 0%;
+    visibility: visible;
+  }
+  to{
+    top: -50%;
+    visibility: hidden;
+  }
+`;
+
+const LoadMore = styled.div`
+  padding: 20px;
+  cursor: pointer;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(
+    to bottom,
+    rgba(3, 79, 79, 0.18) 0%,
+    rgba(239, 239, 239, 0) 100%
+  );
+  animation-name: ${Collapse};
+  animation-duration: 2s;
+  animation-timing-function: cubic-bezier(1, -0.44, 0, 1.47);
+  animation-play-state: running;
+  animation-fill-mode: forwards;
+
+  transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+
+  &:hover {
+    background: linear-gradient(
+      to bottom,
+      rgba(3, 79, 79, 0.34) -20%,
+      rgba(239, 239, 239, 0) 100%
+    );
+  }
+`;
+
 class ChatList extends Component {
   constructor(props) {
     super(props);
@@ -30,27 +71,33 @@ class ChatList extends Component {
     }
   }
 
+  componentDidMount() {
+    this.slowCreateChat();
+  }
+
+  slowCreateChat = () => {
+    setTimeout;
+  };
+
   static propTypes = {
     render: PropTypes.func.isRequired,
     data: PropTypes.array.isRequired
   };
   render() {
-    const { render: RenderComponent, data, user } = this.state;
+    const { onSeeMore, nothingMore } = this.props;
+    const { render: RenderComponent, data } = this.state;
     // console.log("chat Data", data);
     return (
       <ChatListWrapper ref={r => (this.chatList = r)}>
-        {data.map((chat, key) => (
-          <React.Fragment key={key}>
-            {chat.message.startsWith("@")
-            // Mockup
-              ? RenderComponent({
-                  ...chat,
-                  message: chat.message.slice(1),
-                  user: { ...user, id: 50000 }
-                })
-              : RenderComponent({ ...chat, user })}
-          </React.Fragment>
-        ))}
+        <LoadMore nothingMore={nothingMore} onClick={onSeeMore}>
+          See more
+        </LoadMore>
+        {data.map((chat, key) => {
+          return RenderComponent({
+            ...chat,
+            key
+          });
+        })}
       </ChatListWrapper>
     );
   }

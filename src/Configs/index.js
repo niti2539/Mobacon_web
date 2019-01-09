@@ -46,7 +46,7 @@ async function handleResponse(response) {
 }
 
 export const imageRequest = async (path = "") => {
-  const token = localStorage.getItem("accessToken");
+  // const token = localStorage.getItem("accessToken");
   if (path.trim() === "") return null;
   let config = {
     method: "GET"

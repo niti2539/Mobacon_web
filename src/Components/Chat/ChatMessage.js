@@ -1,13 +1,17 @@
 import React, { Component } from "react";
 import styled, { keyframes } from "styled-components";
-
+import { imageRequest } from "../../Configs";
+import _ from "lodash";
+import moment from 'moment'
 const messageSpawn = keyframes`
   from {
     opacity: 0;
+    filter: blur(10px);
     transform: scale(2);
   }
   to {
     opacity: 1;
+    filter: blur(0px);
     transform: scale(1);
   }
 `;
@@ -20,8 +24,11 @@ const Message = styled.div`
   word-wrap: break-word;
   background-color: #3b4859;
   color: #fff !important;
-  box-shadow: 0 5px 10px 2px rgba(150, 150, 150, 0.2),
-    0 3px 10px 1px rgba(150, 150, 150, 0.4);
+  box-shadow: ${props =>
+    !props.failed
+      ? `0 5px 10px 2px rgba(150, 150, 150, 0.2),
+    0 3px 10px 1px rgba(150, 150, 150, 0.4)`
+      : `0 5px 10px 2px #da506644, 0 3px 10px 1px #da506655`};
 `;
 
 const MessageWrapper = styled.div`
@@ -50,48 +57,83 @@ const Sender = styled.div`
   }
 `;
 
-const ReadMessage = styled.span`
+const SendTime = styled.span`
+  margin: 0 10px;
+`;
+const FailedMessage = styled.span`
   margin-right: 10px;
+  color: #da5066 !important;
 `;
 
 class ChatMessage extends Component {
+  static defaultProps = { timeout: 10000 };
   constructor(props) {
     super(props);
-    this.state = { read: false };
+    this.state = {
+      imagePath: null,
+      failed: props.failed || false
+      /*read: false*/
+    };
   }
 
-  componentDidMount() {
+  componentDidMount = async () => {
+    const {
+      sender: {
+        info: { imagePath = "" }
+      }
+    } = this.props;
+    this.setState({ imagePath });
+    this.messageTimeout();
+  };
+
+  messageTimeout = () => {
     setTimeout(() => {
-      this.setState({ read: true });
-    }, 2000);
-  }
+      if (this.state.failed === null) {
+        this.setState({ failed: true });
+      }
+    }, this.props.timeout);
+  };
 
   componentDidUpdate(prevProps) {
     if (prevProps !== this.props) {
-      console.log("image y", this.message.offsetTop);
+      this.setState({ failed: this.props.failed });
     }
   }
 
   render() {
-    const {
-      message,
-      sender,
-      type,
-      user: { fullName, imagePath, id }
-    } = this.props;
-    const { read } = this.state;
-    const name = fullName.trim().split(/\s/)[0];
-    const isMyMessage = id == localStorage.getItem("id");
-    return (
-      <MessageWrapper isMyMessage={isMyMessage} ref={r => (this.message = r)}>
-        {read && isMyMessage && <ReadMessage>read</ReadMessage>}
-        <Message>{message}</Message>
-        {imagePath && (
+    const { message, sender = null, createdAt } = this.props;
+    // const name = fullName.trim().split(/\s/)[0];
+    const { imagePath, failed } = this.state;
+    const isMyMessage = sender ? sender.role.id !== 3 : null;
+    return isMyMessage !== null ? (
+      imagePath && (
+        <MessageWrapper isMyMessage={isMyMessage}>
+          {!failed && <SendTime>{moment(createdAt).format("HH:mm")}</SendTime>}
+          {failed && <FailedMessage>Can't send message</FailedMessage>}
+          <Message failed={failed}>{message}</Message>
           <Sender>
             <img src={imagePath} width="30" height="30" />
           </Sender>
-        )}
-      </MessageWrapper>
+        </MessageWrapper>
+      )
+    ) : (
+      // ) : (
+      //   <MessageWrapper isMyMessage={isMyMessage}>
+      //     <Message>
+      //       <Loading />
+      //     </Message>
+      //     <Sender>
+      //       <div style={{ width: 30, height: 30 }} />
+      //     </Sender>
+      //   </MessageWrapper>
+      // )
+      <div>
+        <hr />
+        <div>
+          <center>Error message </center>
+        </div>
+        <hr />
+      </div>
     );
   }
 }

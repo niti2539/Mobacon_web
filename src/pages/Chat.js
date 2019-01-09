@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 import ChatInput from "../Components/Chat/ChatInput";
-import ChatList from "../Components/Chat/ChatList";
+import ChatMessagesWrapper from "../Components/Chat/ChatList";
 import ChatMessage from "../Components/Chat/ChatMessage";
 import NoChat from "../Components/Chat/NoChat";
 import ChatHistory from "../Components/Chat/ChatHistory";
@@ -26,7 +26,7 @@ const ChatWrapper = styled.div`
   bottom: 0;
 `;
 
-const ChatBody = styled.div`
+export const ChatBody = styled.div`
   overflow: hidden;
   display: flex;
   flex-grow: 1;
@@ -38,107 +38,12 @@ class Chat extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      me: {
-        fullName: "",
-        imagePath: null
-      },
+      me: { fullName: "", imagePath: null },
       currentChat: null,
       chatMessage: [],
-      chatHistory: [
-        {
-          request: {
-            id: 0,
-            carrier: {
-              id: 0,
-              name: "Test"
-            }
-          },
-          chat: {
-            _id: null,
-            message:
-              "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-            read: {
-              user: false,
-              operator: false
-            },
-            user: {
-              id: 0,
-              fullName: "Tony Stark",
-              imagePath:
-                "https://amp.businessinsider.com/images/556740766bb3f76e630b4887-750-441.jpg"
-            },
-            operator: {
-              id: 1,
-              fullName: "Worapol",
-              imagePath: "Buraphan"
-            },
-            senderRoleId: 2, //1: admin, 2: operator, 3: user
-            createdAt: moment().hours(moment().hours - 2)
-          }
-        },
-        {
-          request: {
-            id: 1,
-            carrier: {
-              id: 0,
-              name: "Test"
-            }
-          },
-          chat: {
-            _id: null,
-            message:
-              "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-            read: {
-              user: false,
-              operator: false
-            },
-            user: {
-              id: 0,
-              fullName: "Peter Parker",
-              imagePath:
-                "https://d13ezvd6yrslxm.cloudfront.net/wp/wp-content/images/Tobey-Maguire-in-Spider-Man-e1544020096372-700x295.jpg"
-            },
-            operator: {
-              id: 1,
-              fullName: "Worapol",
-              imagePath: "Buraphan"
-            },
-            senderRoleId: 2, //1: admin, 2: operator, 3: user
-            createdAt: moment().hours(moment().hours - 2)
-          }
-        },
-        {
-          request: {
-            id: 2,
-            carrier: {
-              id: 0,
-              name: "Test"
-            }
-          },
-          chat: {
-            _id: null,
-            message:
-              "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-            read: {
-              user: false,
-              operator: false
-            },
-            user: {
-              id: 0,
-              fullName: "Captain America",
-              imagePath:
-                "https://static1.srcdn.com/wordpress/wp-content/uploads/2018/01/Chris-Evans-as-Captain-America-MCU.jpg"
-            },
-            operator: {
-              id: 1,
-              fullName: "Worapol",
-              imagePath: "Buraphan"
-            },
-            senderRoleId: 2, //1: admin, 2: operator, 3: user
-            createdAt: moment().hours(moment().hours - 2)
-          }
-        }
-      ]
+      chatHistory: [],
+      previousSelfChat: null,
+      nothingMore: false
     };
   }
 
@@ -146,20 +51,14 @@ class Chat extends Component {
     const { imagePath, fullName, id } = data;
     if (imagePath.trim() === "") return;
     const image = await imageRequest(imagePath);
+    console.log("Image path", image);
     if (image) {
       this.setState({
         me: {
           id,
           imagePath: image,
           fullName
-        },
-        chatHistory: [
-          {
-            fullName: "someone",
-            imagePath,
-            id: 50000
-          }
-        ]
+        }
       });
     }
   };
@@ -169,16 +68,139 @@ class Chat extends Component {
       user: { user_detail: user }
     } = this.props;
     this.setUser(user);
-    this.getChat();
+    this.getChatHistory();
+    this.onSelfChat();
     // window.socket.emit("chat", "hello backend");
   }
 
-  getChat = () => {
+  onSelfChat = () => {
+    window.socket.on("web-self-chat", payload => {
+      if (payload.ok) {
+        const { currentChat } = this.state;
+        if (payload.data.request.id == currentChat) {
+          let { data } = payload;
+          this.onSelfPushChat(data.message, false);
+        } else {
+        }
+      } else {
+        this.restartChat();
+        alert("Connot get new message");
+      }
+    });
+  };
+
+  onSelfPushChat = async (message, canFailed = true) => {
+    const data = await this.reformatChatMessage([
+      {
+        message,
+        sender: { role: { id: 2 } },
+        failed: canFailed ? null : false,
+        createdAt: moment()
+      }
+    ]);
+    console.log("Data", data);
+    await this.setState({
+      previousSelfChat: this.state.chatMessage.length
+    });
+    this.onPushChat(data);
+  };
+
+  onEnterChat = async message => {
+    const { currentChat } = this.state;
+    this.onSelfPushChat(message);
+    try {
+      window.socket.emit(
+        "web-chat",
+        { text: message, requestId: currentChat },
+        payload => {
+          // console.log("payload", payload);
+          let chatMessage = this.state.chatMessage;
+          let previousIndex = this.state.previousSelfChat;
+          if (!previousIndex) return;
+          chatMessage[previousIndex].failed = !payload.ok;
+          this.setState({ chatMessage });
+          // console.log("payload web send", payload);
+          // this.onPushChat({ sender: null, message: payload.message });
+        }
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  restartChat = () => {
+    this.setState({ currentChat: null, chatMessage: [] });
+  };
+
+  getChatHistory = () => {
     // console.log("Get chat list");
-    window.socket.emit("web-chat-list", (payload) => {
-      console.log("Chat list", payload);
-    })
-  }
+    const { chatMessage } = this.state;
+    window.socket.emit(
+      "web-chat-list",
+      { existChatList: chatMessage.length },
+      payload => {
+        if (payload.ok) {
+          const { data } = payload;
+          this.setState({ chatHistory: data }, () => {
+            console.log("Chat history has set", data);
+          });
+        }
+      }
+    );
+  };
+
+  reformatChatMessage = async inputData => {
+    const { me } = this.state;
+    let rawData = inputData.reverse();
+    const userData = rawData.find(data => data.sender.role.id == 3);
+    let userImagePath = "";
+    if (userData) {
+      userImagePath = await imageRequest(userData.user.imagePath);
+    }
+    const data = _.reduce(
+      rawData,
+      (obj, cur) => {
+        const isSelf = cur.sender.role.id !== 3;
+        obj.push({
+          ...cur,
+          sender: _.assign(cur.sender, {
+            info: isSelf ? me : { ...cur.user, imagePath: userImagePath }
+          })
+        });
+        return obj;
+      },
+      []
+    );
+    return data;
+  };
+
+  getOldChat = (id, existChat = 0) => {
+    // const { chatMessage } = this.state;
+    window.socket.emit(
+      "web-old-chat",
+      {
+        existChat,
+        requestId: id
+      },
+      async payload => {
+        if (payload.ok) {
+          const { chatMessage } = this.state;
+          if (payload.data.length < 1) {
+            return this.setState({ nothingMore: true });
+          }
+          const data = await this.reformatChatMessage(payload.data);
+          console.log("payload chat message", data);
+          await this.setState({
+            chatMessage:
+              existChat > 0 ? chatMessage.concat(payload.data) : payload.data
+          });
+        } else {
+          // await this.setState({ chatMessage: [] });
+          alert("Cannot get this chat");
+        }
+      }
+    );
+  };
 
   componentDidUpdate(prevProps) {
     if (prevProps.user !== this.props.user) {
@@ -186,43 +208,57 @@ class Chat extends Component {
     }
   }
 
-  onPushChat = (sender, message) => {
+  onPushChat = data => {
     const chat = this.state.chatMessage;
-    chat.push({ sender, message });
+    chat.push(data);
     this.setState({ chat });
   };
 
   onChangeChat = id => {
+    if (id === this.state.currentChat) return;
+    this.getOldChat(id);
     this.setState({
       currentChat: id
     });
   };
 
+  onLoadMoreChat = () => {
+    const { currentChat, chatMessage } = this.state;
+    console.log(
+      "Current chat",
+      currentChat,
+      "Exist chat message",
+      chatMessage.length
+    );
+    this.getOldChat(currentChat, chatMessage.length);
+  };
+
   render() {
-    const { chatMessage, me, chatHistory } = this.state;
-    console.log("User", me);
+    const { chatMessage, chatHistory, currentChat, nothingMore } = this.state;
     // const message = ChatMessage.find((m) => m.) << -- tobe continue
     return (
       <ChatWrapper>
-        <ChatHistory history={chatHistory} onChange={this.onChangeChat} />
+        <ChatHistory
+          history={chatHistory}
+          currentChat={currentChat}
+          onChatSelect={this.onChangeChat}
+        />
         <ChatBody>
           {chatMessage.length < 1 ? (
             <NoChat />
           ) : (
-            <ChatList
-              user={me}
+            <ChatMessagesWrapper
+              onSeeMore={this.onLoadMoreChat}
+              nothingMore={nothingMore}
               data={chatMessage}
-              render={({ message, type, sender, user }) => (
-                <ChatMessage
-                  sender={sender}
-                  user={user}
-                  message={message}
-                  type={type}
-                />
-              )}
+              // loadMore={<LoadMoreChat onClick={this.onLoadMoreChat} />}
+              render={props => <ChatMessage {...props} />}
             />
           )}
-          <ChatInput onPushChat={this.onPushChat} />
+          <ChatInput
+            onPushChat={this.onEnterChat}
+            visible={currentChat !== null}
+          />
         </ChatBody>
       </ChatWrapper>
     );
