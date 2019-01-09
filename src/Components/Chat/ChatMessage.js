@@ -59,6 +59,7 @@ const Sender = styled.div`
 
 const SendTime = styled.span`
   margin: 0 10px;
+  opacity: .5;
 `;
 const FailedMessage = styled.span`
   margin-right: 10px;

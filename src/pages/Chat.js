@@ -70,8 +70,25 @@ class Chat extends Component {
     this.setUser(user);
     this.getChatHistory();
     this.onSelfChat();
+    this.onMobileChat();
     // window.socket.emit("chat", "hello backend");
   }
+
+  onMobileChat = () => {
+    window.socket.on("mobile-chat", payload => {
+      if (payload.ok) {
+        const { currentChat } = this.state;
+        if (payload.data.request.id == currentChat) {
+          let { data } = payload;
+          this.onMobilePushChat(data);
+        } else {
+        }
+      } else {
+        this.restartChat();
+        alert("Connot get new message from user");
+      }
+    });
+  };
 
   onSelfChat = () => {
     window.socket.on("web-self-chat", payload => {
@@ -89,6 +106,13 @@ class Chat extends Component {
     });
   };
 
+  updateChatList = (id, data) => {
+    // let chatHistory = this.state.chatHistory;
+    // const handleFind = d => d.request.id == id;
+    // let chat = chatHistory.find(handleFind);
+    // let findIndex = chatHistory.findIndex(handleFind);
+  };
+
   onSelfPushChat = async (message, canFailed = true) => {
     const data = await this.reformatChatMessage([
       {
@@ -98,11 +122,24 @@ class Chat extends Component {
         createdAt: moment()
       }
     ]);
-    console.log("Data", data);
+    // console.log("Data", data);
     await this.setState({
       previousSelfChat: this.state.chatMessage.length
     });
-    this.onPushChat(data);
+    this.onPushChat(data[0]);
+    this.updateChatList(data[0]);
+  };
+
+  onMobilePushChat = async dataMessage => {
+    const data = await this.reformatChatMessage([
+      Object.assign(dataMessage, { sender: { role: { id: 3 } } })
+    ]);
+    // console.log("Data", data);
+    await this.setState({
+      previousSelfChat: this.state.chatMessage.length
+    });
+    this.onPushChat(data[0]);
+    this.updateChatList(data[0]);
   };
 
   onEnterChat = async message => {
@@ -160,12 +197,15 @@ class Chat extends Component {
     const data = _.reduce(
       rawData,
       (obj, cur) => {
-        const isSelf = cur.sender.role.id !== 3;
+        const isSelf = cur.sender.role.id != 3;
         obj.push({
           ...cur,
-          sender: _.assign(cur.sender, {
-            info: isSelf ? me : { ...cur.user, imagePath: userImagePath }
-          })
+          sender: _.assign(
+            {
+              info: isSelf ? me : { ...cur.user, imagePath: userImagePath }
+            },
+            cur.sender
+          )
         });
         return obj;
       },
@@ -184,15 +224,16 @@ class Chat extends Component {
       },
       async payload => {
         if (payload.ok) {
-          const { chatMessage } = this.state;
+          let chatMessage = this.state.chatMessage;
+          let data = await this.reformatChatMessage(payload.data);
+          console.log("Payload data", data);
+          chatMessage.unshift(...data);
           if (payload.data.length < 1) {
             return this.setState({ nothingMore: true });
           }
-          const data = await this.reformatChatMessage(payload.data);
-          console.log("payload chat message", data);
+          console.log("payload chat message", chatMessage);
           await this.setState({
-            chatMessage:
-              existChat > 0 ? chatMessage.concat(payload.data) : payload.data
+            chatMessage
           });
         } else {
           // await this.setState({ chatMessage: [] });

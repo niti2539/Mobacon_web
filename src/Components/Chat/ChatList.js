@@ -1,11 +1,13 @@
 import React, { Component } from "react";
 import styled, { keyframes } from "styled-components";
 import PropTypes from "prop-types";
+import posed from "react-pose";
 
 const ChatListWrapper = styled.div`
   display: flex;
   flex-grow: 1;
   flex: 1;
+  position: relative;
   padding-bottom: 10px;
   flex-direction: column;
   overflow-y: scroll;
@@ -13,16 +15,16 @@ const ChatListWrapper = styled.div`
   justify-content: flex-start;
 `;
 
-const Collapse = keyframes`
-  from{
-    top: 0%;
-    visibility: visible;
-  }
-  to{
-    top: -50%;
-    visibility: hidden;
-  }
-`;
+// const LoadMoreAnimate = posed.div({
+//   closed: {
+//     top: "-100%",
+//     transition: { type: "spring", stiffness: 100, damping: 10 }
+//   },
+//   opened: {
+//     top: "0",
+//     transition: { type: "spring", stiffness: 100, damping: 10 }
+//   }
+// });
 
 const LoadMore = styled.div`
   padding: 20px;
@@ -36,14 +38,6 @@ const LoadMore = styled.div`
     rgba(3, 79, 79, 0.18) 0%,
     rgba(239, 239, 239, 0) 100%
   );
-  animation-name: ${Collapse};
-  animation-duration: 2s;
-  animation-timing-function: cubic-bezier(1, -0.44, 0, 1.47);
-  animation-play-state: running;
-  animation-fill-mode: forwards;
-
-  transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
-
   &:hover {
     background: linear-gradient(
       to bottom,
@@ -88,17 +82,25 @@ class ChatList extends Component {
     const { render: RenderComponent, data } = this.state;
     // console.log("chat Data", data);
     return (
-      <ChatListWrapper ref={r => (this.chatList = r)}>
-        <LoadMore nothingMore={nothingMore} onClick={onSeeMore}>
-          See more
-        </LoadMore>
-        {data.map((chat, key) => {
-          return RenderComponent({
-            ...chat,
-            key
-          });
-        })}
-      </ChatListWrapper>
+      <React.Fragment>
+        {!nothingMore && (
+          <LoadMore
+            // pose={nothingMore ? "closed" : "opened"}
+            nothingMore={nothingMore}
+            onClick={onSeeMore}
+          >
+            See more
+          </LoadMore>
+        )}
+        <ChatListWrapper ref={r => (this.chatList = r)}>
+          {data.map((chat) => {
+            return RenderComponent({
+              ...chat,
+              key: chat._id
+            });
+          })}
+        </ChatListWrapper>
+      </React.Fragment>
     );
   }
 }

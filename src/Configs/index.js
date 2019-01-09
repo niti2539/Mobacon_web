@@ -1,7 +1,8 @@
 import _path from "path";
 
 export const api = {
-  baseUrl: "http://mobacon-api.pieros.site",
+  baseUrl: "https://mobacon-api.pieros.site",
+  baseWss: "wss://mobacon-api.pieros.site",
   apiPath: "/mobacon/api/web"
 };
 

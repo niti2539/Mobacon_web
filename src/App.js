@@ -127,7 +127,7 @@ class MainRoute extends React.Component {
     console.log("Authorization");
     user.authorize(store.dispatch);
     const token = localStorage.getItem("accessToken");
-    window.socket = io(api.baseUrl, {
+    window.socket = io(api.baseWss, {
       query: { token }
     });
 

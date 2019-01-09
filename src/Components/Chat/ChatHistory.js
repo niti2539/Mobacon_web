@@ -116,6 +116,7 @@ const ChatPeopleContainer = styled.div`
       display: flex;
       flex-wrap: wrap;
     }
+    .name {
       margin-right: 15px;
       white-space: nowrap;
       overflow: hidden;
