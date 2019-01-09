@@ -43,7 +43,7 @@ class Chat extends Component {
       chatMessage: [],
       chatHistory: [],
       previousSelfChat: null,
-      nothingMore: false
+      nothingMore: {}
     };
   }
 
@@ -75,14 +75,18 @@ class Chat extends Component {
   }
 
   onMobileChat = () => {
-    window.socket.on("mobile-chat", payload => {
+    window.socket.on("mobile-chat", async payload => {
       if (payload.ok) {
         const { currentChat } = this.state;
+        var { data } = payload;
         if (payload.data.request.id == currentChat) {
-          let { data } = payload;
           this.onMobilePushChat(data);
         } else {
+          // console.log("request mobile chat id", data.request.id);
+          await this.pushCurrentChatToTop(data.request.id);
+          // this.setState({ currentChat: data.request.id });
         }
+        this.updateChatHistory(data);
       } else {
         this.restartChat();
         alert("Connot get new message from user");
@@ -94,8 +98,8 @@ class Chat extends Component {
     window.socket.on("web-self-chat", payload => {
       if (payload.ok) {
         const { currentChat } = this.state;
+        var { data } = payload;
         if (payload.data.request.id == currentChat) {
-          let { data } = payload;
           this.onSelfPushChat(data.message, false);
         } else {
         }
@@ -106,17 +110,38 @@ class Chat extends Component {
     });
   };
 
-  updateChatList = (id, data) => {
-    // let chatHistory = this.state.chatHistory;
-    // const handleFind = d => d.request.id == id;
-    // let chat = chatHistory.find(handleFind);
-    // let findIndex = chatHistory.findIndex(handleFind);
+  updateChatHistory = data => {
+    let chatHistory = this.state.chatHistory;
+    const { currentChat } = this.state;
+    console.log("Update latest chat", data);
+    const {
+      request: { id },
+      message,
+      createdAt
+    } = data;
+    const handleFind = d => d.request.id == id;
+    let chat = chatHistory.find(handleFind);
+    let findIndex = chatHistory.findIndex(handleFind);
+    chat.chat.message = message;
+    chat.chat.createdAt = createdAt;
+    chat.chat.read.operator = currentChat == id;
+    chatHistory[findIndex] = chat;
+    this.setState({ chatHistory });
   };
 
+  handleUpdateChatList = data => {};
+
   onSelfPushChat = async (message, canFailed = true) => {
+    const { currentChat } = this.state;
     const data = await this.reformatChatMessage([
       {
+        _id:
+          Math.random()
+            .toString(36)
+            .substring(9) +
+          Math.random() * 100,
         message,
+        request: { id: currentChat },
         sender: { role: { id: 2 } },
         failed: canFailed ? null : false,
         createdAt: moment()
@@ -127,7 +152,7 @@ class Chat extends Component {
       previousSelfChat: this.state.chatMessage.length
     });
     this.onPushChat(data[0]);
-    this.updateChatList(data[0]);
+    this.updateChatHistory(data[0]);
   };
 
   onMobilePushChat = async dataMessage => {
@@ -135,11 +160,11 @@ class Chat extends Component {
       Object.assign(dataMessage, { sender: { role: { id: 3 } } })
     ]);
     // console.log("Data", data);
-    await this.setState({
-      previousSelfChat: this.state.chatMessage.length
-    });
+    // await this.setState({
+    //   previousSelfChat: this.state.chatMessage.length
+    // });
     this.onPushChat(data[0]);
-    this.updateChatList(data[0]);
+    this.updateChatHistory(data[0]);
   };
 
   onEnterChat = async message => {
@@ -224,23 +249,45 @@ class Chat extends Component {
       },
       async payload => {
         if (payload.ok) {
-          let chatMessage = this.state.chatMessage;
-          let data = await this.reformatChatMessage(payload.data);
-          console.log("Payload data", data);
-          chatMessage.unshift(...data);
+          this.pushMoreChat(payload.data);
           if (payload.data.length < 1) {
-            return this.setState({ nothingMore: true });
+            return await this.setState({
+              nothingMore: true
+            });
           }
-          console.log("payload chat message", chatMessage);
-          await this.setState({
-            chatMessage
+          this.setState({
+            nothingMore: false
           });
         } else {
           // await this.setState({ chatMessage: [] });
+          console.error("payload", payload);
           alert("Cannot get this chat");
         }
       }
     );
+  };
+
+  pushMoreChat = async payload => {
+    let chatMessage = this.state.chatMessage;
+    let data = await this.reformatChatMessage(payload);
+    console.log("Payload data", data);
+    chatMessage.unshift(...data);
+    return await this.setState({
+      chatMessage
+    });
+  };
+
+  pushCurrentChatToTop = async id => {
+    console.log("action id", id);
+    console.log("history id", this.state.chatHistory[0].request.id);
+    if (id == this.state.chatHistory[0].request.id) return;
+    let chatHistory = this.state.chatHistory;
+    const handleFind = d => d.request.id == id;
+    let history = chatHistory.find(handleFind);
+    const findIndex = chatHistory.findIndex(handleFind);
+    chatHistory.splice(findIndex, 1);
+    chatHistory.unshift(history);
+    await this.setState({ chatHistory });
   };
 
   componentDidUpdate(prevProps) {
@@ -249,21 +296,36 @@ class Chat extends Component {
     }
   }
 
-  onPushChat = data => {
-    const chat = this.state.chatMessage;
-    chat.push(data);
-    this.setState({ chat });
+  onPushChat = async data => {
+    const chatMessage = this.state.chatMessage;
+    // console.log("Push from request id", data.request.id);
+    await this.pushCurrentChatToTop(data.request.id);
+    chatMessage.push(data);
+    this.setState({ chatMessage });
   };
 
-  onChangeChat = id => {
+  onChangeChat = async id => {
     if (id === this.state.currentChat) return;
-    this.getOldChat(id);
-    this.setState({
-      currentChat: id
+    window.socket.emit("web-read-chat", { requestId: id }, payload =>
+      console.log(payload)
+    );
+    const chatHistory = this.state.chatHistory;
+    const handleFind = d => d.request.id == id;
+    const history = chatHistory.find(handleFind);
+    const findIndex = chatHistory.findIndex(handleFind);
+    if (!history.chat.read.operator) {
+      history.chat.read.operator = true;
+      chatHistory[findIndex] = history;
+    }
+    await this.setState({
+      chatMessage: [],
+      currentChat: id,
+      chatHistory
     });
+    this.getOldChat(id);
   };
 
-  onLoadMoreChat = () => {
+  onLoadMoreChat = previouslyTopDom => {
     const { currentChat, chatMessage } = this.state;
     console.log(
       "Current chat",
@@ -292,6 +354,7 @@ class Chat extends Component {
               onSeeMore={this.onLoadMoreChat}
               nothingMore={nothingMore}
               data={chatMessage}
+              currentChat={currentChat}
               // loadMore={<LoadMoreChat onClick={this.onLoadMoreChat} />}
               render={props => <ChatMessage {...props} />}
             />

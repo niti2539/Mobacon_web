@@ -3,17 +3,16 @@ import styled, { keyframes, css } from "styled-components";
 import { Input as ChatInput } from "./ChatInput";
 import { imageRequest } from "../../Configs";
 import moment from "moment";
+import posed, { PoseGroup } from "react-pose";
 
 const peopleAnimation = keyframes`
   from{
     opacity: 0;
     filter: blur(20px);
-    transform: translateY(100vh);
   }
   to {
     opacity: 1;
     filter: blur(0px);
-    transform: translateY(0);
   }
 `;
 
@@ -26,7 +25,7 @@ const ChatHistoryWrapper = styled.div`
   background-color: #a0acbc;
 `;
 
-const ChatHistoryList = styled.div`
+const ChatHistoryList = styled(PoseGroup)`
   display: flex;
   flex-direction: column;
   overflow-y: auto;
@@ -45,7 +44,9 @@ const ChatHistoryItemAnimation = props => {
       `;
 };
 
-const ChatHistoryItem = styled.div`
+const ChatHistoryItemPose = posed.div();
+
+const ChatHistoryItem = styled(ChatHistoryItemPose)`
   padding: 10px;
   max-height: 120px;
   cursor: pointer;
@@ -56,7 +57,6 @@ const ChatHistoryItem = styled.div`
   flex-shrink: 0;
   flex-direction: row;
   opacity: 0;
-  transform: translateY(100vh);
   animation: ${ChatHistoryItemAnimation};
   * {
     color: ${props => (props.active ? "inherith" : "#fff")} !important;
@@ -217,13 +217,14 @@ class ChatHistoryComponent extends Component {
         </ChatSearchBoxWrapper>
         <ChatHistoryList>
           {ok &&
-            this._filter(search, data).map((list, key) => {
+            this._filter(search, data).map(list => {
+              const id = list.request.id;
               return (
                 <ChatHistoryItem
-                  key={key}
-                  active={currentChat === list.request.id}
-                  newly={true}
-                  onClick={() => this.setCurrentRequest(list.request.id)}
+                  key={id}
+                  active={currentChat === id}
+                  newly={!list.chat.read.operator}
+                  onClick={() => this.setCurrentRequest(id)}
                 >
                   <ChatPeople {...list} />
                 </ChatHistoryItem>
