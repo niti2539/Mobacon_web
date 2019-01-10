@@ -6,6 +6,7 @@ import ChatMessage from "../Components/Chat/ChatMessage";
 import NoChat from "../Components/Chat/NoChat";
 import ChatHistory from "../Components/Chat/ChatHistory";
 import { connect } from "react-redux";
+import { notify } from "../stores/actions";
 import moment from "moment";
 import { imageRequest } from "../Configs";
 import _ from "lodash";
@@ -81,6 +82,7 @@ class Chat extends Component {
         var { data } = payload;
         if (payload.data.request.id == currentChat) {
           this.onMobilePushChat(data);
+          this.readChat(currentChat);
         } else {
           // console.log("request mobile chat id", data.request.id);
           await this.pushCurrentChatToTop(data.request.id);
@@ -107,6 +109,12 @@ class Chat extends Component {
         this.restartChat();
         alert("Connot get new message");
       }
+    });
+  };
+
+  readChat = id => {
+    window.socket.emit("web-read-chat", { requestId: id }, payload => {
+      this.props.refreshNotify();
     });
   };
 
@@ -194,12 +202,12 @@ class Chat extends Component {
     this.setState({ currentChat: null, chatMessage: [] });
   };
 
-  getChatHistory = () => {
+  getChatHistory = (searchText = "") => {
     // console.log("Get chat list");
     const { chatMessage } = this.state;
     window.socket.emit(
-      "web-chat-list",
-      { existChatList: chatMessage.length },
+      "web-search-chatroom",
+      { existChatList: chatMessage.length, searchText: searchText },
       payload => {
         if (payload.ok) {
           const { data } = payload;
@@ -209,6 +217,10 @@ class Chat extends Component {
         }
       }
     );
+  };
+
+  onSearchContact = text => {
+    this.getChatHistory(text);
   };
 
   reformatChatMessage = async inputData => {
@@ -306,9 +318,7 @@ class Chat extends Component {
 
   onChangeChat = async id => {
     if (id === this.state.currentChat) return;
-    window.socket.emit("web-read-chat", { requestId: id }, payload =>
-      console.log(payload)
-    );
+    this.readChat(id);
     const chatHistory = this.state.chatHistory;
     const handleFind = d => d.request.id == id;
     const history = chatHistory.find(handleFind);
@@ -342,6 +352,7 @@ class Chat extends Component {
     return (
       <ChatWrapper>
         <ChatHistory
+          onSearch={this.onSearchContact}
           history={chatHistory}
           currentChat={currentChat}
           onChatSelect={this.onChangeChat}
@@ -369,6 +380,15 @@ class Chat extends Component {
   }
 }
 
-const mapPropsToState = ({ user }) => ({ user });
+const mapStateToProps = ({ user }) => ({ user });
 
-export default connect(mapPropsToState)(Chat);
+const mapDispatchToProps = dispatch => {
+  return {
+    refreshNotify: notify.refreshNotify(dispatch)
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Chat);

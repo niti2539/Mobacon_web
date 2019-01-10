@@ -8,11 +8,13 @@ import posed, { PoseGroup } from "react-pose";
 const peopleAnimation = keyframes`
   from{
     opacity: 0;
-    filter: blur(20px);
+    filter: blur(3px);
+    background-position: 100%;
   }
   to {
     opacity: 1;
     filter: blur(0px);
+    background-position: 0%;
   }
 `;
 
@@ -25,10 +27,10 @@ const ChatHistoryWrapper = styled.div`
   background-color: #a0acbc;
 `;
 
-const ChatHistoryList = styled(PoseGroup)`
+const ChatHistoryList = styled.div`
   display: flex;
   flex-direction: column;
-  overflow-y: auto;
+  overflow-y: auto !important;
   overflow-x: hidden;
   flex-grow: 1;
 `;
@@ -61,8 +63,10 @@ const ChatHistoryItem = styled(ChatHistoryItemPose)`
   * {
     color: ${props => (props.active ? "inherith" : "#fff")} !important;
   }
-  background-color: ${props => (props.active ? "#efefef" : "transparent")};
-
+  background: ${props =>
+    props.active
+      ? "linear-gradient(to right, rgba(220,224,229,1) 0%, rgba(223,226,231,1) 16%, rgba(239,239,239,1) 100%)"
+      : "transparent"};
   cursor: ${props => (props.active ? "default" : "pointer")};
   border-bottom-color: #999;
   border-bottom-width: 1px;
@@ -160,6 +164,13 @@ const ImageContainer = styled.div`
   }
 `;
 
+const SeeMoreText = styled.h4`
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  margin: -10px;
+`;
+
 class ChatHistoryComponent extends Component {
   constructor(props) {
     super(props);
@@ -188,19 +199,7 @@ class ChatHistoryComponent extends Component {
   onSearch = e => {
     const text = e.target.value;
     this.setState({ search: text });
-  };
-
-  _filter = (searchText, data = []) => {
-    return data.filter(d =>
-      String(d.chat.user.fullName)
-        .toLowerCase()
-        .trim()
-        .startsWith(
-          String(searchText)
-            .trim()
-            .toLowerCase()
-        )
-    );
+    this.props.onSearch(text);
   };
 
   render() {
@@ -216,21 +215,26 @@ class ChatHistoryComponent extends Component {
           />
         </ChatSearchBoxWrapper>
         <ChatHistoryList>
-          {ok &&
-            this._filter(search, data).map(list => {
-              const id = list.request.id;
-              return (
-                <ChatHistoryItem
-                  key={id}
-                  active={currentChat === id}
-                  newly={!list.chat.read.operator}
-                  onClick={() => this.setCurrentRequest(id)}
-                >
-                  <ChatPeople {...list} />
-                </ChatHistoryItem>
-              );
-            })}
+          <PoseGroup>
+            {ok &&
+              data.map(list => {
+                const id = list.request.id;
+                return (
+                  <ChatHistoryItem
+                    key={id}
+                    active={currentChat === id}
+                    newly={!list.chat.read.operator}
+                    onClick={() => this.setCurrentRequest(id)}
+                  >
+                    <ChatPeople {...list} />
+                  </ChatHistoryItem>
+                );
+              })}
+          </PoseGroup>
         </ChatHistoryList>
+        {/* <ChatHistoryItem>
+          <SeeMoreText>See more</SeeMoreText>
+        </ChatHistoryItem> */}
       </ChatHistoryWrapper>
     );
   }
