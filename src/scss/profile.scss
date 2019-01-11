@@ -54,6 +54,7 @@ div.form-group > .changeSize {
   .imagePhoto {
     width: 150px;
     height: 150px;
+    border-radius: 50%;
     object-fit: cover;
     object-position: center;
     z-index: 2;

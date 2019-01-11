@@ -40,8 +40,8 @@ const Requests = Loadable({
 });
 
 const Request = Loadable({
-  loader: () => import("./pages/Request/index")
-  ,loading: Loading
+  loader: () => import("./pages/Request/index"),
+  loading: Loading
 });
 
 const Operator = Loadable({

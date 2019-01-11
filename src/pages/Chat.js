@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 import ChatInput from "../Components/Chat/ChatInput";
-import ChatList from "../Components/Chat/ChatList";
+import ChatMessagesWrapper from "../Components/Chat/ChatList";
 import ChatMessage from "../Components/Chat/ChatMessage";
 import NoChat from "../Components/Chat/NoChat";
 import ChatHistory from "../Components/Chat/ChatHistory";
 import { connect } from "react-redux";
+import { notify } from "../stores/actions";
 import moment from "moment";
 import { imageRequest } from "../Configs";
 import _ from "lodash";
@@ -26,7 +27,7 @@ const ChatWrapper = styled.div`
   bottom: 0;
 `;
 
-const ChatBody = styled.div`
+export const ChatBody = styled.div`
   overflow: hidden;
   display: flex;
   flex-grow: 1;
@@ -38,107 +39,12 @@ class Chat extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      me: {
-        fullName: "",
-        imagePath: null
-      },
+      me: { fullName: "", imagePath: null },
       currentChat: null,
       chatMessage: [],
-      chatHistory: [
-        {
-          request: {
-            id: 0,
-            carrier: {
-              id: 0,
-              name: "Test"
-            }
-          },
-          chat: {
-            _id: null,
-            message:
-              "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-            read: {
-              user: false,
-              operator: false
-            },
-            user: {
-              id: 0,
-              fullName: "Tony Stark",
-              imagePath:
-                "https://amp.businessinsider.com/images/556740766bb3f76e630b4887-750-441.jpg"
-            },
-            operator: {
-              id: 1,
-              fullName: "Worapol",
-              imagePath: "Buraphan"
-            },
-            senderRoleId: 2, //1: admin, 2: operator, 3: user
-            createdAt: moment().hours(moment().hours - 2)
-          }
-        },
-        {
-          request: {
-            id: 1,
-            carrier: {
-              id: 0,
-              name: "Test"
-            }
-          },
-          chat: {
-            _id: null,
-            message:
-              "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-            read: {
-              user: false,
-              operator: false
-            },
-            user: {
-              id: 0,
-              fullName: "Peter Parker",
-              imagePath:
-                "https://d13ezvd6yrslxm.cloudfront.net/wp/wp-content/images/Tobey-Maguire-in-Spider-Man-e1544020096372-700x295.jpg"
-            },
-            operator: {
-              id: 1,
-              fullName: "Worapol",
-              imagePath: "Buraphan"
-            },
-            senderRoleId: 2, //1: admin, 2: operator, 3: user
-            createdAt: moment().hours(moment().hours - 2)
-          }
-        },
-        {
-          request: {
-            id: 2,
-            carrier: {
-              id: 0,
-              name: "Test"
-            }
-          },
-          chat: {
-            _id: null,
-            message:
-              "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-            read: {
-              user: false,
-              operator: false
-            },
-            user: {
-              id: 0,
-              fullName: "Captain America",
-              imagePath:
-                "https://static1.srcdn.com/wordpress/wp-content/uploads/2018/01/Chris-Evans-as-Captain-America-MCU.jpg"
-            },
-            operator: {
-              id: 1,
-              fullName: "Worapol",
-              imagePath: "Buraphan"
-            },
-            senderRoleId: 2, //1: admin, 2: operator, 3: user
-            createdAt: moment().hours(moment().hours - 2)
-          }
-        }
-      ]
+      chatHistory: [],
+      previousSelfChat: null,
+      nothingMore: {}
     };
   }
 
@@ -146,20 +52,14 @@ class Chat extends Component {
     const { imagePath, fullName, id } = data;
     if (imagePath.trim() === "") return;
     const image = await imageRequest(imagePath);
+    console.log("Image path", image);
     if (image) {
       this.setState({
         me: {
           id,
           imagePath: image,
           fullName
-        },
-        chatHistory: [
-          {
-            fullName: "someone",
-            imagePath,
-            id: 50000
-          }
-        ]
+        }
       });
     }
   };
@@ -169,8 +69,238 @@ class Chat extends Component {
       user: { user_detail: user }
     } = this.props;
     this.setUser(user);
+    this.getChatHistory();
+    this.onSelfChat();
+    this.onMobileChat();
     // window.socket.emit("chat", "hello backend");
   }
+
+  onMobileChat = () => {
+    window.socket.on("mobile-chat", async payload => {
+      if (payload.ok) {
+        const { currentChat } = this.state;
+        var { data } = payload;
+        if (payload.data.request.id == currentChat) {
+          this.onMobilePushChat(data);
+          this.readChat(currentChat);
+        } else {
+          // console.log("request mobile chat id", data.request.id);
+          await this.pushCurrentChatToTop(data.request.id);
+          // this.setState({ currentChat: data.request.id });
+        }
+        this.updateChatHistory(data);
+      } else {
+        this.restartChat();
+        alert("Connot get new message from user");
+      }
+    });
+  };
+
+  onSelfChat = () => {
+    window.socket.on("web-self-chat", payload => {
+      if (payload.ok) {
+        const { currentChat } = this.state;
+        var { data } = payload;
+        if (payload.data.request.id == currentChat) {
+          this.onSelfPushChat(data.message, false);
+        } else {
+        }
+      } else {
+        this.restartChat();
+        alert("Connot get new message");
+      }
+    });
+  };
+
+  readChat = id => {
+    window.socket.emit("web-read-chat", { requestId: id }, payload => {
+      this.props.refreshNotify();
+    });
+  };
+
+  updateChatHistory = data => {
+    let chatHistory = this.state.chatHistory;
+    const { currentChat } = this.state;
+    console.log("Update latest chat", data);
+    const {
+      request: { id },
+      message,
+      createdAt
+    } = data;
+    const handleFind = d => d.request.id == id;
+    let chat = chatHistory.find(handleFind);
+    let findIndex = chatHistory.findIndex(handleFind);
+    chat.chat.message = message;
+    chat.chat.createdAt = createdAt;
+    chat.chat.read.operator = currentChat == id;
+    chatHistory[findIndex] = chat;
+    this.setState({ chatHistory });
+  };
+
+  handleUpdateChatList = data => {};
+
+  onSelfPushChat = async (message, canFailed = true) => {
+    const { currentChat } = this.state;
+    const data = await this.reformatChatMessage([
+      {
+        _id:
+          Math.random()
+            .toString(36)
+            .substring(9) +
+          Math.random() * 100,
+        message,
+        request: { id: currentChat },
+        sender: { role: { id: 2 } },
+        failed: canFailed ? null : false,
+        createdAt: moment()
+      }
+    ]);
+    // console.log("Data", data);
+    await this.setState({
+      previousSelfChat: this.state.chatMessage.length
+    });
+    this.onPushChat(data[0]);
+    this.updateChatHistory(data[0]);
+  };
+
+  onMobilePushChat = async dataMessage => {
+    const data = await this.reformatChatMessage([
+      Object.assign(dataMessage, { sender: { role: { id: 3 } } })
+    ]);
+    // console.log("Data", data);
+    // await this.setState({
+    //   previousSelfChat: this.state.chatMessage.length
+    // });
+    this.onPushChat(data[0]);
+    this.updateChatHistory(data[0]);
+  };
+
+  onEnterChat = async message => {
+    const { currentChat } = this.state;
+    this.onSelfPushChat(message);
+    try {
+      window.socket.emit(
+        "web-chat",
+        { text: message, requestId: currentChat },
+        payload => {
+          // console.log("payload", payload);
+          let chatMessage = this.state.chatMessage;
+          let previousIndex = this.state.previousSelfChat;
+          if (!previousIndex) return;
+          chatMessage[previousIndex].failed = !payload.ok;
+          this.setState({ chatMessage });
+          // console.log("payload web send", payload);
+          // this.onPushChat({ sender: null, message: payload.message });
+        }
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  restartChat = () => {
+    this.setState({ currentChat: null, chatMessage: [] });
+  };
+
+  getChatHistory = (searchText = "") => {
+    // console.log("Get chat list");
+    const { chatMessage } = this.state;
+    window.socket.emit(
+      "web-search-chatroom",
+      { existChatList: chatMessage.length, searchText: searchText },
+      payload => {
+        if (payload.ok) {
+          const { data } = payload;
+          this.setState({ chatHistory: data }, () => {
+            console.log("Chat history has set", data);
+          });
+        }
+      }
+    );
+  };
+
+  onSearchContact = text => {
+    this.getChatHistory(text);
+  };
+
+  reformatChatMessage = async inputData => {
+    const { me } = this.state;
+    let rawData = inputData.reverse();
+    const userData = rawData.find(data => data.sender.role.id == 3);
+    let userImagePath = "";
+    if (userData) {
+      userImagePath = await imageRequest(userData.user.imagePath);
+    }
+    const data = _.reduce(
+      rawData,
+      (obj, cur) => {
+        const isSelf = cur.sender.role.id != 3;
+        obj.push({
+          ...cur,
+          sender: _.assign(
+            {
+              info: isSelf ? me : { ...cur.user, imagePath: userImagePath }
+            },
+            cur.sender
+          )
+        });
+        return obj;
+      },
+      []
+    );
+    return data;
+  };
+
+  getOldChat = (id, existChat = 0) => {
+    // const { chatMessage } = this.state;
+    window.socket.emit(
+      "web-old-chat",
+      {
+        existChat,
+        requestId: id
+      },
+      async payload => {
+        if (payload.ok) {
+          this.pushMoreChat(payload.data);
+          if (payload.data.length < 1) {
+            return await this.setState({
+              nothingMore: true
+            });
+          }
+          this.setState({
+            nothingMore: false
+          });
+        } else {
+          // await this.setState({ chatMessage: [] });
+          console.error("payload", payload);
+          alert("Cannot get this chat");
+        }
+      }
+    );
+  };
+
+  pushMoreChat = async payload => {
+    let chatMessage = this.state.chatMessage;
+    let data = await this.reformatChatMessage(payload);
+    console.log("Payload data", data);
+    chatMessage.unshift(...data);
+    return await this.setState({
+      chatMessage
+    });
+  };
+
+  pushCurrentChatToTop = async id => {
+    console.log("action id", id);
+    console.log("history id", this.state.chatHistory[0].request.id);
+    if (id == this.state.chatHistory[0].request.id) return;
+    let chatHistory = this.state.chatHistory;
+    const handleFind = d => d.request.id == id;
+    let history = chatHistory.find(handleFind);
+    const findIndex = chatHistory.findIndex(handleFind);
+    chatHistory.splice(findIndex, 1);
+    chatHistory.unshift(history);
+    await this.setState({ chatHistory });
+  };
 
   componentDidUpdate(prevProps) {
     if (prevProps.user !== this.props.user) {
@@ -178,49 +308,87 @@ class Chat extends Component {
     }
   }
 
-  onPushChat = (sender, message) => {
-    const chat = this.state.chatMessage;
-    chat.push({ sender, message });
-    this.setState({ chat });
+  onPushChat = async data => {
+    const chatMessage = this.state.chatMessage;
+    // console.log("Push from request id", data.request.id);
+    await this.pushCurrentChatToTop(data.request.id);
+    chatMessage.push(data);
+    this.setState({ chatMessage });
   };
 
-  onChangeChat = id => {
-    this.setState({
-      currentChat: id
+  onChangeChat = async id => {
+    if (id === this.state.currentChat) return;
+    this.readChat(id);
+    const chatHistory = this.state.chatHistory;
+    const handleFind = d => d.request.id == id;
+    const history = chatHistory.find(handleFind);
+    const findIndex = chatHistory.findIndex(handleFind);
+    if (!history.chat.read.operator) {
+      history.chat.read.operator = true;
+      chatHistory[findIndex] = history;
+    }
+    await this.setState({
+      chatMessage: [],
+      currentChat: id,
+      chatHistory
     });
+    this.getOldChat(id);
+  };
+
+  onLoadMoreChat = previouslyTopDom => {
+    const { currentChat, chatMessage } = this.state;
+    console.log(
+      "Current chat",
+      currentChat,
+      "Exist chat message",
+      chatMessage.length
+    );
+    this.getOldChat(currentChat, chatMessage.length);
   };
 
   render() {
-    const { chatMessage, me, chatHistory } = this.state;
-    console.log("User", me);
+    const { chatMessage, chatHistory, currentChat, nothingMore } = this.state;
     // const message = ChatMessage.find((m) => m.) << -- tobe continue
     return (
       <ChatWrapper>
-        <ChatHistory history={chatHistory} onChange={this.onChangeChat} />
+        <ChatHistory
+          onSearch={this.onSearchContact}
+          history={chatHistory}
+          currentChat={currentChat}
+          onChatSelect={this.onChangeChat}
+        />
         <ChatBody>
           {chatMessage.length < 1 ? (
             <NoChat />
           ) : (
-            <ChatList
-              user={me}
+            <ChatMessagesWrapper
+              onSeeMore={this.onLoadMoreChat}
+              nothingMore={nothingMore}
               data={chatMessage}
-              render={({ message, type, sender, user }) => (
-                <ChatMessage
-                  sender={sender}
-                  user={user}
-                  message={message}
-                  type={type}
-                />
-              )}
+              currentChat={currentChat}
+              // loadMore={<LoadMoreChat onClick={this.onLoadMoreChat} />}
+              render={props => <ChatMessage {...props} />}
             />
           )}
-          <ChatInput onPushChat={this.onPushChat} />
+          <ChatInput
+            onPushChat={this.onEnterChat}
+            visible={currentChat !== null}
+          />
         </ChatBody>
       </ChatWrapper>
     );
   }
 }
 
-const mapPropsToState = ({ user }) => ({ user });
+const mapStateToProps = ({ user }) => ({ user });
 
-export default connect(mapPropsToState)(Chat);
+const mapDispatchToProps = dispatch => {
+  return {
+    refreshNotify: notify.refreshNotify(dispatch)
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Chat);

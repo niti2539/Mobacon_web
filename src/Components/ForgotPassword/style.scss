@@ -1,0 +1,20 @@
+.backBtnContainer {
+  margin: 10px 0;
+  cursor: pointer;
+  svg {
+    font-size: 1.4em;
+    color: teal;
+    display: inline;
+  }
+  span {
+    margin-left: 10px;
+    font-size: 1.2em;
+    color: teal;
+    display: inline;
+  }
+  display: flex;
+  width: fit-content;
+  align-items: center;
+  position: relative;
+  top: -10px;
+}

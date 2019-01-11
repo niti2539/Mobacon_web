@@ -37,6 +37,9 @@ import "./scss/style.scss";
 import DefaultLayout from "./pages/Layouts";
 // Pages
 import Login from "./pages/LoginPage";
+import Verification from "./pages/Verification";
+import ResetPassword from "./pages/ResetPassword";
+import UserResetPassword from "./pages/User/ResetPassword";
 import Register from "./pages/Register";
 import Page404 from "./pages/Page404";
 import Page500 from "./pages/Page500";
@@ -65,7 +68,8 @@ import {
   faFileAlt,
   faEnvelope,
   faUser,
-  faCog
+  faCog,
+  faChevronCircleLeft
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(faAngleDown);
@@ -82,6 +86,7 @@ library.add(faComments);
 library.add(faBell);
 library.add(faChevronDown);
 library.add(faPaperPlane);
+library.add(faChevronCircleLeft);
 
 library.add(faChartBar);
 library.add(faServer);
@@ -96,6 +101,11 @@ class App extends Component {
       <Switch>
         <Route exact path="/" name="Login" component={Login} />
         <Route exact path="/login" name="Login" component={Login} />
+        {/* Start email callback path */}
+        <Route exact path="/verification" component={Verification} />
+        <Route exact path="/resetPassword" component={ResetPassword} />
+        <Route exact path="/user/resetPassword" component={UserResetPassword} />
+        {/* End email callback path */}
         <MainRoute />
         <Route name="Page 404" component={Page404} />
         <Route name="Page 500" component={Page500} />
@@ -117,7 +127,7 @@ class MainRoute extends React.Component {
     console.log("Authorization");
     user.authorize(store.dispatch);
     const token = localStorage.getItem("accessToken");
-    window.socket = io(api.baseUrl, {
+    window.socket = io(api.baseWss, {
       query: { token }
     });
 
@@ -129,7 +139,7 @@ class MainRoute extends React.Component {
           localStorage.setItem("accessToken", newToken);
         }
       }
-      console.log("Authorized ok", payload.ok)
+      console.log("Authorized ok", payload.ok);
     });
   }
 

@@ -1,16 +1,20 @@
 import React, { Component } from "react";
-import styled, { keyframes } from "styled-components";
+import styled, { keyframes, css } from "styled-components";
 import { Input as ChatInput } from "./ChatInput";
+import { imageRequest } from "../../Configs";
 import moment from "moment";
+import posed, { PoseGroup } from "react-pose";
 
 const peopleAnimation = keyframes`
   from{
     opacity: 0;
-    transform: translateY(100vh);
+    filter: blur(3px);
+    background-position: 100%;
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    filter: blur(0px);
+    background-position: 0%;
   }
 `;
 
@@ -26,14 +30,28 @@ const ChatHistoryWrapper = styled.div`
 const ChatHistoryList = styled.div`
   display: flex;
   flex-direction: column;
-  overflow-y: auto;
+  overflow-y: auto !important;
   overflow-x: hidden;
   flex-grow: 1;
 `;
 
-const ChatHistoryItem = styled.div`
+const ChatHistoryItemAnimation = props => {
+  return props.newly
+    ? css`
+    ${peopleAnimation} 1s cubic-bezier(0.165, 0.84, 0.44, 1) forwards,
+    ${newlyMessageAnimate} 1s ease-in-out infinite alternate-reverse;
+  `
+    : css`
+        ${peopleAnimation} 1s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+      `;
+};
+
+const ChatHistoryItemPose = posed.div();
+
+const ChatHistoryItem = styled(ChatHistoryItemPose)`
   padding: 10px;
   max-height: 120px;
+  cursor: pointer;
   display: flex;
   border-bottom-color: #3b4859;
   border-bottom-width: 1px;
@@ -41,15 +59,26 @@ const ChatHistoryItem = styled.div`
   flex-shrink: 0;
   flex-direction: row;
   opacity: 0;
-  transform: translateY(100vh);
-  animation: ${peopleAnimation} 1s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+  animation: ${ChatHistoryItemAnimation};
   * {
     color: ${props => (props.active ? "inherith" : "#fff")} !important;
   }
-  background-color: ${props => (props.active ? "#efefef" : "transparent")};
+  background: ${props =>
+    props.active
+      ? "linear-gradient(to right, rgba(220,224,229,1) 0%, rgba(223,226,231,1) 16%, rgba(239,239,239,1) 100%)"
+      : "transparent"};
   cursor: ${props => (props.active ? "default" : "pointer")};
   border-bottom-color: #999;
   border-bottom-width: 1px;
+`;
+
+const newlyMessageAnimate = keyframes`
+    from {
+      background-color: rgba(124,191,187, .1);
+    }
+    to {
+      background-color: rgba(124,191,187, .45);
+    }
 `;
 
 const ChatSearchBoxWrapper = styled.div`
@@ -92,6 +121,7 @@ const ChatPeopleContainer = styled.div`
       flex-wrap: wrap;
     }
     .name {
+      margin-right: 15px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -134,41 +164,46 @@ const ImageContainer = styled.div`
   }
 `;
 
+const SeeMoreText = styled.h4`
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  margin: -10px;
+`;
+
 class ChatHistoryComponent extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentRequest: 0,
+      currentChat: props.currentChat,
       ok: true,
       data: props.history,
       search: ""
     };
   }
 
+  componentDidUpdate = prevProps => {
+    if (prevProps !== this.props) {
+      this.setState({
+        data: this.props.history,
+        currentChat: this.props.currentChat
+      });
+    }
+  };
+
   setCurrentRequest = id => {
-    this.setState({ currentRequest: id });
+    this.props.onChatSelect(id);
+    this.setState({ currentChat: id });
   };
 
   onSearch = e => {
     const text = e.target.value;
     this.setState({ search: text });
-  };
-
-  _filter = (searchText, data = []) => {
-    return data.filter(d =>
-      String(d.chat.user.fullName)
-        .toLowerCase()
-        .trim()
-        .startsWith(
-          String(searchText)
-            .trim()
-            .toLowerCase()
-        )
-    );
+    this.props.onSearch(text);
   };
 
   render() {
-    const { ok, data, currentRequest, search } = this.state;
+    const { ok, data, currentChat, search } = this.state;
     return (
       <ChatHistoryWrapper>
         <Text>Recent chats</Text>
@@ -180,48 +215,94 @@ class ChatHistoryComponent extends Component {
           />
         </ChatSearchBoxWrapper>
         <ChatHistoryList>
-          {ok &&
-            this._filter(search, data).map(list => {
-              return (
-                <ChatHistoryItem
-                  active={currentRequest === list.request.id}
-                  onClick={() => this.setCurrentRequest(list.request.id)}
-                >
-                  <ChatPeople {...list} />
-                </ChatHistoryItem>
-              );
-            })}
+          <PoseGroup>
+            {ok &&
+              data.map(list => {
+                const id = list.request.id;
+                return (
+                  <ChatHistoryItem
+                    key={id}
+                    active={currentChat === id}
+                    newly={!list.chat.read.operator}
+                    onClick={() => this.setCurrentRequest(id)}
+                  >
+                    <ChatPeople {...list} />
+                  </ChatHistoryItem>
+                );
+              })}
+          </PoseGroup>
         </ChatHistoryList>
+        {/* <ChatHistoryItem>
+          <SeeMoreText>See more</SeeMoreText>
+        </ChatHistoryItem> */}
       </ChatHistoryWrapper>
     );
   }
 }
 
-const ChatPeople = ({
-  chat: {
-    message,
-    createdAt,
-    user: {
-      fullName,
-      imagePath = "http://mobacon-api.pieros.site//mobacon/api/image/profile/default/default_profile.png"
-    }
+class ChatPeople extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      data: props.chat,
+      imagePath: null
+    };
   }
-}) => (
-  <ChatPeopleContainer>
-    <ImageContainer>
-      <div>
-        <img src={imagePath} />
-      </div>
-    </ImageContainer>
-    <div className="chatDetail">
-      <div className="chatHeader">
-        <span className="name">{fullName}</span>
-        <span className="chatSince">{`${moment().hours -
-          moment(createdAt).hours} Hour ago`}</span>
-      </div>
-      <p>{message}</p>
-    </div>
-  </ChatPeopleContainer>
-);
+
+  componentDidMount = () => {
+    this.requestImage();
+  };
+
+  requestImage = async () => {
+    let {
+      data: {
+        user: { imagePath: imgPath }
+      }
+    } = this.state;
+    const imagePath = await imageRequest(imgPath);
+    this.setState({ imagePath });
+  };
+
+  componentDidUpdate = async prevProps => {
+    if (prevProps !== this.props) {
+      const { chat } = this.props;
+      this.setState({ data: chat });
+    }
+  };
+
+  getLatestTime = latestTime => {
+    const lastForm = moment().from(moment(latestTime), true);
+    return `${lastForm} ago`;
+  };
+
+  render() {
+    const {
+      data: {
+        message,
+        createdAt,
+        user: { fullName }
+      },
+      imagePath
+    } = this.state;
+    return (
+      <ChatPeopleContainer>
+        <ImageContainer>
+          {imagePath && (
+            <div>
+              <img src={imagePath} />
+            </div>
+          )}
+        </ImageContainer>
+        <div className="chatDetail">
+          <div className="chatHeader">
+            <span className="name">{fullName}</span>
+            <span className="chatSince">{this.getLatestTime(createdAt)}</span>
+          </div>
+          <p>{message}</p>
+        </div>
+      </ChatPeopleContainer>
+    );
+  }
+}
 
 export default ChatHistoryComponent;

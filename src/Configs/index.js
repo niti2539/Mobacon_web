@@ -1,10 +1,9 @@
-import { resolve } from "upath";
-import { includes } from "lodash";
-import { withRouter } from "react-router-dom";
+import _path from "path";
 
 export const api = {
-  baseUrl: "http://mobacon-api.pieros.site",
-  baseApi: "http://mobacon-api.pieros.site" + "/mobacon/api/web"
+  baseUrl: "https://mobacon-api.pieros.site",
+  baseWss: "wss://mobacon-api.pieros.site",
+  apiPath: "/mobacon/api/web"
 };
 
 function ReqError(response) {
@@ -48,7 +47,7 @@ async function handleResponse(response) {
 }
 
 export const imageRequest = async (path = "") => {
-  const token = localStorage.getItem("accessToken");
+  // const token = localStorage.getItem("accessToken");
   if (path.trim() === "") return null;
   let config = {
     method: "GET"
@@ -103,7 +102,7 @@ export const apiRequest = async (
     }
   }
   return new Promise((resolve, reject) => {
-    fetch(api.baseApi + path, config)
+    fetch(api.baseUrl + _path.join(api.apiPath, path), config)
       .then(handleError)
       .then(handleResponse)
       .then(result => {

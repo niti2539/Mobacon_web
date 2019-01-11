@@ -389,7 +389,7 @@ class Tabs extends Component {
                           name="textarea-input"
                           id="textarea-input"
                           rows="8"
-                          value={memo.message || ""}
+                          value={memo? memo.message : ""}
                           onChange={this.onMemoChange}
                           placeholder="Write your memo"
                           className="textAreaMemo"

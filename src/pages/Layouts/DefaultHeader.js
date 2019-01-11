@@ -23,10 +23,22 @@ import {
 import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
 import { api, imageRequest } from "../../Configs";
 import { Link } from "react-router-dom";
-
+import { notify } from "../../stores/actions";
 const propTypes = {
   children: PropTypes.node
 };
+import styled from "styled-components";
+
+const NotifyCicle = styled.div`
+  width: 10px;
+  height: 10px;
+  border-radius: 100%;
+  background-color: #82e236;
+  position: absolute;
+  border: 1px solid #fff;
+  right: -4px;
+  top: -4px;
+`;
 
 const defaultProps = {};
 
@@ -35,9 +47,9 @@ class DefaultHeader extends Component {
     super(props);
     this.state = {
       notExpand: false,
-      user: {}
+      user: {},
+      notify: { count: 0 }
     };
-    this.componentDidMount = this.componentDidMount.bind(this);
   }
 
   toggleHandler = () => {
@@ -49,11 +61,25 @@ class DefaultHeader extends Component {
     if (prevProps.user.user_detail !== this.props.user.user_detail) {
       this.setUser();
     }
+    if (prevProps.notify.count !== this.props.notify.count) {
+      this.setState({ notify: this.props.notify });
+    }
   };
 
-  componentDidMount() {
+  componentDidMount = () => {
     this.setUser();
-  }
+    this.onNotify();
+  };
+
+  onNotify = () => {
+    window.socket.on("mobile-chat", () => {
+      window.socket.emit("web-count-unread-chat", null, payload => {
+        if (payload.ok) {
+          this.props.setNotify(payload.data);
+        }
+      });
+    });
+  };
 
   setUser = async () => {
     const {
@@ -88,7 +114,7 @@ class DefaultHeader extends Component {
   render() {
     // eslint-disable-next-line
     const { children, ...attributes } = this.props;
-    const { user } = this.state;
+    const { user, notify } = this.state;
     return (
       <React.Fragment>
         <AppSidebarToggler className="d-lg-none" display="md" mobile />
@@ -102,18 +128,14 @@ class DefaultHeader extends Component {
 
         <Nav navbar>
           <div className="navbarIcon">
-            <NavItem className="d-md-down-none">
+            <NavItem>
               <NavLink href="/chat">
                 <Icon icon="comments" />
+                {notify.count > 0 && <NotifyCicle />}
               </NavLink>
             </NavItem>
-            {/* <NavItem className="d-md-down-none">
-              <NavLink href="#">
-                <Icon icon="bell" />
-              </NavLink>
-            </NavItem> */}
           </div>
-          <NavItem className="d-md-down-none adminName" style={{ width: 100 }}>
+          <NavItem className="adminName" style={{ width: 100 }}>
             <p className="admin">{user.fullName}</p>
           </NavItem>
           <AppHeaderDropdown direction="down">
@@ -144,6 +166,15 @@ class DefaultHeader extends Component {
 DefaultHeader.propTypes = propTypes;
 DefaultHeader.defaultProps = defaultProps;
 
-const mapStateToProps = ({ user }) => ({ user });
+const mapStateToProps = ({ user, notify }) => ({ user, notify });
 
-export default connect(mapStateToProps)(DefaultHeader);
+const mapDispathToProps = dispatch => {
+  return {
+    setNotify: notify.setNotify(dispatch)
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispathToProps
+)(DefaultHeader);

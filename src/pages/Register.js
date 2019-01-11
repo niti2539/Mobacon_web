@@ -143,8 +143,9 @@ class Register extends React.Component {
                     <Media className="imagePhoto" object src={imagePath} />
                   </Media>
                 )} */}
-          <Media href="">
+          <Media href="" className="imageWrapper">
             <Media className="imagePhoto" object src={imagePath} />
+            <Media className="imagePhotoOpacity" object src={imagePath} />
           </Media>
 
           <form className="md-form">
@@ -256,9 +257,10 @@ class Register extends React.Component {
     formData.append("phoneNumber", this.state.phoneNumber);
     formData.append("image", this.state.imageFile, this.state.imageFile.name);
     this.props.register(formData, () => {
-      const { onComplete } = this.props;
-      if (onComplete) {
-        onComplete();
+      const { onCompleted } = this.props;
+      if (onCompleted) {
+        console.log("refresh operators")
+        onCompleted();
       }
     });
   };
