@@ -81,7 +81,6 @@ class DefaultHeader extends Component {
       });
     } catch (err) {
       console.log("get notify again", err);
-      this.getNotify();
     }
   };
 
@@ -92,7 +91,6 @@ class DefaultHeader extends Component {
       });
     } catch (err) {
       console.log("get notify again", err);
-      this.onNotify();
     }
   };
 

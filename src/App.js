@@ -142,11 +142,12 @@ class MainRoute extends React.Component {
         }
       }
       console.log("Authorized ok", payload.ok);
+      this.forceUpdate();
     });
   }
 
   render() {
-    return (
+    return window.socket ? (
       <React.Fragment>
         <CustomRoute exact path="/dashboard" component={DefaultLayout} />
         <CustomRoute exact path="/plans" component={DefaultLayout} />
@@ -158,6 +159,8 @@ class MainRoute extends React.Component {
         <CustomRoute exact path="/profile" component={DefaultLayout} />
         <CustomRoute exact path="/logout" component={DefaultLayout} />
       </React.Fragment>
+    ) : (
+      <div />
     );
   }
 }
