@@ -78,20 +78,12 @@ class ChatList extends Component {
     data: PropTypes.array.isRequired
   };
   render() {
-    const { onSeeMore, nothingMore, currentChat } = this.props;
+    const { onSeeMore, nothingMore } = this.props;
     const { render: RenderComponent, data } = this.state;
     // console.log("nothing more", nothingMore);
     return (
       <React.Fragment>
-        {!nothingMore && (
-          <LoadMore
-            // pose={nothingMore ? "closed" : "opened"}
-            // nothingMore={nothingMore[currentChat]}
-            onClick={onSeeMore}
-          >
-            See more
-          </LoadMore>
-        )}
+        {!nothingMore && <LoadMore onClick={onSeeMore}>See more</LoadMore>}
         <ChatListWrapper ref={r => (this.chatList = r)}>
           {data.map((chat, key) => {
             return RenderComponent({

@@ -104,7 +104,7 @@ class ChatMessage extends Component {
   render() {
     const { message, sender = null, createdAt } = this.props;
     // const name = fullName.trim().split(/\s/)[0];
-    const { imagePath, failed } = this.state;
+    const { imagePath=null, failed } = this.state;
     const isMyMessage = sender ? sender.role.id !== 3 : null;
     return isMyMessage !== null ? (
       imagePath && (
