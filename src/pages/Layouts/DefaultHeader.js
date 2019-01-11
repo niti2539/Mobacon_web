@@ -68,20 +68,31 @@ class DefaultHeader extends Component {
 
   componentDidMount = () => {
     this.setUser();
+    this.getNotify();
     this.onNotify();
+  };
+
+  getNotify = () => {
+    try {
+      window.socket.emit("web-count-unread-chat", null, payload => {
+        if (payload.ok) {
+          this.props.setNotify(payload.data);
+        }
+      });
+    } catch (err) {
+      console.log("get notify again", err);
+      this.getNotify();
+    }
   };
 
   onNotify = () => {
     try {
       window.socket.on("mobile-chat", () => {
-        window.socket.emit("web-count-unread-chat", null, payload => {
-          if (payload.ok) {
-            this.props.setNotify(payload.data);
-          }
-        });
+        this.getNotify();
       });
     } catch (err) {
-      console.log(err);
+      console.log("get notify again", err);
+      this.onNotify();
     }
   };
 
