@@ -11,7 +11,7 @@ import moment from "moment";
 import { imageRequest } from "../Configs";
 import _ from "lodash";
 
-const ChatWrapper = styled.div`
+export const ChatWrapper = styled.div`
   position: absolute;
   * {
     font-family: "Rubik-Medium", Arial, Helvetica, sans-serif !important;
@@ -207,7 +207,7 @@ class Chat extends Component {
     const { chatMessage } = this.state;
     window.socket.emit(
       "web-search-chatroom",
-      { existChatList: chatMessage.length, searchText: searchText },
+      { existChatList: chatMessage.length, searchText: searchText.trim() },
       payload => {
         if (payload.ok) {
           const { data } = payload;
@@ -220,6 +220,7 @@ class Chat extends Component {
   };
 
   onSearchContact = text => {
+    console.log("Search contact is",text);
     this.getChatHistory(text);
   };
 

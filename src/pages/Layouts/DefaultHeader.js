@@ -72,13 +72,17 @@ class DefaultHeader extends Component {
   };
 
   onNotify = () => {
-    window.socket.on("mobile-chat", () => {
-      window.socket.emit("web-count-unread-chat", null, payload => {
-        if (payload.ok) {
-          this.props.setNotify(payload.data);
-        }
+    try {
+      window.socket.on("mobile-chat", () => {
+        window.socket.emit("web-count-unread-chat", null, payload => {
+          if (payload.ok) {
+            this.props.setNotify(payload.data);
+          }
+        });
       });
-    });
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   setUser = async () => {

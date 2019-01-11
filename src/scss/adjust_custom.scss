@@ -340,19 +340,36 @@ i.nav-icon {
   font-family: "Rubik-Light";
   color: #3b4859;
 }
+.customTabContent {
+  padding-left: 0 !important;
+  margin-top: 10px;
+  height: 100%;
+  position: relative;
+  flex-grow: 1;
+  .tab-pane {
+    padding: 0 !important;
+  }
+}
+.nav-tabs {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  .nav-item {
+    flex-grow: 1;
+  }
+}
 .nav-tabs .nav-link.active {
-  border: none;
   border-bottom: 4px solid #76d5ce;
   background-color: transparent;
   font-family: "Rubik-Medium";
   color: #76d5ce;
-  width: 150px;
+  width: auto !important;
   text-align: center;
 }
 .nav-tabs .nav-link {
-  border: none;
-  width: 150px;
+  width: auto !important;
   text-align: center;
+  font-size: 0.8em !important;
   font-family: "Rubik-Regular";
 }
 .enableChat {

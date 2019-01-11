@@ -69,7 +69,8 @@ import {
   faEnvelope,
   faUser,
   faCog,
-  faChevronCircleLeft
+  faChevronCircleLeft,
+  faAlignLeft
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(faAngleDown);
@@ -87,6 +88,7 @@ library.add(faBell);
 library.add(faChevronDown);
 library.add(faPaperPlane);
 library.add(faChevronCircleLeft);
+library.add(faAlignLeft);
 
 library.add(faChartBar);
 library.add(faServer);

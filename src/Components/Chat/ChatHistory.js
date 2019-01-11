@@ -92,7 +92,7 @@ const ChatSearchBoxWrapper = styled.div`
 const Text = styled.h5`
   flex-shrink: 0;
   display: flex;
-  text-align: left;
+  justify-content: ${props => (props.justify ? props.justify : "flex-start")};
   padding: 10px;
   margin: 0;
   color: #fff !important;
@@ -109,30 +109,33 @@ const ChatPeopleContainer = styled.div`
   text-overflow: ellipsis;
   display: flex;
   flex-direction: row;
+  flex-grow: 1;
   .chatDetail {
     display: flex;
     flex-direction: column;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    flex-grow: 1;
     .chatHeader {
       margin-bottom: 10px;
       display: flex;
+      justify-content: space-between;
       flex-wrap: wrap;
-    }
-    .name {
-      margin-right: 15px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      text-align: left;
-      font-size: 14px;
-      flex-grow: 1;
-      font-weight: bold;
-    }
-    .chatSince {
-      font-size: 13px;
-      font-weight: lighter;
+      .name {
+        margin-right: 15px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        text-align: left;
+        font-size: 14px;
+        flex-grow: 1;
+        font-weight: bold;
+      }
+      .chatSince {
+        font-size: 13px;
+        font-weight: lighter;
+      }
     }
     p {
       white-space: nowrap;
@@ -148,7 +151,6 @@ const ChatPeopleContainer = styled.div`
 const ImageContainer = styled.div`
   display: flex;
   align-items: flex-start;
-  flex-grow: 1;
   justify-content: center;
   margin-right: 10px;
   div {
@@ -172,6 +174,11 @@ const SeeMoreText = styled.h4`
 `;
 
 class ChatHistoryComponent extends Component {
+  static defaultProps = {
+    history: [],
+    onChatSelect: () => {},
+    currentChat: null
+  };
   constructor(props) {
     super(props);
     this.state = {
@@ -196,42 +203,61 @@ class ChatHistoryComponent extends Component {
     this.setState({ currentChat: id });
   };
 
-  onSearch = e => {
+  onSearchChange = e => {
     const text = e.target.value;
     this.setState({ search: text });
-    this.props.onSearch(text);
+    clearTimeout(this.searchTimeout);
   };
 
+  onSearchContact = () => {
+    const { search } = this.state;
+    this.props.onSearch(search);
+  };
+
+  searchTimeout = setTimeout(() => {}, 0);
+
   render() {
+    const { showSearch = true } = this.props;
     const { ok, data, currentChat, search } = this.state;
+    console.log("Data", data);
     return (
       <ChatHistoryWrapper>
         <Text>Recent chats</Text>
-        <ChatSearchBoxWrapper>
-          <Input
-            placeholder="Search contact"
-            value={search}
-            onChange={this.onSearch}
-          />
-        </ChatSearchBoxWrapper>
-        <ChatHistoryList>
-          <PoseGroup>
-            {ok &&
-              data.map(list => {
-                const id = list.request.id;
-                return (
-                  <ChatHistoryItem
-                    key={id}
-                    active={currentChat === id}
-                    newly={!list.chat.read.operator}
-                    onClick={() => this.setCurrentRequest(id)}
-                  >
-                    <ChatPeople {...list} />
-                  </ChatHistoryItem>
-                );
-              })}
-          </PoseGroup>
-        </ChatHistoryList>
+        {showSearch && (
+          <ChatSearchBoxWrapper>
+            <Input
+              placeholder="Search contact"
+              value={search}
+              onChange={this.onSearchChange}
+              onKeyUp={() => {
+                clearTimeout(this.searchTimeout);
+                this.searchTimeout = setTimeout(this.onSearchContact, 500);
+              }}
+            />
+          </ChatSearchBoxWrapper>
+        )}
+        {data.length > 0 ? (
+          <ChatHistoryList>
+            <PoseGroup>
+              {ok &&
+                data.map(list => {
+                  const id = list.request.id;
+                  return (
+                    <ChatHistoryItem
+                      key={id}
+                      active={currentChat === id}
+                      newly={list.chat.read ? !list.chat.read.operator : false}
+                      onClick={() => this.setCurrentRequest(id)}
+                    >
+                      <ChatPeople {...list} />
+                    </ChatHistoryItem>
+                  );
+                })}
+            </PoseGroup>
+          </ChatHistoryList>
+        ) : (
+          <Text justify="center">No chatroom</Text>
+        )}
         {/* <ChatHistoryItem>
           <SeeMoreText>See more</SeeMoreText>
         </ChatHistoryItem> */}
@@ -255,11 +281,10 @@ class ChatPeople extends React.Component {
 
   requestImage = async () => {
     let {
-      data: {
-        user: { imagePath: imgPath }
-      }
+      data: { user }
     } = this.state;
-    const imagePath = await imageRequest(imgPath);
+    if (!user.imagePath) return;
+    const imagePath = await imageRequest(user.imagePath);
     this.setState({ imagePath });
   };
 
@@ -286,13 +311,13 @@ class ChatPeople extends React.Component {
     } = this.state;
     return (
       <ChatPeopleContainer>
-        <ImageContainer>
-          {imagePath && (
+        {imagePath && (
+          <ImageContainer>
             <div>
               <img src={imagePath} />
             </div>
-          )}
-        </ImageContainer>
+          </ImageContainer>
+        )}
         <div className="chatDetail">
           <div className="chatHeader">
             <span className="name">{fullName}</span>

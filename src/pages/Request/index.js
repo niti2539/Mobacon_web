@@ -19,6 +19,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import RequestAside from "./Aside";
 import _ from "lodash";
+import Modal from "react-modal";
 import {
   getRequestById,
   createOffer,
@@ -41,7 +42,7 @@ import moment from "moment";
 class Tabs extends Component {
   state = {
     activeTab: "1",
-    aside: false,
+    historyAside: false,
     loading: true,
     data: {},
     submitting: false
@@ -177,11 +178,15 @@ class Tabs extends Component {
                   <Button
                     type="submit"
                     className="adjustButtonHistory"
-                    onClick={() => this.setState({ aside: true })}
+                    onClick={() => this.setState({ historyAside: true })}
                   >
                     VIEW HISTORY
                   </Button>
-                  <RequestAside visible={this.state.aside} />
+                  <RequestAside
+                    data={data}
+                    visible={this.state.historyAside}
+                    onClose={() => this.setState({ historyAside: false })}
+                  />
                 </div>
               </Col>
             </Row>
@@ -389,7 +394,7 @@ class Tabs extends Component {
                           name="textarea-input"
                           id="textarea-input"
                           rows="8"
-                          value={memo? memo.message : ""}
+                          value={memo ? memo.message : ""}
                           onChange={this.onMemoChange}
                           placeholder="Write your memo"
                           className="textAreaMemo"

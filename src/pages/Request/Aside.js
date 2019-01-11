@@ -1,324 +1,466 @@
-import React, { Component } from 'react';
-import { Card, CardHeader, CardBody, Nav, NavItem, NavLink, Progress, TabContent, TabPane, ListGroup, ListGroupItem } from 'reactstrap';
-import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import styled from 'styled-components';
+import React, { Component } from "react";
+import {
+  Nav,
+  NavItem,
+  NavLink,
+  Modal,
+  ModalBody,
+  ModalHeader,
+  ModalFooter,
+  TabContent,
+  TabPane,
+  FormGroup,
+  Label,
+  Row,
+  Col,
+  Input,
+  Button
+} from "reactstrap";
+import PropTypes, { instanceOf } from "prop-types";
+import classNames from "classnames";
+import styled from "styled-components";
+import { FontAwesomeIcon as Icon } from "@fortawesome/react-fontawesome";
+import posed from "react-pose";
+import _ from "lodash";
 
-const AsideStyle = styled.div`
+import { ChatBody, ChatWrapper } from "../../pages/Chat";
+import ReviewItem from "../../Components/Review";
+import ChatHistory from "../../Components/Chat/ChatHistory";
+import ChatMessagesWrapper from "../../Components/Chat/ChatList";
+import ChatMessage from "../../Components/Chat/ChatMessage";
+import { apiRequest, imageRequest } from "../../Configs";
+
+const SlidingPaneAnimate = posed.div({
+  opened: {
+    x: "0",
+    transition: {
+      duration: 150,
+      ease: "easeInOut"
+    }
+  },
+  closed: {
+    x: "100%",
+    transition: {
+      duration: 100,
+      ease: "easeInOut"
+    }
+  }
+});
+
+const SlidingPane = styled(SlidingPaneAnimate)`
   position: fixed;
-  z-index: 1000000000;
-  width: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  z-index: 100;
+  min-width: 400px;
   background-color: #fff;
-  box-shadow: 5px 0 20px 2 rgba(40,40,40, .1);
+  box-shadow: 5px 0 20px 2px rgba(40, 40, 40, 0.3);
   right: 0;
   top: 0;
-  height: 100vh;
+  bottom: 0;
   margin-top: 55px;
-  .tab-content{
-    height: calc(100vh - 95px);
-    overflow-x: hidden;
-    overflow-y: auto;
+`;
+
+const SlidingPaneContainer = styled.div`
+  padding: 0 15px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+`;
+
+const Header = styled.div`
+  background-color: #3c4859;
+  padding: 14px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: nowrap;
+  span,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: #fff;
+    font-size: 1em;
+    font-weight: lighter;
   }
-  display: ${props => props.opacity ? 'block' : 'none'};
+  div {
+    color: #fff;
+    font-size: 0.8em;
+    background-color: transparent;
+    margin: auto;
+    outline: none;
+    cursor: pointer;
+    border: none;
+    padding: 0;
+    margin: 0;
+  }
 `;
 
 const propTypes = {
-  children: PropTypes.node,
+  children: PropTypes.node
 };
 
 const defaultProps = {};
 
-class RequestAside extends Component {
-
+class RequestHistoryContainer extends Component {
   state = {
-    activeTab: '1',
-    visible: this.props.visible
-  }
+    activeTab: "1",
+    visible: this.props.visible,
+    chatHistory: [],
+    chatModal: false,
+    chatMessage: [],
+    currentChat: null,
+    reviewData: {},
+    reviewModal: false,
+    reviewSelect: {}
+  };
 
-  componentDidMount(){
+  componentDidMount() {
     this.setState({
       visible: this.props.visible
-    })
+    });
+    if (this.state.activeTab == 1) {
+      this.getReview();
+    }
   }
 
-  componentWillReceiveProps(nextProps){
-    // console.log('visible',nextProps)
-    this.setState({
-      visible: this.props.visible
-    })
-  }
+  componentDidUpdate = prevProps => {
+    if (prevProps !== this.props) {
+      this.setState({ visible: this.props.visible });
+    }
+  };
 
   toggle = tab => {
     if (this.state.activeTab !== tab) {
       this.setState({
-        activeTab: tab,
+        activeTab: tab
       });
+      if (tab == 2) {
+        this.getCantact();
+      } else if (tab == 1) {
+        this.getReview();
+      }
     }
+  };
+
+  getReview = async () => {
+    const { user } = this.props.data;
+    try {
+      // console.log("id", user.id);
+      const result = await apiRequest(`/request/review/${user.id}`, "GET");
+      // console.log("Result", result);
+      // const data = result.data.reduce((obj, cur) => {
+      //   obj.push({
+      //     ...cur,
+      //     chat: Object.assign(cur.chat, {
+      //       user: _.pick(user, ["id", "fullName"])
+      //     })
+      //   });
+      //   return obj;
+      // }, []);
+      this.setState({ reviewData: result.data });
+    } catch (err) {
+      if (err.response) {
+        alert(err.response.data.message);
+      }
+      console.log("get review error", err);
+    }
+  };
+
+  reformatChatMessage = async inputData => {
+    let rawData = inputData.reverse();
+    const userData = rawData[0];
+    let userImagePath = "";
+    let operatorImagePath = "";
+    if (userData) {
+      userImagePath = await imageRequest(userData.user.imagePath);
+      operatorImagePath = await await imageRequest(userData.operator.imagePath);
+    }
+    const data = _.reduce(
+      rawData,
+      (obj, cur) => {
+        const isOperator = cur.sender.role.id != 3;
+        obj.push({
+          ...cur,
+          sender: _.assign(
+            {
+              info: {
+                ...cur.user,
+                imagePath: isOperator ? operatorImagePath : userImagePath
+              }
+            },
+            cur.sender
+          )
+        });
+        return obj;
+      },
+      []
+    );
+    return data;
+  };
+
+  showChatModal = async (toggle = true) => {
+    await this.setState({ chatModal: toggle });
+    if (!toggle) {
+      this.setState({ currentChat: null, chatMessage: [] });
+    }
+  };
+  showReviewModal = async (toggle = true) => {
+    await this.setState({ reviewModal: toggle });
+    if (!toggle) {
+      this.setState({ reviewSelect: {} });
+    }
+  };
+
+  getCantact = async () => {
+    const { user } = this.props.data;
+    try {
+      // console.log("id", user.id);
+      const result = await apiRequest(`/request/chat/${user.id}`, "GET");
+      // console.log("Result", result);
+      const data = result.data.reduce((obj, cur) => {
+        obj.push({
+          ...cur,
+          chat: Object.assign(cur.chat, {
+            user: _.pick(user, ["id", "fullName"])
+          })
+        });
+        return obj;
+      }, []);
+      this.setState({ chatHistory: data });
+    } catch (err) {
+      if (err.response) {
+        alert(err.response.data.message);
+      }
+      console.log("get review error", err);
+    }
+  };
+
+  onChangeChat = async id => {
+    await this.setState({ currentChat: id });
+    await this.getChatMessage();
+  };
+
+  getChatMessage = async () => {
+    const { currentChat, chatMessage } = this.state;
+    try {
+      const result = await apiRequest(
+        `/request/chat/detail/${currentChat}/${chatMessage.length}`,
+        "GET"
+      );
+      // console.log("result chat message", result);
+      await this.pushMoreChat(result.data.data); // data nested
+      this.showChatModal(true);
+    } catch (err) {
+      if (err.response) {
+        alert(err.response.data.message);
+      }
+      this.showChatModal(false);
+      console.log("Get chat message error", err);
+    }
+  };
+
+  toggleModal() {
+    this.setState({
+      chatModal: !this.state.chatModal
+    });
   }
 
-  render() {
+  pushMoreChat = async payload => {
+    let chatMessage = this.state.chatMessage;
+    let data = await this.reformatChatMessage(payload);
+    console.log("Payload data", data);
+    chatMessage.unshift(...data);
+    return await this.setState({
+      chatMessage
+    });
+  };
 
+  onReviewSelect = async data => {
+    await this.setState({ reviewSelect: data });
+    this.showReviewModal();
+  };
+
+  onLoadMoreChat = () => {
+    this.getChatMessage();
+  };
+
+  render() {
     // eslint-disable-next-line
-    const { children, ...attributes } = this.props;
+    const { children, onClose, data, ...attributes } = this.props;
+    const {
+      visible = false,
+      chatHistory,
+      chatModal,
+      currentChat,
+      reviewData,
+      chatMessage,
+      reviewModal,
+      reviewSelect
+    } = this.state;
     return (
-      <AsideStyle opacity={this.state.visible}>
-        <Card>
-          <CardHeader>
-            HISTORY
-            <div className="card-header-actions" onClick={() => this.setState({visible: false})}>
-              <div className="card-header-action btn btn-setting"><i className="fa fa-times"></i></div>
+      <React.Fragment>
+        {reviewSelect.offer ? (
+          <Modal isOpen={reviewModal} size="lg">
+            <ModalHeader style={{ flexShrink: 0 }}>
+              <Icon
+                icon="align-left"
+                style={{ marginRight: 10 }}
+                color="#7cbfbb"
+              />
+              Reviewer: {reviewSelect.operator.fullName}
+            </ModalHeader>
+            <ModalBody style={{ padding: 20, overflow: "auto" }}>
+              <FormGroup>
+                <Label htmlFor="SMS" className="label">
+                  Review
+                </Label>
+                <Input
+                  readOnly={true}
+                  type="textarea"
+                  name="review"
+                  id="textarea-input"
+                  rows="6"
+                  value={reviewSelect.offer ? reviewSelect.offer.review : ""}
+                  placeholder="Write your review"
+                  className="textArea"
+                />
+              </FormGroup>
+              <FormGroup className="alignFormGroup">
+                <Label htmlFor="SMS" className="label">
+                  Suggestion
+                </Label>
+                <Input
+                  readOnly={true}
+                  type="textarea"
+                  name="suggestion"
+                  id="textarea-input"
+                  value={
+                    reviewSelect.offer ? reviewSelect.offer.suggestion : ""
+                  }
+                  rows="6"
+                  placeholder="Write your suggetion"
+                  className="textArea"
+                />
+              </FormGroup>
+            </ModalBody>
+            <ModalFooter>
+              <Button
+                color="secondary"
+                onClick={() => this.showReviewModal(false)}
+              >
+                Close
+              </Button>
+            </ModalFooter>
+          </Modal>
+        ) : null}
+        <Modal
+          isOpen={chatModal}
+          size="lg"
+          toggle={this.toggleModal.bind(this)}
+        >
+          <ModalHeader style={{ flexShrink: 0 }}>
+            <Icon icon="comments" style={{ marginRight: 10 }} color="#7cbfbb" />
+            {data.user.fullName}
+          </ModalHeader>
+          <ModalBody style={{ padding: 0, overflow: "auto" }}>
+            <ChatMessagesWrapper
+              onSeeMore={this.onLoadMoreChat} // nothingMore={nothingMore}
+              data={chatMessage}
+              render={props => <ChatMessage {...props} />}
+            />
+          </ModalBody>
+          <ModalFooter>
+            <Button color="secondary" onClick={() => this.showChatModal(false)}>
+              Close
+            </Button>
+          </ModalFooter>
+        </Modal>
+        <SlidingPane pose={visible ? "opened" : "closed"}>
+          <Header>
+            <span>History</span>
+            <div onClick={onClose}>
+              <Icon icon="times" />
             </div>
-          </CardHeader>
-          <Nav tabs>
-            <NavItem>
-              <NavLink 
-                className={classNames({ active: this.state.activeTab === '1' })}
-                onClick={() => {
-                  this.toggle('1');
-                }}>
-                <i className="icon-list"></i> REVIEW
-              </NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink className={classNames({ active: this.state.activeTab === '2' })}
-                      onClick={() => {
-                        this.toggle('2');
-                      }}>
-                <i className="icon-speech"></i> CHAT
-              </NavLink>
-            </NavItem>
-          </Nav>
-          <TabContent activeTab={this.state.activeTab}>
-            <TabPane tabId="1">
-              <ListGroup className="list-group-accent">
-                <ListGroupItem className="list-group-item-accent-secondary bg-light text-center font-weight-bold text-muted text-uppercase small">Today</ListGroupItem>
-                <ListGroupItem action tag="a" href="#" className="list-group-item-accent-warning list-group-item-divider">
-                  <div className="avatar float-right">
-                    {/* <img className="img-avatar" src="../../assets/img/avatars/7.jpg" alt="admin@bootstrapmaster.com"></img> */}
-                  </div>
-                  <div>Meeting with <strong>Lucas</strong> </div>
-                  <small className="text-muted mr-3">
-                    <i className="icon-calendar"></i>&nbsp; 1 - 3pm
-                  </small>
-                  <small className="text-muted">
-                    <i className="icon-location-pin"></i> Palo Alto, CA
-                  </small>
-                </ListGroupItem>
-                <ListGroupItem action tag="a" href="#" className="list-group-item-accent-info list-group-item-divider">
-                  <div className="avatar float-right">
-                    {/* <img className="img-avatar" src="../../assets/img/avatars/4.jpg" alt="admin@bootstrapmaster.com"></img> */}
-                  </div>
-                  <div>Skype with <strong>Megan</strong></div>
-                  <small className="text-muted mr-3">
-                    <i className="icon-calendar"></i>&nbsp; 4 - 5pm
-                  </small>
-                  <small className="text-muted">
-                    <i className="icon-social-skype"></i> On-line
-                  </small>
-                </ListGroupItem>
-                <ListGroupItem className="list-group-item-accent-secondary bg-light text-center font-weight-bold text-muted text-uppercase small">Tomorrow</ListGroupItem>
-                <ListGroupItem action tag="a" href="#" className="list-group-item-accent-danger list-group-item-divider">
-                  <div>New UI Project - <strong>deadline</strong></div>
-                  <small className="text-muted mr-3"><i className="icon-calendar"></i>&nbsp; 10 - 11pm</small>
-                  <small className="text-muted"><i className="icon-home"></i>&nbsp; creativeLabs HQ</small>
-                  <div className="avatars-stack mt-2">
-                    <div className="avatar avatar-xs">
-                      {/* <img src={'../../assets/img/avatars/2.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com" /> */}
-                    </div>
-                    <div className="avatar avatar-xs">
-                      {/* <img src={'../../assets/img/avatars/3.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com" /> */}
-                    </div>
-                    <div className="avatar avatar-xs">
-                      {/* <img src={'../../assets/img/avatars/4.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com" /> */}
-                    </div>
-                    <div className="avatar avatar-xs">
-                      {/* <img src={'../../assets/img/avatars/5.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com" /> */}
-                    </div>
-                    <div className="avatar avatar-xs">
-                      {/* <img src={'../../assets/img/avatars/6.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com" /> */}
-                    </div>
-                  </div>
-                </ListGroupItem>
-                <ListGroupItem action tag="a" href="#" className="list-group-item-accent-success list-group-item-divider">
-                  <div><strong>#10 Startups.Garden</strong> Meetup</div>
-                  <small className="text-muted mr-3"><i className="icon-calendar"></i>&nbsp; 1 - 3pm</small>
-                  <small className="text-muted"><i className="icon-location-pin"></i>&nbsp; Palo Alto, CA</small>
-                </ListGroupItem>
-                <ListGroupItem action tag="a" href="#" className="list-group-item-accent-primary list-group-item-divider">
-                  <div><strong>Team meeting</strong></div>
-                  <small className="text-muted mr-3"><i className="icon-calendar"></i>&nbsp; 4 - 6pm</small>
-                  <small className="text-muted"><i className="icon-home"></i>&nbsp; creativeLabs HQ</small>
-                  <div className="avatars-stack mt-2">
-                    <div className="avatar avatar-xs">
-                      {/* <img src={'../../assets/img/avatars/2.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com" /> */}
-                    </div>
-                    <div className="avatar avatar-xs">
-                      {/* <img src={'../../assets/img/avatars/3.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com" /> */}
-                    </div>
-                    <div className="avatar avatar-xs">
-                      {/* <img src={'../../assets/img/avatars/4.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com" /> */}
-                    </div>
-                    <div className="avatar avatar-xs">
-                      {/* <img src={'../../assets/img/avatars/5.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com" /> */}
-                    </div>
-                    <div className="avatar avatar-xs">
-                      {/* <img src={'../../assets/img/avatars/6.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com" /> */}
-                    </div>
-                    <div className="avatar avatar-xs">
-                      {/* <img src={'../../assets/img/avatars/7.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com" /> */}
-                    </div>
-                    <div className="avatar avatar-xs">
-                      {/* <img src={'../../assets/img/avatars/8.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com" /> */}
-                    </div>
-                  </div>
-                </ListGroupItem>
-              </ListGroup>
-            </TabPane>
-            <TabPane tabId="2" className="p-3">
-              <div className="message">
-                <div className="py-3 pb-5 mr-3 float-left">
-                  <div className="avatar">
-                    {/* <img src={'../../assets/img/avatars/7.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com" /> */}
-                    <span className="avatar-status badge-success"></span>
-                  </div>
-                </div>
-                <div>
-                  <small className="text-muted">Lukasz Holeczek</small>
-                  <small className="text-muted float-right mt-1">1:52 PM</small>
-                </div>
-                <div className="text-truncate font-weight-bold">Lorem ipsum dolor sit amet</div>
-                <small className="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                  tempor incididunt...
-                </small>
-              </div>
-              <hr />
-              <div className="message">
-                <div className="py-3 pb-5 mr-3 float-left">
-                  <div className="avatar">
-                    {/* <img src={'../../assets/img/avatars/7.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com" /> */}
-                    <span className="avatar-status badge-success"></span>
-                  </div>
-                </div>
-                <div>
-                  <small className="text-muted">Lukasz Holeczek</small>
-                  <small className="text-muted float-right mt-1">1:52 PM</small>
-                </div>
-                <div className="text-truncate font-weight-bold">Lorem ipsum dolor sit amet</div>
-                <small className="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                  tempor incididunt...
-                </small>
-              </div>
-              <hr />
-              <div className="message">
-                <div className="py-3 pb-5 mr-3 float-left">
-                  <div className="avatar">
-                    {/* <img src={'../../assets/img/avatars/7.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com" /> */}
-                    <span className="avatar-status badge-success"></span>
-                  </div>
-                </div>
-                <div>
-                  <small className="text-muted">Lukasz Holeczek</small>
-                  <small className="text-muted float-right mt-1">1:52 PM</small>
-                </div>
-                <div className="text-truncate font-weight-bold">Lorem ipsum dolor sit amet</div>
-                <small className="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                  tempor incididunt...
-                </small>
-              </div>
-              <hr />
-              <div className="message">
-                <div className="py-3 pb-5 mr-3 float-left">
-                  <div className="avatar">
-                    {/* <img src={'../../assets/img/avatars/7.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com" /> */}
-                    <span className="avatar-status badge-success"></span>
-                  </div>
-                </div>
-                <div>
-                  <small className="text-muted">Lukasz Holeczek</small>
-                  <small className="text-muted float-right mt-1">1:52 PM</small>
-                </div>
-                <div className="text-truncate font-weight-bold">Lorem ipsum dolor sit amet</div>
-                <small className="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                  tempor incididunt...
-                </small>
-              </div>
-              <hr />
-              <div className="message">
-                <div className="py-3 pb-5 mr-3 float-left">
-                  <div className="avatar">
-                    {/* <img src={'../../assets/img/avatars/7.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com" /> */}
-                    <span className="avatar-status badge-success"></span>
-                  </div>
-                </div>
-                <div>
-                  <small className="text-muted">Lukasz Holeczek</small>
-                  <small className="text-muted float-right mt-1">1:52 PM</small>
-                </div>
-                <div className="text-truncate font-weight-bold">Lorem ipsum dolor sit amet</div>
-                <small className="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                  tempor incididunt...
-                </small>
-              </div>
-              <hr />
-              <div className="message">
-                <div className="py-3 pb-5 mr-3 float-left">
-                  <div className="avatar">
-                    {/* <img src={'../../assets/img/avatars/7.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com" /> */}
-                    <span className="avatar-status badge-success"></span>
-                  </div>
-                </div>
-                <div>
-                  <small className="text-muted">Lukasz Holeczek</small>
-                  <small className="text-muted float-right mt-1">1:52 PM</small>
-                </div>
-                <div className="text-truncate font-weight-bold">Lorem ipsum dolor sit amet</div>
-                <small className="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                  tempor incididunt...
-                </small>
-              </div>
-              <hr />
-              <div className="message">
-                <div className="py-3 pb-5 mr-3 float-left">
-                  <div className="avatar">
-                    {/* <img src={'../../assets/img/avatars/7.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com" /> */}
-                    <span className="avatar-status badge-success"></span>
-                  </div>
-                </div>
-                <div>
-                  <small className="text-muted">Lukasz Holeczek</small>
-                  <small className="text-muted float-right mt-1">1:52 PM</small>
-                </div>
-                <div className="text-truncate font-weight-bold">Lorem ipsum dolor sit amet</div>
-                <small className="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                  tempor incididunt...
-                </small>
-              </div>
-              <hr />
-              <div className="message">
-                <div className="py-3 pb-5 mr-3 float-left">
-                  <div className="avatar">
-                    {/* <img src={'../../assets/img/avatars/7.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com" /> */}
-                    <span className="avatar-status badge-success"></span>
-                  </div>
-                </div>
-                <div>
-                  <small className="text-muted">Lukasz Holeczek</small>
-                  <small className="text-muted float-right mt-1">1:52 PM</small>
-                </div>
-                <div className="text-truncate font-weight-bold">Lorem ipsum dolor sit amet</div>
-                <small className="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                  tempor incididunt...
-                </small>
-              </div>
-            </TabPane>
-          </TabContent>
-        </Card>
-      </AsideStyle>
+          </Header>
+          <SlidingPaneContainer>
+            <Nav tabs>
+              <NavItem>
+                <NavLink
+                  className={classNames({
+                    active: this.state.activeTab === "1"
+                  })}
+                  onClick={() => {
+                    this.toggle("1");
+                  }}
+                >
+                  <Icon
+                    icon="align-left"
+                    style={{ marginRight: 10 }}
+                    color="#7cbfbb"
+                  />
+                  Review
+                </NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink
+                  className={classNames({
+                    active: this.state.activeTab === "2"
+                  })}
+                  onClick={() => {
+                    this.toggle("2");
+                  }}
+                >
+                  <Icon
+                    icon="comments"
+                    style={{ marginRight: 10 }}
+                    color="#7cbfbb"
+                  />
+                  Chat
+                </NavLink>
+              </NavItem>
+            </Nav>
+            <TabContent
+              activeTab={this.state.activeTab}
+              style={{ border: "none" }}
+              className="customTabContent"
+            >
+              <TabPane tabId="1">
+                <Row>
+                  <Col sm="12">
+                    <ReviewItem
+                      data={reviewData}
+                      onSelect={this.onReviewSelect}
+                    />
+                  </Col>
+                </Row>
+              </TabPane>
+              <TabPane
+                tabId="2"
+                style={{ position: "relative", height: "100%", width: "100%" }}
+              >
+                <ChatHistory
+                  showSearch={false}
+                  history={chatHistory}
+                  currentChat={currentChat}
+                  onChatSelect={this.onChangeChat}
+                />
+              </TabPane>
+            </TabContent>
+          </SlidingPaneContainer>
+        </SlidingPane>
+      </React.Fragment>
     );
   }
 }
 
-RequestAside.propTypes = propTypes;
-RequestAside.defaultProps = defaultProps;
+RequestHistoryContainer.propTypes = propTypes;
+RequestHistoryContainer.defaultProps = defaultProps;
 
-export default RequestAside;
+export default RequestHistoryContainer;
