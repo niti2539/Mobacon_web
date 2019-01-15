@@ -1,9 +1,11 @@
 import React, { Component } from "react";
 import { Card, CardBody as ReactCardBody, CardHeader } from "reactstrap";
 import styled from "styled-components";
+import PropTypes from "prop-types";
 
 const CardWrapper = styled(Card)`
-  border-bottom: ${props => props.active? '2px solid teal' : 'none'} !important;
+  border-bottom: ${props =>
+    props.active ? "2px solid teal" : "none"} !important;
   padding: 17px 15px;
   cursor: pointer;
   background-color: #fff;
@@ -34,8 +36,8 @@ class DashboardCard extends Component {
   static propsType = {
     label: PropTypes.string,
     value: PropTypes.string,
-    active: PropTypes.bool,
-  }
+    active: PropTypes.bool
+  };
   constructor(props) {
     super(props);
     this.state = { label: props.label, text: props.text, value: props.value };
@@ -57,7 +59,7 @@ class DashboardCard extends Component {
 
   render() {
     const { label, text } = this.state;
-    const {active} = this.props;
+    const { active } = this.props;
     return (
       <CardWrapper onClick={this.setGraph} active={active}>
         <CardBody>
