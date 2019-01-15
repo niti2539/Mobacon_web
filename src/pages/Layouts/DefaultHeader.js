@@ -139,7 +139,7 @@ class DefaultHeader extends Component {
           <img src={svgnet} width="150" className="Logo" />
         </div>
 
-        <Nav navbar>
+        <Nav navbar >
           <div className="navbarIcon">
             <NavItem>
               <NavLink href="/chat">

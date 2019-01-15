@@ -1,17 +1,9 @@
 import React, { Component } from "react";
 import {
   Button,
-  Card,
-  CardBody,
   Col,
-  FormGroup,
-  Label,
-  Input,
   Row,
-  ButtonDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem
+  Container
 } from "reactstrap";
 
 import { bindActionCreators } from "redux";
@@ -237,10 +229,10 @@ class Tabs extends Component {
             onCompleted={this.getOperators}
           />
         </Modal>
-        <div className="animated fadeIn">
+        <Container className="animated fadeIn">
           <Row>
             <Col xs="6" md="6">
-              <p className="alignOperator">Operators</p>
+              <p className="pageHeaderText">Operators</p>
             </Col>
             <Col xs="6" md="6" className="mb-4">
               <div style={{ float: "right" }}>
@@ -264,7 +256,7 @@ class Tabs extends Component {
               />
             ))}
           </Row>
-        </div>
+        </Container>
 
         <div
           className="modal fade"

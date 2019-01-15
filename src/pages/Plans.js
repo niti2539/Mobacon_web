@@ -12,6 +12,7 @@ import {
   FormGroup,
   FormText,
   Input,
+  Container,
   Label,
   Button
 } from "reactstrap";
@@ -127,9 +128,11 @@ class Tabs extends Component {
     console.log("Start at", startDate);
     console.log("End at", endDate);
     return plans.length > 0 ? (
-      <div className="animated fadeIn">
+      <Container className="animated fadeIn">
         <Row>
-          <p className="alignPlan">Plans</p>
+          <Col>
+            <p className="pageHeaderText">Plans</p>
+          </Col>
         </Row>
         <Row>
           <Col xs="12" md="12">
@@ -262,7 +265,7 @@ class Tabs extends Component {
             </TabContent>
           </Col>
         </Row>
-      </div>
+      </Container>
     ) : (
       <></>
     );
