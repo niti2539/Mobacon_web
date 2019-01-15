@@ -3,7 +3,7 @@ import ReactTable from "react-table";
 import { getRequest, acceptanceById } from "../stores/actions/request";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { Card, CardBody, Col, Row, Button } from "reactstrap";
+import { Card, CardBody, Col, Row, Button , Container} from "reactstrap";
 import _ from "lodash";
 import moment from "moment";
 
@@ -188,10 +188,10 @@ class Requests extends Component {
   render() {
     const { defaultPageSize, pages, data, loading } = this.state;
     return (
-      <div className="animated fadeIn">
-        <Row className="textHeader">
-          <Col md="12" xs="12">
-            <p className="alignRequest">Requests</p>
+      <Container className="animated fadeIn">
+        <Row>
+          <Col>
+            <p className="pageHeaderText">Requests</p>
           </Col>
         </Row>
         <Row>
@@ -249,7 +249,7 @@ class Requests extends Component {
             </Card>
           </Col>
         </Row>
-      </div>
+      </Container>
     );
   }
 }

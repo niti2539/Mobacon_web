@@ -59,7 +59,7 @@ const SlidingPane = styled(SlidingPaneAnimate)`
   right: 0;
   top: 0;
   bottom: 0;
-  margin-top: 55px;
+  margin-top: 65px;
 `;
 
 const SlidingPaneContainer = styled.div`
@@ -443,7 +443,12 @@ class RequestHistoryContainer extends Component {
               </TabPane>
               <TabPane
                 tabId="2"
-                style={{ position: "relative", height: "100%", width: "100%" }}
+                style={{
+                  position: "relative",
+                  height: "100%",
+                  marginLeft: -15,
+                  marginRight: -15
+                }}
               >
                 <ChatHistory
                   showSearch={false}

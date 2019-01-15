@@ -3,7 +3,7 @@ import ReactTable from "react-table";
 import { getAccepted, acceptanceById } from "../stores/actions/request";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { Card, CardBody, Col, Row, Button } from "reactstrap";
+import { Card, CardBody, Col, Row, Button, Container } from "reactstrap";
 import _ from "lodash";
 import moment from "moment";
 
@@ -139,10 +139,7 @@ class Accepted extends Component {
             Accept
           </Button>
         ) : isMy ? (
-          <Link
-            to={`request/${requestId}`}
-            className="linkButton"
-          >
+          <Link to={`request/${requestId}`} className="linkButton">
             <Button className="openRequestButton">
               {data.value.status === "Accepted" ? "Open" : data.value.status}
             </Button>
@@ -191,10 +188,10 @@ class Accepted extends Component {
   render() {
     const { defaultPageSize, pages, data, loading } = this.state;
     return (
-      <div className="animated fadeIn">
-        <Row className="textHeader">
-          <Col md="12" xs="12">
-            <p className="alignRequest">Accepted</p>
+      <Container className="animated fadeIn">
+        <Row>
+          <Col>
+            <p className="pageHeaderText">Accepted</p>
           </Col>
         </Row>
         <Row>
@@ -252,7 +249,7 @@ class Accepted extends Component {
             </Card>
           </Col>
         </Row>
-      </div>
+      </Container>
     );
   }
 }

@@ -1,24 +1,17 @@
 import React, { Component } from "react";
 import {
-  Badge,
   Col,
-  Card,
-  CardImg,
   Media,
-  Nav,
-  NavItem,
-  NavLink,
   Row,
   TabContent,
   TabPane,
   Form,
   FormGroup,
-  FormText,
   Input,
   Label,
   Button,
-  CustomInput,
-  FormFeedback
+  FormFeedback,
+  Container
 } from "reactstrap";
 import "react-datepicker/dist/react-datepicker.css";
 import { api, imageRequest, apiRequest } from "../Configs";
@@ -206,36 +199,45 @@ class Forms extends Component {
     if (isImageEdit) {
       formData.append("image", imageFile, imageFile.name);
     }
-    this.props.updateProfile(formData).then(data => {
-      console.log("Update profile", data.info);
-      this.props.fetchProfile(); // update all user detail in web app
-      alert(data.message);
-    }).catch((err) => {
-      if(err.response){
-        alert(err.response.data.message)
-      }
-      console.log(err);
-    });
+    this.props
+      .updateProfile(formData)
+      .then(data => {
+        console.log("Update profile", data.info);
+        this.props.fetchProfile(); // update all user detail in web app
+        alert(data.message);
+      })
+      .catch(err => {
+        if (err.response) {
+          alert(err.response.data.message);
+        }
+        console.log(err);
+      });
   };
 
   render() {
-    console.log(this.state.imagePath)
+    console.log(this.state.imagePath);
     const { imagePath, email, fullName, phoneNumber } = this.state;
-    console.log(imagePath)
+    console.log(imagePath);
     return (
-      <div className="animated fadeIn">
+      <Container className="animated fadeIn">
         <Row>
-          <p className="alignProfile">Your Profile</p>
+          <Col>
+            <p className="pageHeaderText">Your Profile</p>
+          </Col>
         </Row>
         <Row>
-          <Col className="mb-4 ml-3">
+          <Col>
             <TabContent className="adjustBorderColor adjustTabWidth">
               <TabPane>
                 <p className="alignHeader divider">Update Profile</p>
                 {imagePath && (
                   <Media href="" className="imageWrapper">
                     <Media className="imagePhoto" object src={imagePath} />
-                    <Media className="imagePhotoOpacity" object src={imagePath} />
+                    <Media
+                      className="imagePhotoOpacity"
+                      object
+                      src={imagePath}
+                    />
                   </Media>
                 )}
                 <Form onSubmit={this.onUpdateProfile}>
@@ -368,7 +370,7 @@ class Forms extends Component {
             </TabContent>
           </Col>
         </Row>
-      </div>
+      </Container>
     );
   }
 }
