@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Line } from "react-chartjs-2";
+import { Line, Bar } from "react-chartjs-2";
 import {
   Badge,
   Button,
@@ -89,15 +89,26 @@ class Dashboard extends Component {
   reformatData = data => {
     return {
       ...data,
-      data: data.data.reduce((obj, cur, i) => {
+      data: data.data.reduce((obj, cur) => {
+        if (typeof cur.y === "object") {
+          const gb = cur.y.good + cur.y.bad;
+          let good, bad;
+          if (gb < 1) {
+            good = 0;
+            bad = 0;
+          } else {
+            good = cur.y.good / gb;
+            bad = cur.y.bad / gb;
+          }
+          obj.push(
+            { x: moment(cur.x), y: good, good: true },
+            { x: moment(cur.x), y: bad, good: false }
+          );
+          return obj;
+        }
         obj.push({
           x: moment(cur.x),
-          y:
-            typeof cur.y === "object"
-              ? cur.y.bad != 0
-                ? cur.y.good / cur.y.bad
-                : cur.y.good
-              : cur.y
+          y: cur.y
         });
         return obj;
       }, [])
@@ -131,6 +142,7 @@ class Dashboard extends Component {
       selectGraphValue,
       data: { data: rawData, total }
     } = this.state;
+    const isGoodBad = selectGraphValue === "goodrate";
     const lineOptions = {
       scales: {
         xAxes: [
@@ -149,8 +161,26 @@ class Dashboard extends Component {
         ]
       }
     };
-    const data = {
-      labels: [],
+    const barOptions = {
+      scales: {
+        xAxes: [
+          {
+            type: "time",
+            time: {
+              unit: selectOption.value == 1 ? "day" : "month"
+              // unit: "day"
+            }
+          }
+        ],
+        yAxes: [
+          {
+            stacked: true
+          }
+        ]
+      }
+    };
+    const lineData = {
+      label: [],
       datasets: [
         {
           label: selectGraphLabel,
@@ -160,6 +190,27 @@ class Dashboard extends Component {
         }
       ]
     };
+    const barData = {
+      datasets: [
+        {
+          label: "Good",
+          borderColor: "#60ce99",
+          backgroundColor: "#60ce99bb",
+          hoverBackgroundColor: "#60ce99ee",
+          stack: 1,
+          data: rawData ? rawData.filter(o => o.good) : []
+        },
+        {
+          label: "Bad",
+          borderColor: "#ca5858",
+          stack: 1,
+          backgroundColor: "#ca5858bb",
+          hoverBackgroundColor: "#ca5858ee",
+          data: rawData ? rawData.filter(o => !o.good) : []
+        }
+      ]
+    };
+
     return (
       <Container className="animated fadeIn">
         <Row>
@@ -237,7 +288,15 @@ class Dashboard extends Component {
                 </Row>
                 <div className="chart-wrapper" style={{ marginTop: 40 }}>
                   {rawData ? (
-                    <Line data={data} height={120} options={lineOptions} />
+                    !isGoodBad ? (
+                      <Line
+                        data={lineData}
+                        height={120}
+                        options={lineOptions}
+                      />
+                    ) : (
+                      <Bar data={barData} height={120} options={barOptions} />
+                    )
                   ) : null}
                 </div>
               </CardBody>
