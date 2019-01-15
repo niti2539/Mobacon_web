@@ -27,8 +27,15 @@ const CardBody = styled(ReactCardBody)`
 class DashboardCard extends Component {
   static defaultProps = {
     label: "",
-    value: ""
+    value: "",
+    active: false
   };
+
+  static propsType = {
+    label: PropTypes.string,
+    value: PropTypes.string,
+    active: PropTypes.bool,
+  }
   constructor(props) {
     super(props);
     this.state = { label: props.label, text: props.text, value: props.value };

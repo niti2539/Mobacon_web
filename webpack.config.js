@@ -2,7 +2,8 @@ const path = require("path");
 const webpack = require("webpack");
 const CleanWebpackPlugin = require("clean-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-var WebpackClearConsole = require("webpack-clear-console").WebpackClearConsole;
+// var WebpackClearConsole = require("webpack-clear-console").WebpackClearConsole;
+const UglifyJSPlugin = require("uglifyjs-webpack-plugin");
 
 const port = 3000;
 const publicPath = path.join(__dirname, "public");
@@ -20,6 +21,17 @@ module.exports = (env, argv) => {
     },
     devtool: dev ? "source-map" : false,
     mode: mode,
+    optimization: {
+      minimizer: [
+        new UglifyJSPlugin({
+          uglifyOptions: {
+            compress: {
+              drop_console: true
+            }
+          }
+        })
+      ]
+    },
     module: {
       rules: [
         {
@@ -115,9 +127,7 @@ module.exports = (env, argv) => {
       new HtmlWebpackPlugin({
         template: "public/index.html"
       }),
-      ...(dev
-        ? [new webpack.HotModuleReplacementPlugin()]
-        : [new WebpackClearConsole()])
+      ...(dev ? [new webpack.HotModuleReplacementPlugin()] : [])
     ]
   };
 };
