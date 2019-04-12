@@ -68,17 +68,30 @@ class DefaultHeader extends Component {
 
   componentDidMount = () => {
     this.setUser();
+    this.getNotify();
     this.onNotify();
   };
 
-  onNotify = () => {
-    window.socket.on("mobile-chat", () => {
+  getNotify = () => {
+    try {
       window.socket.emit("web-count-unread-chat", null, payload => {
         if (payload.ok) {
           this.props.setNotify(payload.data);
         }
       });
-    });
+    } catch (err) {
+      console.log("get notify again", err);
+    }
+  };
+
+  onNotify = () => {
+    try {
+      window.socket.on("mobile-chat", () => {
+        this.getNotify();
+      });
+    } catch (err) {
+      console.log("get notify again", err);
+    }
   };
 
   setUser = async () => {
@@ -126,7 +139,7 @@ class DefaultHeader extends Component {
           <img src={svgnet} width="150" className="Logo" />
         </div>
 
-        <Nav navbar>
+        <Nav navbar >
           <div className="navbarIcon">
             <NavItem>
               <NavLink href="/chat">

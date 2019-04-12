@@ -36,3 +36,20 @@ table,
   height: 35px !important;
   object-fit: cover;
 }
+
+@mixin gutterCreate($gutter) {
+  div {
+    margin: 0 $gutter;
+  }
+  div:first-child() {
+    margin-left: 0;
+  }
+
+  div:last-child() {
+    margin-right: 0;
+  }
+}
+
+.gutterCenter {
+  @include gutterCreate(6px);
+}

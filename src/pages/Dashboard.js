@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { Bar, Line } from 'react-chartjs-2';
+import React, { Component } from "react";
+import { Line, Bar } from "react-chartjs-2";
 import {
   Badge,
   Button,
@@ -19,233 +19,287 @@ import {
   Progress,
   Row,
   Container,
-  Table,
-} from 'reactstrap';
-import styled from 'styled-components';
-import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips';
-import { getStyle, hexToRgba } from '@coreui/coreui/dist/js/coreui-utilities'
-import { connect } from 'react-redux';
-const brandPrimary = getStyle('--primary')
-const brandSuccess = getStyle('--success')
-const brandInfo = getStyle('--info')
-const brandWarning = getStyle('--warning')
-const brandDanger = getStyle('--danger')
-
-// Social Box Chart
-const socialBoxData = [
-  { data: [65, 59, 84, 84, 51, 55, 40], label: 'facebook' },
-  { data: [1, 13, 9, 17, 34, 41, 38], label: 'twitter' },
-  { data: [78, 81, 80, 45, 34, 12, 40], label: 'linkedin' },
-  { data: [35, 23, 56, 22, 97, 23, 64], label: 'google' },
-];
-
-
-// sparkline charts
-const sparkLineChartData = [
-  {
-    data: [35, 23, 56, 22, 97, 23, 64],
-    label: 'New Clients',
-  },
-  {
-    data: [65, 59, 84, 84, 51, 55, 40],
-    label: 'Recurring Clients',
-  },
-  {
-    data: [35, 23, 56, 22, 97, 23, 64],
-    label: 'Pageviews',
-  },
-  {
-    data: [65, 59, 84, 84, 51, 55, 40],
-    label: 'Organic',
-  },
-  {
-    data: [78, 81, 80, 45, 34, 12, 40],
-    label: 'CTR',
-  },
-  {
-    data: [1, 13, 9, 17, 34, 41, 38],
-    label: 'Bounce Rate',
-  },
-];
-
-// Main Chart
+  Table
+} from "reactstrap";
+import moment from "moment";
+import { apiRequest } from "../Configs";
+import styled from "styled-components";
+import { CustomTooltips } from "@coreui/coreui-plugin-chartjs-custom-tooltips";
+import { getStyle, hexToRgba } from "@coreui/coreui/dist/js/coreui-utilities";
+import { connect } from "react-redux";
+import DashboardCard from "../Components/Dashboard/Card";
+import ReactSelect from "react-select";
+const brandPrimary = getStyle("--primary");
+const brandSuccess = getStyle("--success");
+const brandInfo = getStyle("--info");
+const brandWarning = getStyle("--warning");
+const brandDanger = getStyle("--danger");
 
 //Random Numbers
 function random(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-var elements = 27;
-var data1 = [];
-var data2 = [];
-var data3 = [];
-
-for (var i = 0; i <= elements; i++) {
-  data1.push(random(50, 200));
-  data2.push(random(80, 100));
-  data3.push(65);
-}
-
-const mainChart = {
-  labels: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'],
-  datasets: [
-    {
-      label: 'My First dataset',
-      backgroundColor: hexToRgba(brandInfo, 10),
-      borderColor: brandInfo,
-      pointHoverBackgroundColor: '#fff',
-      borderWidth: 2,
-      data: data1,
-    },
-    {
-      label: 'My Second dataset',
-      backgroundColor: 'transparent',
-      borderColor: brandSuccess,
-      pointHoverBackgroundColor: '#fff',
-      borderWidth: 2,
-      data: data2,
-    },
-    {
-      label: 'My Third dataset',
-      backgroundColor: 'transparent',
-      borderColor: brandDanger,
-      pointHoverBackgroundColor: '#fff',
-      borderWidth: 1,
-      borderDash: [8, 5],
-      data: data3,
-    },
-  ],
-};
-
-const mainChartOpts = {
-  tooltips: {
-    enabled: false,
-    custom: CustomTooltips,
-    intersect: true,
-    mode: 'index',
-    position: 'nearest',
-    callbacks: {
-      labelColor: function(tooltipItem, chart) {
-        return { backgroundColor: chart.data.datasets[tooltipItem.datasetIndex].borderColor }
-      }
-    }
-  },
-  maintainAspectRatio: false,
-  legend: {
-    display: false,
-  },
-  scales: {
-    xAxes: [
-      {
-        gridLines: {
-          drawOnChartArea: false,
-        },
-      }],
-    yAxes: [
-      {
-        ticks: {
-          beginAtZero: true,
-          maxTicksLimit: 5,
-          stepSize: Math.ceil(250 / 5),
-          max: 250,
-        },
-      }],
-  },
-  elements: {
-    point: {
-      radius: 0,
-      hitRadius: 10,
-      hoverRadius: 4,
-      hoverBorderWidth: 3,
-    },
-  },
-};
+const options = [
+  { value: "1", label: "This month" },
+  { value: "3", label: "Last 3 months" },
+  { value: "6", label: "Last 6 months" },
+  { value: "12", label: "Last year" }
+];
 
 class Dashboard extends Component {
   constructor(props) {
     super(props);
 
-    this.toggle = this.toggle.bind(this);
     this.onRadioBtnClick = this.onRadioBtnClick.bind(this);
 
     this.state = {
-      dropdownOpen: false,
+      selectOption: options[0],
       radioSelected: 2,
+      selectGraphLabel: "USERS",
+      selectGraphValue: "user",
+      data: {}
     };
   }
 
-  toggle() {
-    this.setState({
-      dropdownOpen: !this.state.dropdownOpen,
-    });
-  }
+  componentDidMount = () => {
+    const { selectGraphValue } = this.state;
+    this.fetchGraph(selectGraphValue);
+  };
+
+  fetchGraph = async value => {
+    const { selectOption } = this.state;
+    try {
+      const result = await apiRequest(
+        `/dashboard/${value}?month=${selectOption.value}`
+      );
+      console.log("Select period value", selectOption.value);
+      const data = this.reformatData(result);
+      console.log("Result from api", result);
+      console.log("Result graph", data);
+      this.setState({ data });
+    } catch (err) {
+      if (err.response) {
+        alert(err.response.data.message);
+      }
+      console.log(err);
+    }
+  };
+
+  reformatData = data => {
+    return {
+      ...data,
+      data: data.data.reduce((obj, cur) => {
+        if (typeof cur.y === "object") {
+          const gb = cur.y.good + cur.y.bad;
+          let good, bad;
+          if (gb < 1) {
+            good = 0;
+            bad = 0;
+          } else {
+            good = cur.y.good / gb;
+            bad = cur.y.bad / gb;
+          }
+          obj.push(
+            { x: moment(cur.x), y: good, good: true },
+            { x: moment(cur.x), y: bad, good: false }
+          );
+          return obj;
+        }
+        obj.push({
+          x: moment(cur.x),
+          y: cur.y
+        });
+        return obj;
+      }, [])
+    };
+  };
 
   onRadioBtnClick(radioSelected) {
     this.setState({
-      radioSelected: radioSelected,
+      radioSelected: radioSelected
     });
   }
+  setGraph = async (value, label) => {
+    await this.fetchGraph(value);
+    this.setState({
+      selectGraphLabel: String(label).toUpperCase(),
+      selectGraphValue: value
+    });
+  };
+
+  onMonthChange = async selectOption => {
+    const { selectGraphValue } = this.state;
+    await this.setState({ selectOption });
+    console.log("Option selected", selectOption);
+    this.fetchGraph(selectGraphValue);
+  };
 
   render() {
-    const w20per = {width: '20%', flex: '0 0 20%'};
+    const {
+      selectGraphLabel,
+      selectOption,
+      selectGraphValue,
+      data: { data: rawData, total }
+    } = this.state;
+    const isGoodBad = selectGraphValue === "goodrate";
+    const lineOptions = {
+      scales: {
+        xAxes: [
+          {
+            type: "time",
+            time: {
+              unit: selectOption.value == 1 ? "day" : "month"
+              // unit: "day"
+            }
+          }
+        ],
+        yAxes: [
+          {
+            stacked: true
+          }
+        ]
+      }
+    };
+    const barOptions = {
+      scales: {
+        xAxes: [
+          {
+            type: "time",
+            time: {
+              unit: selectOption.value == 1 ? "day" : "month"
+              // unit: "day"
+            }
+          }
+        ],
+        yAxes: [
+          {
+            stacked: true
+          }
+        ]
+      }
+    };
+    const lineData = {
+      label: [],
+      datasets: [
+        {
+          label: selectGraphLabel,
+          pointBorderColor: "#79bfbb",
+          backgroundColor: "#79bfbba7",
+          data: rawData
+        }
+      ]
+    };
+    const barData = {
+      datasets: [
+        {
+          label: "Good",
+          borderColor: "#60ce99",
+          backgroundColor: "#60ce99bb",
+          hoverBackgroundColor: "#60ce99ee",
+          stack: 1,
+          data: rawData ? rawData.filter(o => o.good) : []
+        },
+        {
+          label: "Bad",
+          borderColor: "#ca5858",
+          stack: 1,
+          backgroundColor: "#ca5858bb",
+          hoverBackgroundColor: "#ca5858ee",
+          data: rawData ? rawData.filter(o => !o.good) : []
+        }
+      ]
+    };
+
     return (
       <Container className="animated fadeIn">
         <Row>
-          <h1>Dashboard</h1>
-        </Row>
-        <Row>
           <Col>
-            <Card>
+            <p className="pageHeaderText">Dashboard</p>
+          </Col>
+        </Row>
+        {total ? (
+          <Row noGutters className="gutterCenter">
+            <Col>
+              <DashboardCard
+                value="user"
+                label="USERS"
+                active={selectGraphValue === "user"}
+                text={total.user}
+                click={this.setGraph}
+              />
+            </Col>
+            <Col>
+              <DashboardCard
+                value="request"
+                label="ANALYZED REQUESTS"
+                active={selectGraphValue === "request"}
+                text={total.request}
+                click={this.setGraph}
+              />
+            </Col>
+            <Col>
+              <DashboardCard
+                value="chat"
+                label="ACTIVE CHATS"
+                active={selectGraphValue === "chat"}
+                text={total.chat}
+                click={this.setGraph}
+              />
+            </Col>
+            <Col>
+              <DashboardCard
+                value="goodrate"
+                label="GOOD / BAD RATIO"
+                active={selectGraphValue === "goodrate"}
+                text={`${total.goodness.good} / ${total.goodness.bad}`}
+                click={this.setGraph}
+              />
+            </Col>
+          </Row>
+        ) : null}
+        <Row style={{ marginTop: 20 }}>
+          <Col>
+            <Card style={styles.graphContainerStyle}>
               <CardBody>
                 <Row>
-                  <Col sm="5">
-                    <CardTitle className="mb-0">Traffic</CardTitle>
-                    <div className="small text-muted">November 2015</div>
-                  </Col>
-                  <Col sm="7" className="d-none d-sm-inline-block">
-                    <Button color="primary" className="float-right"><i className="icon-cloud-download"></i></Button>
-                    <ButtonToolbar className="float-right" aria-label="Toolbar with button groups">
-                      <ButtonGroup className="mr-3" aria-label="First group">
-                        <Button color="outline-secondary" onClick={() => this.onRadioBtnClick(1)} active={this.state.radioSelected === 1}>Day</Button>
-                        <Button color="outline-secondary" onClick={() => this.onRadioBtnClick(2)} active={this.state.radioSelected === 2}>Month</Button>
-                        <Button color="outline-secondary" onClick={() => this.onRadioBtnClick(3)} active={this.state.radioSelected === 3}>Year</Button>
-                      </ButtonGroup>
-                    </ButtonToolbar>
+                  <Col style={styles.graphHeader}>
+                    <div>
+                      <h6 style={{ color: "#74d2cb" }}>{selectGraphLabel}</h6>
+                    </div>
+                    <div style={{ width: 200 }}>
+                      <ReactSelect
+                        isSearchable={false}
+                        placeholder=""
+                        value={selectOption}
+                        onChange={this.onMonthChange}
+                        options={options}
+                        theme={theme => ({
+                          ...theme,
+                          colors: {
+                            ...theme.colors,
+                            primary: "#74d2cb",
+                            primary25: "#3b485911"
+                          }
+                        })}
+                      />
+                    </div>
                   </Col>
                 </Row>
-                <div className="chart-wrapper" style={{ height: 300 + 'px', marginTop: 40 + 'px' }}>
-                  <Line data={mainChart} options={mainChartOpts} height={300} />
+                <div className="chart-wrapper" style={{ marginTop: 40 }}>
+                  {rawData ? (
+                    !isGoodBad ? (
+                      <Line
+                        data={lineData}
+                        height={120}
+                        options={lineOptions}
+                      />
+                    ) : (
+                      <Bar data={barData} height={120} options={barOptions} />
+                    )
+                  ) : null}
                 </div>
               </CardBody>
-              <CardFooter>
-                <Row className="text-center">
-                  <Col sm={12} md className="mb-sm-2 mb-0">
-                    <div className="text-muted">Visits</div>
-                    <strong>29.703 Users (40%)</strong>
-                    <Progress className="progress-xs mt-2" color="success" value="40" />
-                  </Col>
-                  <Col sm={12} md className="mb-sm-2 mb-0 d-md-down-none">
-                    <div className="text-muted">Unique</div>
-                    <strong>24.093 Users (20%)</strong>
-                    <Progress className="progress-xs mt-2" color="info" value="20" />
-                  </Col>
-                  <Col sm={12} md className="mb-sm-2 mb-0">
-                    <div className="text-muted">Pageviews</div>
-                    <strong>78.706 Views (60%)</strong>
-                    <Progress className="progress-xs mt-2" color="warning" value="60" />
-                  </Col>
-                  <Col sm={12} md className="mb-sm-2 mb-0">
-                    <div className="text-muted">New Users</div>
-                    <strong>22.123 Users (80%)</strong>
-                    <Progress className="progress-xs mt-2" color="danger" value="80" />
-                  </Col>
-                  <Col sm={12} md className="mb-sm-2 mb-0 d-md-down-none">
-                    <div className="text-muted">Bounce Rate</div>
-                    <strong>Average Rate (40.15%)</strong>
-                    <Progress className="progress-xs mt-2" color="primary" value="40" />
-                  </Col>
-                </Row>
-              </CardFooter>
             </Card>
           </Col>
         </Row>
@@ -254,14 +308,31 @@ class Dashboard extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const styles = {
+  graphHeader: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    margin: "10px auto"
+  },
+  graphContainerStyle: {
+    backgroundColor: "#fff",
+    borderRadius: 5,
+    padding: "10px 25px",
+    boxShadow: "0 0 10px 1px rgba(100,100,100, 0.08)"
+  }
+};
+
+const mapStateToProps = state => ({
   state,
   user_detail: state.user_detail
-})
-const mapDispatchToProps = (dispatch) => {
-  return {
-    
-  }
-}
+});
+const mapDispatchToProps = dispatch => {
+  return {};
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Dashboard);

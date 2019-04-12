@@ -70,7 +70,15 @@ class OperatorCard extends Component {
     // role: {id: 1, name: "Administrator"}
     // verified: true
     return (
-      <Col xs="12" sm="6" md="4" lg="4" xl="3" className="mb-4">
+      <Col
+        xs="12"
+        sm="6"
+        md="4"
+        lg="4"
+        xl="3"
+        className="mb-4"
+        style={{ minWidth: 300 }}
+      >
         <Card className="borderCard">
           <CardBody>
             {id == data.id && (
