@@ -83,13 +83,13 @@ class OperatorCard extends Component {
                   opacity: 0.4
                 }}
               >
-                <strong style={{ color: "#fff" }}>YOU</strong>
+                <strong style={{ color: "#fff" }}>Your self</strong>
               </div>
             )}
             <div className="actionButton">
               <Dropdown isOpen={isDropdown} toggle={this.toggle}>
                 <DropdownToggle>
-                  <Icon icon="bars" />
+                  <Icon icon="pen" />
                 </DropdownToggle>
                 <DropdownMenu>
                   <DropdownItem
@@ -106,33 +106,32 @@ class OperatorCard extends Component {
                 </DropdownMenu>
               </Dropdown>
             </div>
-            <div row className="imageSection">
-              <Avartar>
-                {/* <img  data-toggle="modal" data-target="#exampleModalLong" className="imgAvatar" src={`${config.apiHost}${operator.imagePath}`}/> */}
+            {operatorImage && (
+              <div row className="imageSection">
+                <Avartar>
+                  {/* <img  data-toggle="modal" data-target="#exampleModalLong" className="imgAvatar" src={`${config.apiHost}${operator.imagePath}`}/> */}
 
-                {operatorImage && (
                   <img
                     className="imgAvatar"
                     src={operatorImage || ""}
                     alt={`${data.fullName}`}
                   />
-                )}
-                <p className="nameAvatar">{data.fullName}</p>
-              </Avartar>
+                  <p className="nameAvatar">{data.fullName}</p>
+                </Avartar>
+              </div>
+            )}
+            <div className="emailForm">
+              <span className="emailText">ROLE</span>
+              <span className="emailSubText">{data.role.name}</span>
             </div>
-
-            <FormGroup row>
-              <Col md="12" className="emailForm">
-                <p className="emailText">EMAIL</p>
-                <p className="emailSubText">{data.email}</p>
-              </Col>
-            </FormGroup>
-            <FormGroup row>
-              <Col md="12" className="phoneForm">
-                <p className="phoneText">PHONE</p>
-                <p className="phoneSubText">{data.phoneNumber}</p>
-              </Col>
-            </FormGroup>
+            <div className="emailForm">
+              <span className="emailText">EMAIL</span>
+              <span className="emailSubText">{data.email}</span>
+            </div>
+            <div className="phoneForm lastForm">
+              <span className="phoneText">PHONE</span>
+              <span className="phoneSubText">{data.phoneNumber}</span>
+            </div>
             <hr />
             <Row className="alignAfterHr">
               <Col className="goodThumb">
@@ -141,9 +140,9 @@ class OperatorCard extends Component {
                 <span className="thumbLabel">GOOD REVIEWS</span>
               </Col>
               <Col className="badThumb">
+                <Icon icon="thumbs-down" />
                 <span className="thumbCount">{data.dislike}</span>
                 <span className="thumbLabel">BAD REVIEWS</span>
-                <Icon icon="thumbs-down" />
               </Col>
             </Row>
           </CardBody>

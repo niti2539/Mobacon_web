@@ -69,7 +69,8 @@ import {
   faEnvelope,
   faUser,
   faCog,
-  faChevronCircleLeft
+  faChevronCircleLeft,
+  faPen
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(faAngleDown);
@@ -82,6 +83,7 @@ library.add(faTimes);
 library.add(faThumbsDown);
 library.add(faThumbsUp);
 library.add(faBars);
+library.add(faPen);
 library.add(faComments);
 library.add(faBell);
 library.add(faChevronDown);

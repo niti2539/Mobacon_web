@@ -61,6 +61,7 @@ class Forms extends Component {
       password: "",
       phoneNumber: "",
       imagePath: null,
+      roleName: "",
       imageFile: null,
       isImageEdit: false,
       newPassword: "",
@@ -91,12 +92,13 @@ class Forms extends Component {
     });
   }
 
-  setUser = async ({ fullName, email, phoneNumber, imagePath }) => {
+  setUser = async ({ fullName, email, phoneNumber, imagePath, role }) => {
     const photo = await imageRequest(imagePath);
     this.setState({
       fullName,
       email,
       phoneNumber,
+      roleName: role.name || "None",
       imagePath: photo,
       firstUpdate: false
     });
@@ -206,22 +208,31 @@ class Forms extends Component {
     if (isImageEdit) {
       formData.append("image", imageFile, imageFile.name);
     }
-    this.props.updateProfile(formData).then(data => {
-      console.log("Update profile", data.info);
-      this.props.fetchProfile(); // update all user detail in web app
-      alert(data.message);
-    }).catch((err) => {
-      if(err.response){
-        alert(err.response.data.message)
-      }
-      console.log(err);
-    });
+    this.props
+      .updateProfile(formData)
+      .then(data => {
+        console.log("Update profile", data.info);
+        this.props.fetchProfile(); // update all user detail in web app
+        alert(data.message);
+      })
+      .catch(err => {
+        if (err.response) {
+          alert(err.response.data.message);
+        }
+        console.log(err);
+      });
   };
 
   render() {
-    console.log(this.state.imagePath)
-    const { imagePath, email, fullName, phoneNumber } = this.state;
-    console.log(imagePath)
+    console.log(this.state.imagePath);
+    const {
+      imagePath,
+      email,
+      fullName,
+      phoneNumber,
+      roleName
+    } = this.state;
+    console.log(imagePath);
     return (
       <div className="animated fadeIn">
         <Row>
@@ -235,7 +246,11 @@ class Forms extends Component {
                 {imagePath && (
                   <Media href="" className="imageWrapper">
                     <Media className="imagePhoto" object src={imagePath} />
-                    <Media className="imagePhotoOpacity" object src={imagePath} />
+                    <Media
+                      className="imagePhotoOpacity"
+                      object
+                      src={imagePath}
+                    />
                   </Media>
                 )}
                 <Form onSubmit={this.onUpdateProfile}>
@@ -251,6 +266,15 @@ class Forms extends Component {
                       name="file"
                       id="exampleFile"
                       onChange={this.onFileChange}
+                    />
+                  </FormGroup>
+                  <FormGroup>
+                    <Label htmlFor="full name">Role Name</Label>
+                    <Input
+                      className="changeSize"
+                      type="text"
+                      value={roleName}
+                      disabled
                     />
                   </FormGroup>
                   <FormGroup>
