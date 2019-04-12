@@ -143,13 +143,17 @@ class OperatorCard extends Component {
             <hr />
             <Row className="alignAfterHr">
               <Col className="goodThumb">
-                <Icon icon="thumbs-up" />
-                <span className="thumbCount">{data.like}</span>
+                <span>
+                  <Icon icon="thumbs-up" />
+                  <span className="thumbCount">{data.like}</span>
+                </span>
                 <span className="thumbLabel">GOOD REVIEWS</span>
               </Col>
               <Col className="badThumb">
-                <Icon icon="thumbs-down" />
-                <span className="thumbCount">{data.dislike}</span>
+                <span>
+                  <Icon icon="thumbs-down" />
+                  <span className="thumbCount">{data.dislike}</span>
+                </span>
                 <span className="thumbLabel">BAD REVIEWS</span>
               </Col>
             </Row>
