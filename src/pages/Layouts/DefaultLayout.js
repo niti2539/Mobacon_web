@@ -23,7 +23,11 @@ import DefaultFooter from "./DefaultFooter";
 import DefaultHeader from "./DefaultHeader";
 
 class DefaultLayout extends Component {
+  state = {
+    nav: navigation
+  };
   render() {
+    const { nav } = this.state;
     return (
       <div className="app">
         <AppHeader fixed>
@@ -34,13 +38,13 @@ class DefaultLayout extends Component {
             <AppSidebar fixed display="lg">
               <AppSidebarHeader />
               <AppSidebarForm />
-              <AppSidebarNav navConfig={navigation} {...this.props} />
+              <AppSidebarNav navConfig={nav} {...this.props} />
               <AppSidebarFooter />
             </AppSidebar>
           </div>
           <div id="mainContainer">
             {/* <AppBreadcrumb appRoutes={routes}/> */}
-            <Container fluid style={{position: 'relative'}}>
+            <Container fluid style={{ position: "relative" }}>
               <Switch>
                 {routes.map((route, idx) => {
                   return route.component ? (

@@ -110,6 +110,14 @@ module.exports = (env, argv) => {
               }
             }
           ]
+        },
+        {
+          test: /\.mp3$/,
+          include: path.join(__dirname, "src/assets/sounds"),
+          loader: "file-loader",
+          options: {
+            name: '[hash].[ext]',
+          },
         }
       ]
     },

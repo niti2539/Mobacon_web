@@ -200,7 +200,7 @@ class Tabs extends Component {
                     >
                       <FormGroup className="alignFormGroup">
                         <Label htmlFor="SMS" className="label">
-                          Your Review
+                          Your Comment
                         </Label>
                         <Input
                           readOnly={!canEdit}

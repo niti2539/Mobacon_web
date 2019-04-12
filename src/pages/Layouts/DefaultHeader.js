@@ -28,6 +28,8 @@ const propTypes = {
   children: PropTypes.node
 };
 import styled from "styled-components";
+import NotifyChatSound from "../../assets/sounds/notifyChat.mp3";
+import NotifyRequestSound from "../../assets/sounds/notifyRequest.mp3";
 
 const NotifyCicle = styled.div`
   width: 10px;
@@ -42,13 +44,17 @@ const NotifyCicle = styled.div`
 
 const defaultProps = {};
 
+const audioChatNotify = new Audio(NotifyChatSound);
+const audioRequestNotify = new Audio(NotifyRequestSound);
+
 class DefaultHeader extends Component {
   constructor(props) {
     super(props);
     this.state = {
       notExpand: false,
       user: {},
-      notify: { count: 0 }
+      notify: { count: 0 },
+      requestNotify: { count: 0 }
     };
   }
 
@@ -87,6 +93,7 @@ class DefaultHeader extends Component {
   onNotify = () => {
     try {
       window.socket.on("mobile-chat", () => {
+        audioChatNotify.play();
         this.getNotify();
       });
     } catch (err) {
@@ -127,7 +134,7 @@ class DefaultHeader extends Component {
   render() {
     // eslint-disable-next-line
     const { children, ...attributes } = this.props;
-    const { user, notify } = this.state;
+    const { user, notify, requestNotify } = this.state;
     return (
       <React.Fragment>
         <AppSidebarToggler className="d-lg-none" display="md" mobile />
@@ -139,7 +146,15 @@ class DefaultHeader extends Component {
           <img src={svgnet} width="150" className="Logo" />
         </div>
 
-        <Nav navbar >
+        <Nav navbar>
+          <div className="navbarIcon">
+            <NavItem>
+              <NavLink href="/requests">
+                <Icon icon="envelope" />
+                {requestNotify.count > 0 && <NotifyCicle />}
+              </NavLink>
+            </NavItem>
+          </div>
           <div className="navbarIcon">
             <NavItem>
               <NavLink href="/chat">

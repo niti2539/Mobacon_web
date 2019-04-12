@@ -73,6 +73,8 @@ import {
   faPen,
   faAlignLeft
 } from "@fortawesome/free-solid-svg-icons";
+import RegisterServiceWorker from './registerServiceWorker';
+RegisterServiceWorker();
 
 library.add(faAngleDown);
 library.add(faInfoCircle);
@@ -126,14 +128,15 @@ const AppWrapper = props => (
   </Provider>
 );
 
+//register socket.io
+const token = localStorage.getItem("accessToken");
+window.socket = io(api.baseWss, {
+  query: { token }
+});
 class MainRoute extends React.Component {
   componentDidMount() {
     console.log("Authorization");
     user.authorize(store.dispatch);
-    const token = localStorage.getItem("accessToken");
-    window.socket = io(api.baseWss, {
-      query: { token }
-    });
 
     //set new token after token expire
     window.socket.on("authorized", payload => {

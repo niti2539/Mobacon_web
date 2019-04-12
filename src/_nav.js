@@ -21,7 +21,7 @@ export default {
     {
       name: "REQUESTS",
       url: "/requests",
-      icon: "fas fa-envelope"
+      icon: "fas fa-envelope",
       // icon: 'icon-speedometer',
     },
     {
