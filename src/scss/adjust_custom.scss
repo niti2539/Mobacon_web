@@ -295,10 +295,8 @@ i.nav-icon {
 }
 .app-header .navbarIcon {
   display: flex;
-  margin-right: 10px;
-  .nav-item {
-    margin-left: 15px;
-  }
+  justify-content: center;
+  margin-left: 4px;
 }
 .headerName {
   width: 246px;
@@ -311,6 +309,7 @@ i.nav-icon {
 }
 .adminName {
   vertical-align: middle;
+  margin-left: 20px !important;
 }
 .admin {
   margin: auto;

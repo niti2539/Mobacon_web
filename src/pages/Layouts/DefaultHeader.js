@@ -32,14 +32,23 @@ import NotifyChatSound from "../../assets/sounds/notifyChat.mp3";
 import NotifyRequestSound from "../../assets/sounds/notifyRequest.mp3";
 
 const NotifyCicle = styled.div`
-  width: 10px;
-  height: 10px;
-  border-radius: 100%;
-  background-color: #82e236;
-  position: absolute;
+  min-width: 1.3rem;
+  min-height: 1.3rem;
+  border-radius: 1.3rem;
+  padding: 5px 6px;
+  background-color: ${props => (props.isNotify ? "#82e236" : "transparent")};
   border: 1px solid #fff;
-  right: -4px;
-  top: -4px;
+  margin: 0;
+  display: flex;
+  color: ${props => (props.isNotify ? "green" : "inherit")};
+  font-size: ${props => (props.isNotify ? "0.9rem" : "inherit")};
+  span {
+    margin-left: 0.34rem;
+  }
+  span,
+  svg {
+    line-height: 100%;
+  }
 `;
 
 const defaultProps = {};
@@ -76,6 +85,7 @@ class DefaultHeader extends Component {
     this.setUser();
     this.getNotify();
     this.onNotify();
+    this.onRequestNotify();
   };
 
   getNotify = () => {
@@ -97,8 +107,24 @@ class DefaultHeader extends Component {
         this.getNotify();
       });
     } catch (err) {
-      console.log("get notify again", err);
+      // console.log("get notify again", err);
     }
+  };
+  onRequestNotify = () => {
+    try {
+      window.socket.emit("web-new-request", null, emitPayload => {
+        console.log("Emit payload", emitPayload);
+        if (emitPayload.ok) {
+          this.setState({ requestNotify: { count: emitPayload.data } });
+          window.socket.on("web-new-request", payload => {
+            if (payload.ok) {
+              audioRequestNotify.play();
+              this.setState({ requestNotify: { count: payload.data } });
+            }
+          });
+        }
+      });
+    } catch (err) {}
   };
 
   setUser = async () => {
@@ -150,16 +176,23 @@ class DefaultHeader extends Component {
           <div className="navbarIcon">
             <NavItem>
               <NavLink href="/requests">
-                <Icon icon="envelope" />
-                {requestNotify.count > 0 && <NotifyCicle />}
+                {
+                  <NotifyCicle isNotify={requestNotify.count > 0}>
+                    <Icon icon="envelope" />
+                    {requestNotify.count > 0 && (
+                      <span>{requestNotify.count}</span>
+                    )}
+                  </NotifyCicle>
+                }
               </NavLink>
             </NavItem>
           </div>
           <div className="navbarIcon">
             <NavItem>
               <NavLink href="/chat">
-                <Icon icon="comments" />
-                {notify.count > 0 && <NotifyCicle />}
+                <NotifyCicle isNotify={notify.count > 0}>
+                  <Icon icon="comments" />
+                </NotifyCicle>
               </NavLink>
             </NavItem>
           </div>
