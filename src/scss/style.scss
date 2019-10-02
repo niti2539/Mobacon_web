@@ -46,6 +46,29 @@ button {
   margin-top: 9px;
 }
 
+.btn-outline-status {
+  color: #79bfbc;
+  background-color: transparent;
+  background-image: none;
+  border-color: #79bfbc;
+  border-radius: 30px;
+}
+
+.action-btn {
+  background-color: #fff;
+  color: black;
+  border: none;
+  display: inline-flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  outline: none;
+}
+
+.rt-td {
+  overflow: visible !important;
+}
+
 .white-card {
   max-width: 400px;
   margin: auto;

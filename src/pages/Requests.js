@@ -3,7 +3,7 @@ import ReactTable from "react-table";
 import { getRequest, acceptanceById } from "../stores/actions/request";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { Card, CardBody, Col, Row, Button , Container} from "reactstrap";
+import { Card, CardBody, Col, Row, Button, ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem, Container} from "reactstrap";
 import _ from "lodash";
 import moment from "moment";
 
@@ -31,6 +31,7 @@ class Requests extends Component {
     };
     // console.log("props", props);
     this.state = {
+      dropdownOpen: false,
       defaultPageSize: 10,
       data: [], //raw data
       pages: null, // max page
@@ -66,12 +67,30 @@ class Requests extends Component {
         // accessor: obj => obj.operator.fullName
       },
       {
+        Header: Header("STATUS"),
+        id: "status",
+        accessor: obj => obj.status,
+        Cell: this.statusButton
+      },
+      {
         Header: Header("ACTIONS"),
         id: "action",
         accessor: obj => obj,
         Cell: this.actionFormatter // Custom cell components!
       }
     ];
+  }
+
+  toggle = () => {
+    this.setState({
+      dropdownOpen: !this.state.dropdownOpen
+    });
+  }
+
+  statusButton = ({value}) => {
+    return (
+      <Button className="btn-outline-status">{value}</Button>
+    )
   }
 
   acceptRequest = (id /*request id*/, user /*operator*/) => async () => {
@@ -122,35 +141,55 @@ class Requests extends Component {
       "operatorId",
       operatorId
     );
-    return (
-      <div
-        style={{
-          display: "flex",
-          width: "100%",
-          justifyContent: "center",
-          alignItems: "center"
-        }}
-      >
-        {!operator || typeof operator !== "object" ? (
-          <Button
-            className="acceptRequestButton"
-            onClick={this.acceptRequest(requestId, user)}
-          >
-            Accept
-          </Button>
-        ) : isMy ? (
-          <Link to={`request/${requestId}`} className="linkButton">
-            <Button className="openRequestButton">
-              {data.value.status === "Accepted" ? "Open" : data.value.status}
+
+    if (data.value.status === 'Pending') {
+      return (
+       
+        <ButtonDropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
+          <DropdownToggle className="action-btn">
+            ...
+          </DropdownToggle>
+          <DropdownMenu>
+            <DropdownItem onClick={() => alert('bhaloo')}>Start Review</DropdownItem>
+            <DropdownItem onClick={() => alert('bhaloo')}>Edit Review</DropdownItem>
+            <DropdownItem onClick={() => alert('bhaloo')}>Decline</DropdownItem>
+          </DropdownMenu>
+        </ButtonDropdown>
+
+      )
+    }
+    else {
+      return (
+        <div
+          style={{
+            display: "flex",
+            width: "100%",
+            justifyContent: "center",
+            alignItems: "center"
+          }}
+        >
+          {!operator || typeof operator !== "object" ? (
+            <Button
+              className="acceptRequestButton"
+              onClick={this.acceptRequest(requestId, user)}
+            >
+              Accept
             </Button>
-          </Link>
-        ) : (
-          <Button disabled className="acceptedRequestButton">
-            {data.value.status}
-          </Button>
-        )}
-      </div>
-    );
+          ) : isMy ? (
+            <Link to={`request/${requestId}`} className="linkButton">
+              <Button className="openRequestButton">
+                {data.value.status === "Accepted" ? "Open" : data.value.status}
+              </Button>
+            </Link>
+          ) : (
+            <Button disabled className="acceptedRequestButton">
+              {data.value.status}
+            </Button>
+          )}
+        </div>
+      );
+    }
+    
   };
 
   setDataTable = async (data, page, pageSize, sorted = null) => {
