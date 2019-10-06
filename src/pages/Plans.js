@@ -251,7 +251,7 @@ class Tabs extends Component {
                       </Col>
                     </Row>
                   </FormGroup>
-                  <div className="form-actions">
+                  {/* <div className="form-actions">
                     <Button
                       disabled
                       type="button"
@@ -259,7 +259,7 @@ class Tabs extends Component {
                     >
                       UPDATE
                     </Button>
-                  </div>
+                  </div> */}
                 </Form>
               </TabPane>
             </TabContent>

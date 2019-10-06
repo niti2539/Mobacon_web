@@ -203,6 +203,15 @@ class Tabs extends Component {
   componentDidMount() {
     this.getOperators();
   }
+
+  deleteOperator = async (id = null) => {
+    if (!window.confirm("Are you sure to delete this operator"))
+    return;
+
+    let newOperators = this.state.operators.filter(item => item.id !== id)
+    this.setState({operators: newOperators})
+
+  }
   render() {
     const { isLoading, users, error, operators } = this.state;
     const { modalSignupOpen } = this.state;
@@ -253,6 +262,7 @@ class Tabs extends Component {
                 data={data}
                 setActivate={this.setActivate}
                 onSendVerify={this.onSendVerify}
+                deleteOperator={this.deleteOperator}
               />
             ))}
           </Row>

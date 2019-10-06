@@ -46,6 +46,40 @@ button {
   margin-top: 9px;
 }
 
+.btn-outline-status {
+  color: #79bfbc;
+  background-color: transparent;
+  background-image: none;
+  border-color: #79bfbc;
+  border-radius: 30px;
+}
+
+.btn-declined {
+  color: #fff;
+  background-color: #dc3545;
+  background-image: none;
+  border-radius: 30px;
+}
+
+.btn-radius {
+  border-radius: 30px;
+}
+
+.action-btn {
+  background-color: #fff;
+  color: black;
+  border: none;
+  display: inline-flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  outline: none;
+}
+
+.rt-td {
+  overflow: visible !important;
+}
+
 .white-card {
   max-width: 400px;
   margin: auto;
@@ -62,3 +96,19 @@ button {
     border-bottom-right-radius: 20px;
   }
 }
+
+.ribbon {
+  padding: 5px;
+}
+.ribbon.base {
+  background: #3498db;
+  color: #fff;
+}
+.ribbon.base.green {
+  background: #79bfbc;
+}
+
+.ribbon.base.gray {
+  background: gray;
+}
+

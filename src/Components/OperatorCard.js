@@ -56,7 +56,7 @@ class OperatorCard extends Component {
   }
 
   render() {
-    const { data, setActivate, onSendVerify } = this.props;
+    const { data, setActivate, onSendVerify, deleteOperator } = this.props;
     const { isDropdown, operatorImage } = this.state;
     const id = localStorage.getItem("id");
     // activated: true
@@ -87,13 +87,23 @@ class OperatorCard extends Component {
                   fontFamily: "Rubik-Medium",
                   position: "absolute",
                   left: 10,
-                  top: 10,
+                  top: 30,
                   opacity: 0.4
                 }}
               >
                 <strong style={{ color: "#fff" }}>Your self</strong>
               </div>
             )}
+              <div
+                style={{
+                  fontFamily: "Rubik-Medium",
+                  position: "absolute",
+                  top: 3,
+                }}
+              >
+                <strong className={`ribbon base ${data.activated ? `green`: `gray`}`}  style={{ color: "#fff" }}>{data.activated ? 'Active' : 'Deactive'}</strong>
+              </div> 
+          
             <div className="actionButton">
               <Dropdown isOpen={isDropdown} toggle={this.toggle}>
                 <DropdownToggle>
@@ -106,6 +116,14 @@ class OperatorCard extends Component {
                   >
                     {data.activated ? "Deactivate" : "Activate"}
                   </DropdownItem>
+                  {data.role.id !== 1 &&
+                    <DropdownItem
+                      onClick={() => deleteOperator(data.id)}
+                  
+                    >
+                      Delete
+                    </DropdownItem>
+                  }
                   {!data.verified && (
                     <DropdownItem onClick={() => onSendVerify(data.id)}>
                       {!data.sendVerify ? "Send verify" : "Verify has sent"}
