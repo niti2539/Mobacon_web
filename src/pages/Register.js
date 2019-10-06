@@ -124,6 +124,7 @@ class Register extends React.Component {
 
   render() {
     const { imagePath } = this.state;
+    const {role} = this.props;
     const divStyle = {
       display: "none"
     };
@@ -188,9 +189,10 @@ class Register extends React.Component {
                   <FontAwesomeIcon icon="angle-down" className="angleDown" />
                 </DropdownToggle>
                 <DropdownMenu className="roleIdChoice">
-                  <DropdownItem onClick={this.nameChangeRoleId} value="1">
-                    ADMINISTRATOR
-                  </DropdownItem>
+                  {role.id === 1 && 
+                    <DropdownItem onClick={this.nameChangeRoleId} value="1">
+                      ADMINISTRATOR
+                    </DropdownItem>}
                   <DropdownItem onClick={this.nameChangeRoleId} value="2">
                     OPERATOR
                   </DropdownItem>
@@ -322,7 +324,8 @@ class Register extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    imagePath: state.user.user_detail.imagePath
+    imagePath: state.user.user_detail.imagePath,
+    role: state.user.user_detail.role,
   };
 };
 

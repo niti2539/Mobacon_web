@@ -200,17 +200,17 @@ class Tabs extends Component {
                     >
                       <FormGroup className="alignFormGroup">
                         <Label htmlFor="SMS" className="label">
-                          Your Comment
+                          Review name
                         </Label>
                         <Input
                           readOnly={!canEdit}
                           type="textarea"
                           name="review"
                           id="textarea-input"
-                          rows="6"
+                          rows="1"
                           value={data.offer ? data.offer.review : ""}
                           onChange={this.onOfferChange}
-                          placeholder="Write your review"
+                          placeholder="Write your review subject"
                           className="textArea"
                         />
                       </FormGroup>
@@ -225,8 +225,8 @@ class Tabs extends Component {
                           id="textarea-input"
                           value={data.offer ? data.offer.suggestion : ""}
                           onChange={this.onOfferChange}
-                          rows="6"
-                          placeholder="Write your suggetion"
+                          rows="4"
+                          placeholder="Write your review"
                           className="textArea"
                         />
                       </FormGroup>

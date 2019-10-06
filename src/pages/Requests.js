@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import ReactTable from "react-table";
 import { getRequest, acceptanceById } from "../stores/actions/request";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { Card, CardBody, Col, Row, Button, ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem, Container} from "reactstrap";
 import _ from "lodash";
 import moment from "moment";
@@ -31,7 +31,7 @@ class Requests extends Component {
     };
     // console.log("props", props);
     this.state = {
-      dropdownOpen: false,
+      dropdownOpen: {},
       defaultPageSize: 10,
       data: [], //raw data
       pages: null, // max page
@@ -69,7 +69,7 @@ class Requests extends Component {
       {
         Header: Header("STATUS"),
         id: "status",
-        accessor: obj => obj.status,
+        accessor: obj => obj,
         Cell: this.statusButton
       },
       {
@@ -81,19 +81,75 @@ class Requests extends Component {
     ];
   }
 
-  toggle = () => {
+  toggle = (id) => {
+    const {dropdownOpen} = this.state;
+    let copyDropDownOpen = {...dropdownOpen};
+    copyDropDownOpen[id] = dropdownOpen[id] ? !dropdownOpen[id] : true;
     this.setState({
-      dropdownOpen: !this.state.dropdownOpen
+      dropdownOpen: copyDropDownOpen
     });
   }
 
-  statusButton = ({value}) => {
+  statusButton = (data) => {
+    const {status,  operator, id: requestId} = data.value
+    if (status === 'Rejected') {
+      return (
+        <Link to={`request/${requestId}`} className="linkButton">
+          <Button className="btn-declined">{status}</Button>
+        </Link>
+      )
+    }  else if (status === 'Accepted') {
+      return (
+        <Link to={`request/${requestId}`} className="linkButton">
+          <Button color="primary" className="btn-radius">Reviewing</Button>
+        </Link>
+      )
+    } else if (status === 'Completed') {
+      return (
+        <Button color="success" className="btn-radius">{status}</Button>
+      )
+    } else if (status === 'Reviewed') {
+      return (
+        <Button disabled color="secondary" className="btn-radius">{status}</Button>
+      )
+    } else if (status === 'Pending') {
+      return (
+        <Link to={`request/${requestId}`} className="linkButton">
+          <Button className="btn-outline-status linkButton">{status}</Button>
+        </Link>
+      )
+    }
+
     return (
-      <Button className="btn-outline-status">{value}</Button>
+      <Button className="btn-outline-status linkButton">{status}</Button>
     )
   }
 
-  acceptRequest = (id /*request id*/, user /*operator*/) => async () => {
+  declineRequest = (id, user) => {
+    if (!window.confirm("Are you sure to deline this request?")) return;
+    const data = this.state.data;
+    const findIndex = data.findIndex(d => d.id == id);
+    let selectData = data.find(d => d.id == id);
+    console.log("Select data", selectData);
+    let newData = {
+      ...selectData,
+      status: "Rejected",
+      operator: {
+        id: user.id,
+        fullName: user.fullName
+      }
+    };
+    if (findIndex < 0) return window.location.reload();
+    let newState = [...data];
+    newState[findIndex] = newData;
+    this.setState({ data: newState });
+  }
+
+  editReview = (id) => {
+    this.props.history.push(`/request/${id}`);
+  }
+
+  acceptRequest = async (id /*request id*/, user /*operator*/) => {
     if (!window.confirm("Are you sure to accept this request?")) return;
     const data = this.state.data;
     console.log("accept id", id, "user data", user);
@@ -117,6 +173,7 @@ class Requests extends Component {
     newState[findIndex] = newData;
     console.log("new State", newState);
     await this.setState({ data: newState });
+    this.props.history.push(`/request/${id}`);
   };
 
   actionFormatter = data => {
@@ -141,54 +198,56 @@ class Requests extends Component {
       "operatorId",
       operatorId
     );
+    const {id} = data.value;
 
-    if (data.value.status === 'Pending') {
+    //if (data.value.status === 'Pending') {
+      const { value : { status }} = data
       return (
        
-        <ButtonDropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
+        <ButtonDropdown  isOpen={this.state.dropdownOpen[id]} toggle={() => this.toggle(id)}>
           <DropdownToggle className="action-btn">
             ...
           </DropdownToggle>
           <DropdownMenu>
-            <DropdownItem onClick={() => alert('bhaloo')}>Start Review</DropdownItem>
-            <DropdownItem onClick={() => alert('bhaloo')}>Edit Review</DropdownItem>
-            <DropdownItem onClick={() => alert('bhaloo')}>Decline</DropdownItem>
+          { (status === 'Rejected' || status === 'Pending') && <DropdownItem onClick={() => this.acceptRequest(id, user)}>Start Review</DropdownItem> }
+          {(status === 'Completed' || status === 'Accepted') && <DropdownItem onClick={() => this.editReview(id)}>Edit Review</DropdownItem> }
+          {(status !== 'Rejected' && status !== 'Completed') && <DropdownItem onClick={() => this.declineRequest(id, user)}>Decline</DropdownItem> }
           </DropdownMenu>
         </ButtonDropdown>
 
       )
-    }
-    else {
-      return (
-        <div
-          style={{
-            display: "flex",
-            width: "100%",
-            justifyContent: "center",
-            alignItems: "center"
-          }}
-        >
-          {!operator || typeof operator !== "object" ? (
-            <Button
-              className="acceptRequestButton"
-              onClick={this.acceptRequest(requestId, user)}
-            >
-              Accept
-            </Button>
-          ) : isMy ? (
-            <Link to={`request/${requestId}`} className="linkButton">
-              <Button className="openRequestButton">
-                {data.value.status === "Accepted" ? "Open" : data.value.status}
-              </Button>
-            </Link>
-          ) : (
-            <Button disabled className="acceptedRequestButton">
-              {data.value.status}
-            </Button>
-          )}
-        </div>
-      );
-    }
+    //}
+    // else {
+    //   return (
+    //     <div
+    //       style={{
+    //         display: "flex",
+    //         width: "100%",
+    //         justifyContent: "center",
+    //         alignItems: "center"
+    //       }}
+    //     >
+    //       {!operator || typeof operator !== "object" ? (
+    //         <Button
+    //           className="acceptRequestButton"
+    //           onClick={this.acceptRequest(requestId, user)}
+    //         >
+    //           Accept
+    //         </Button>
+    //       ) : isMy ? (
+    //         <Link to={`request/${requestId}`} className="linkButton">
+    //           <Button className="openRequestButton">
+    //             {data.value.status === "Accepted" ? "Open" : data.value.status}
+    //           </Button>
+    //         </Link>
+    //       ) : (
+    //         <Button disabled className="acceptedRequestButton">
+    //           {data.value.status}
+    //         </Button>
+    //       )}
+    //     </div>
+    //   );
+    // }
     
   };
 

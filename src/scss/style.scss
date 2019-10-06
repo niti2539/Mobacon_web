@@ -54,6 +54,17 @@ button {
   border-radius: 30px;
 }
 
+.btn-declined {
+  color: #fff;
+  background-color: #dc3545;
+  background-image: none;
+  border-radius: 30px;
+}
+
+.btn-radius {
+  border-radius: 30px;
+}
+
 .action-btn {
   background-color: #fff;
   color: black;
@@ -85,3 +96,19 @@ button {
     border-bottom-right-radius: 20px;
   }
 }
+
+.ribbon {
+  padding: 5px;
+}
+.ribbon.base {
+  background: #3498db;
+  color: #fff;
+}
+.ribbon.base.green {
+  background: #79bfbc;
+}
+
+.ribbon.base.gray {
+  background: gray;
+}
+
