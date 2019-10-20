@@ -286,16 +286,16 @@ class Dashboard extends Component {
                     </div>
                   </Col>
                 </Row>
-                <div className="chart-wrapper" style={{ marginTop: 40 }}>
+                <div className="chart-wrapper" style={{ paddingTop: 40 }}>
                   {rawData ? (
                     !isGoodBad ? (
                       <Line
                         data={lineData}
-                        height={120}
+                        height={'95%'}
                         options={lineOptions}
                       />
                     ) : (
-                      <Bar data={barData} height={120} options={barOptions} />
+                      <Bar data={barData} height={'95%'} options={barOptions} />
                     )
                   ) : null}
                 </div>
