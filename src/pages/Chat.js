@@ -44,6 +44,7 @@ class Chat extends Component {
       chatMessage: [],
       chatHistory: [],
       previousSelfChat: null,
+      read: {},
       nothingMore: {}
     };
   }
@@ -207,7 +208,7 @@ class Chat extends Component {
     const { chatMessage } = this.state;
     window.socket.emit(
       "web-search-chatroom",
-      { existChatList: chatMessage.length, searchText: searchText.trim() },
+      { existChatList: 0, searchText: searchText.trim() },
       payload => {
         if (payload.ok) {
           const { data } = payload;
@@ -331,7 +332,8 @@ class Chat extends Component {
     await this.setState({
       chatMessage: [],
       currentChat: id,
-      chatHistory
+      chatHistory,
+      read: history.chat.read,
     });
     this.getOldChat(id);
   };
@@ -347,8 +349,25 @@ class Chat extends Component {
     this.getOldChat(currentChat, chatMessage.length);
   };
 
+  groupByDate = (chatMessages) => {
+    const groups =chatMessages.length && chatMessages.reduce((groups, message) => {
+      const currentDate = new Date();
+      const date = (message && message.createdAt && message.createdAt.split) ? message.createdAt.split('T')[0] : currentDate
+      if (!groups[date]) {
+        groups[date] = [];
+      }
+      groups[date].push(message);
+      return groups;
+    }, {});
+    return groups;
+  }
+
   render() {
-    const { chatMessage, chatHistory, currentChat, nothingMore } = this.state;
+    const { chatMessage, chatHistory, currentChat, nothingMore, read } = this.state;
+    let groupedMessages = [];
+    if (chatMessage && chatMessage.length) {
+      groupedMessages = this.groupByDate(chatMessage);
+    }
     // const message = ChatMessage.find((m) => m.) << -- tobe continue
     return (
       <ChatWrapper>
@@ -365,8 +384,9 @@ class Chat extends Component {
             <ChatMessagesWrapper
               onSeeMore={this.onLoadMoreChat}
               nothingMore={nothingMore}
-              data={chatMessage}
+              data={groupedMessages}
               currentChat={currentChat}
+              read={read}
               // loadMore={<LoadMoreChat onClick={this.onLoadMoreChat} />}
               render={props => <ChatMessage {...props} />}
             />

@@ -92,6 +92,10 @@ class DefaultHeader extends Component {
     try {
       window.socket.emit("web-count-unread-chat", null, payload => {
         if (payload.ok) {
+          const notify = {
+            count: payload.data
+          }
+          this.setState({notify})
           this.props.setNotify(payload.data);
         }
       });
@@ -192,6 +196,12 @@ class DefaultHeader extends Component {
               <NavLink href="/chat">
                 <NotifyCicle isNotify={notify.count > 0}>
                   <Icon icon="comments" />
+                  {notify.count > 0 ?
+                     <span>{notify.count}</span>
+                     :
+                     null
+                  }
+                 
                 </NotifyCicle>
               </NavLink>
             </NavItem>
