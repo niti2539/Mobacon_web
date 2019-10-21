@@ -157,7 +157,7 @@ class Tabs extends Component {
       data: { memo },
       submitting
     } = this.state;
-    const canEdit = data.status === "Accepted";
+    const canEdit = data.status === "Accepted" || data.status === "Pending";
     return loading ? (
       <></>
     ) : (
