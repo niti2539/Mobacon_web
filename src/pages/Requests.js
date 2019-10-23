@@ -150,7 +150,7 @@ class Requests extends Component {
   }
 
   acceptRequest = async (id /*request id*/, user /*operator*/) => {
-    if (!window.confirm("Are you sure to accept this request?")) return;
+    //if (!window.confirm("Are you sure to accept this request?")) return;
     const data = this.state.data;
     console.log("accept id", id, "user data", user);
     const findIndex = data.findIndex(d => d.id == id);
