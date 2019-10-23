@@ -114,9 +114,9 @@ class Requests extends Component {
       )
     } else if (status === 'Pending') {
       return (
-        <Link to={`request/${requestId}`} className="linkButton">
+       
           <Button className="btn-outline-status linkButton">{status}</Button>
-        </Link>
+ 
       )
     }
 
