@@ -40,6 +40,12 @@ const acceptanceById = async id => {
   );
 };
 
+const declineById = async id => {
+  return await apiRequest(`/request/${id}/decline`, "PATCH").catch(err =>
+    alert(err.response.data.message)
+  );
+};
+
 const createOffer = async (id = null, review = "", suggestion = "") => {
   if (!id) return alert("Error can't update offer");
   return await apiRequest(`/request/${id}/review`, "POST", {
@@ -62,6 +68,7 @@ export {
   getRequestById,
   acceptanceById,
   createOffer,
+  declineById,
   getAccepted,
   updateMemo
 };
