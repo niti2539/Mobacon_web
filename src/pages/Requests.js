@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import ReactTable from "react-table";
-import { getRequest, acceptanceById } from "../stores/actions/request";
+import { getRequest, acceptanceById, declineById } from "../stores/actions/request";
 import { connect } from "react-redux";
 import { Link, withRouter } from "react-router-dom";
 import { Card, CardBody, Col, Row, Button, ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem, Container} from "reactstrap";
@@ -125,10 +125,11 @@ class Requests extends Component {
     )
   }
 
-  declineRequest = (id, user) => {
+  declineRequest = async (id, user) => {
     if (!window.confirm("Are you sure to deline this request?")) return;
     const data = this.state.data;
     const findIndex = data.findIndex(d => d.id == id);
+    await declineById(id);
     let selectData = data.find(d => d.id == id);
     console.log("Select data", selectData);
     let newData = {
