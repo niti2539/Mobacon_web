@@ -219,12 +219,18 @@ class RequestHistoryContainer extends Component {
   };
 
   getCantact = async () => {
-    const { user } = this.props.data;
+    const { user, operator } = this.props.data;
     try {
       // console.log("id", user.id);
+      let filteredData = [];
       const result = await apiRequest(`/request/chat/${user.id}`, "GET");
+      if (operator && operator.role.id === 2) {
+        filteredData = result.data.filter(item => item.chat.senderRoleId === operator.role.id);
+      } else {
+        filteredData = result
+      }
       // console.log("Result", result);
-      const data = result.data.reduce((obj, cur) => {
+      const data = filteredData.reduce((obj, cur) => {
         obj.push({
           ...cur,
           chat: Object.assign(cur.chat, {
