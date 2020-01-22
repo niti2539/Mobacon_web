@@ -139,10 +139,15 @@ class Tabs extends Component {
     if (offer.review && offer.suggestion) {
       try {
         const result = await createOffer(id, offer.review, offer.suggestion);
-        alert(result.message);
+        //history.push
+        if (confirm(result.message)) {
+          this.props.history.push("/requests");
+        }
       } catch (err) {
         if (err.response) {
-          alert(err.response.data.message);
+          if (confirm(err.response.data.message)) {
+            this.props.history.push("/requests");
+          }
         }
         console.log("submit offer error", err);
       }

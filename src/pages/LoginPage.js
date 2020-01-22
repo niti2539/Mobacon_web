@@ -86,7 +86,7 @@ class Login extends Component {
   };
 
   componentDidMount() {
-    this.props.authorize(auth => {
+    this.props.authorize((auth, operator) => {
       if (!auth) {
         // console.log("No auth!!!");
         return this.setState(({ email }) => {
@@ -99,7 +99,11 @@ class Login extends Component {
         });
       }
       console.log("Authorization!!!");
-      window.location.replace("/dashboard");
+      if (operator && operator.role && operator.role.id === 2) {
+        window.location.replace("/requests");
+      } else {
+        window.location.replace("/dashboard");
+      }
     });
   }
 
@@ -296,8 +300,12 @@ class Login extends Component {
       password
     };
     let result = await this.props.signIn(data);
-    if (result) {
-      this.props.history.push("/dashboard");
+    if (result.isSuccess) {
+      if (result.data && result.data.role && result.data.id === 2) {
+        this.props.history.push('/requests')
+      } else {
+        this.props.history.push("/dashboard");
+      }
     } else {
       this.setState({
         emailError: true,

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 import { Container } from "reactstrap";
+import { connect } from "react-redux";
 
 import {
   AppAside,
@@ -15,7 +16,7 @@ import {
   AppSidebarNav
 } from "@coreui/react";
 // sidebar nav config
-import navigation from "../../_nav";
+import {admin,operator} from "../../_nav";
 // routes config
 import routes from "../../routes";
 import DefaultAside from "./DefaultAside";
@@ -24,8 +25,34 @@ import DefaultHeader from "./DefaultHeader";
 
 class DefaultLayout extends Component {
   state = {
-    nav: navigation
+    nav: null
   };
+  
+  componentDidMount() {
+    if (!this.state.nav && this.props.user_detail && this.props.user_detail.role.id) {
+      if(this.props.user_detail.role.id === 2) {
+        this.setState({nav: operator})
+      } else {
+        this.setState({nav: admin})
+      }
+    }
+  }
+
+  componentWillUpdate(nextProps, nextState) {
+    if (!this.state.nav && nextProps.user_detail && nextProps.user_detail.role.id) {
+      if(nextProps.user_detail.role.id === 2) {
+        this.setState({nav: operator})
+      } else {
+        this.setState({nav: admin})
+      }
+
+    }
+    // if (nextState.open == true && this.state.open == false) {
+    //   this.props.onWillOpen();
+    // }
+  }
+  
+
   render() {
     const { nav } = this.state;
     return (
@@ -38,7 +65,7 @@ class DefaultLayout extends Component {
             <AppSidebar fixed display="lg">
               <AppSidebarHeader />
               <AppSidebarForm />
-              <AppSidebarNav navConfig={nav} {...this.props} />
+              {nav &&  <AppSidebarNav navConfig={nav} {...this.props} /> }
               <AppSidebarFooter />
             </AppSidebar>
           </div>
@@ -73,4 +100,15 @@ class DefaultLayout extends Component {
   }
 }
 
-export default DefaultLayout;
+const mapStateToProps = state => {
+  return {
+    user_detail: state.user.user_detail
+  }
+ 
+};
+
+export default connect(
+  mapStateToProps,
+  null
+)(DefaultLayout);
+

@@ -27,7 +27,8 @@ const authorize = async (dispatch, cb = null) => {
     var response = await apiRequest(`/operator/${id}`, "GET");
     dispatch({ type: actionType.USER_DETIAL, data: response.operator });
     if (cb) {
-      cb(true);
+      console.log(response.operator)
+      cb(true, response.operator);
     }
   } catch (err) {
     if (err.response) {
@@ -51,10 +52,16 @@ const signIn = dispatch => async data => {
     if (response.info) {
       localStorage.setItem("id", response.info.id);
     }
-    dispatch({ type: actionType.USER_DETIAL, data: response.info });
-    return true;
+    dispatch({ type: actionType.USER_DETIAL, data: response.info })
+    return {
+      isSuccess: true,
+      data: response.info
+    }
   } catch (err) {
-    return false;
+    return {
+      isSuccess: false,
+      data: response.info
+    }
   }
 };
 
