@@ -76,7 +76,7 @@
     "socket.io-client": "^2.2.0",
     "styled-components": "^4.0.2",
     "tablesort": "^5.1.0",
-    "trim": "0.0.1",
+    "trim": "0.0.3",
     "uglifyjs-webpack-plugin": "^2.1.1",
     "yarn": "^1.12.3"
   },
